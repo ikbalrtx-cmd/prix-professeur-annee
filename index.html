@@ -4,846 +4,1032 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورقة تعريفية بأندية جائزة أستاذ(ة) السنة حسب الجهات</title>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Leaflet CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green-dark:  #1f3a2c;
+            --green-mid:   #2d5440;
+            --green-light: #3a6b50;
+            --gold:        #c9a030;
+            --gold-light:  #e0b84a;
+            --gold-pale:   #fdf8ec;
+            --gold-fill:   rgba(201,160,48,0.18);
+            --gold-hover:  rgba(201,160,48,0.38);
+            --card-bg:     #f8f8f4;
+            --card-border: #e0e0d5;
+            --white:       #ffffff;
+            --text-dark:   #1f3a2c;
+            --text-mid:    #4a6358;
         }
-        
+
+        html { scroll-behavior: smooth; }
+
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: #ffffff;
-            color: #1f3a2c;
+            background: #eeeee8;
+            color: var(--text-dark);
             direction: rtl;
+            min-height: 100vh;
         }
-        
-        /* Header */
+
+        /* ══ HEADER ══ */
         header {
-            background: linear-gradient(135deg, #1f3a2c 0%, #2d5440 100%);
+            background: linear-gradient(135deg, #1a2f24 0%, #2d5440 55%, #1f3a2c 100%);
             color: white;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: #c9a030;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        header p {
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: #f8f8f4;
-            opacity: 0.95;
-        }
-        
-        /* Main Container */
-        .container {
-            max-width: 1800px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-        
-        /* Grid Layout */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
-        
-        @media (max-width: 1100px) {
-            .grid-layout {
-                grid-template-columns: 1fr;
-            }
-            
-            .map-panel {
-                order: -1;
-            }
-        }
-        
-        /* Region Cards */
-        .region-card {
-            background: #f8f8f4;
-            border: 2px solid #e0e0d5;
-            border-radius: 12px;
-            padding: 1.2rem;
-            margin-bottom: 1.2rem;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
             position: relative;
-        }
-        
-        .region-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(201, 160, 48, 0.25);
-            border-color: #c9a030;
-        }
-        
-        .region-card-content {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .logo-box {
-            width: 70px;
-            height: 70px;
-            background: white;
-            border: 2px solid #e0e0d5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
             overflow: hidden;
-            padding: 5px;
+            box-shadow: 0 6px 28px rgba(0,0,0,0.28);
         }
-        
-        .logo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        
-        .region-info {
-            flex: 1;
-        }
-        
-        .region-name {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #1f3a2c;
-            margin-bottom: 0.5rem;
-            line-height: 1.5;
-        }
-        
-        .region-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: #c9a030;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .region-number {
-            background: white;
-            color: #c9a030;
-            width: 22px;
-            height: 22px;
+        header::before {
+            content: '';
+            position: absolute;
+            top: -70px; left: -70px;
+            width: 240px; height: 240px;
             border-radius: 50%;
+            background: rgba(201,160,48,0.07);
+            pointer-events: none;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -50px; right: -50px;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            background: rgba(201,160,48,0.05);
+            pointer-events: none;
+        }
+        .header-inner {
+            max-width: 1700px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .header-icon {
+            width: 68px; height: 68px;
+            background: rgba(201,160,48,0.13);
+            border: 2px solid rgba(201,160,48,0.45);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .header-icon svg { width: 36px; height: 36px; }
+        .header-text { flex: 1; }
+        .header-text h1 {
+            font-size: clamp(1.2rem, 2.3vw, 1.9rem);
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1.4;
+            margin-bottom: 0.35rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.22);
+        }
+        .header-text p {
+            font-size: clamp(0.82rem, 1.4vw, 0.98rem);
+            color: rgba(255,255,255,0.82);
+        }
+        .header-divider {
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        /* ══ PAGE WRAPPER ══ */
+        .page-wrapper {
+            max-width: 1750px;
+            margin: 0 auto;
+            padding: 1.4rem 1rem 3rem;
+        }
+
+        /* ══ 3-COLUMN GRID ══ */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr 1fr;
+            gap: 1.1rem;
+            align-items: start;
+            opacity: 0;
+            animation: fadeInUp 0.75s ease forwards;
+            animation-delay: 0.2s;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .col-right { display: flex; flex-direction: column; gap: 0.85rem; }
+        .col-left  { display: flex; flex-direction: column; gap: 0.85rem; }
+
+        /* ══ REGION CARDS ══ */
+        .region-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 0.85rem 0.95rem;
+            box-shadow: 0 2px 8px rgba(31,58,44,0.07);
+            transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .region-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 4px; height: 100%;
+            background: var(--gold);
+            opacity: 0;
+            transition: opacity 0.22s ease;
+            border-radius: 0 14px 14px 0;
+        }
+        .region-card:hover,
+        .region-card.highlighted {
+            border-color: var(--gold);
+            box-shadow: 0 6px 22px rgba(201,160,48,0.25);
+            transform: scale(1.03);
+        }
+        .region-card:hover::before,
+        .region-card.highlighted::before { opacity: 1; }
+
+        .card-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .logo-wrap {
+            width: 62px; height: 62px; min-width: 62px;
+            background: white;
+            border: 1.5px solid var(--card-border);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            padding: 4px;
+            transition: border-color 0.22s ease;
+        }
+        .region-card:hover .logo-wrap,
+        .region-card.highlighted .logo-wrap { border-color: var(--gold); }
+        .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+
+        .card-text { flex: 1; min-width: 0; }
+        .card-name {
             font-size: 0.8rem;
             font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.45;
+            margin-bottom: 0.42rem;
         }
-        
-        /* Map Panel */
-        .map-panel {
-            background: #f8f8f4;
-            border: 3px solid #c9a030;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        .card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.32rem;
+            background: var(--green-dark);
+            color: white;
+            padding: 0.2rem 0.6rem 0.2rem 0.28rem;
+            border-radius: 20px;
+            font-size: 0.73rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-num {
+            background: var(--gold);
+            color: white;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: 800;
+            flex-shrink: 0;
             position: relative;
         }
-        
-        .map-panel h2 {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1f3a2c;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #c9a030;
+        .badge-num::after {
+            content: '';
+            position: absolute;
+            width: 5px; height: 5px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.32;
         }
-        
+
+        /* ══ MAP PANEL ══ */
+        .map-panel {
+            background: white;
+            border: 2px solid var(--gold);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 34px rgba(31,58,44,0.14);
+            position: sticky;
+            top: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.75s ease forwards;
+            animation-delay: 0.4s;
+        }
+        .map-panel-header {
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            padding: 0.85rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .map-panel-header h2 {
+            color: var(--gold);
+            font-size: 0.97rem;
+            font-weight: 700;
+            flex: 1;
+            text-align: center;
+        }
+        .map-dot-legend {
+            display: flex; align-items: center; gap: 0.38rem;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.72);
+        }
+        .legend-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+
         #map {
             width: 100%;
-            height: 700px;
-            background: #fdf8ec;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
+            height: 690px;
+            background: var(--gold-pale);
         }
-        
-        /* Map Markers */
-        .map-marker {
-            background: #c9a030;
-            border: 3px solid white;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .map-marker:hover {
-            transform: scale(1.2);
-            box-shadow: 0 5px 15px rgba(201, 160, 48, 0.5);
-        }
-        
-        /* SVG Arrows Overlay */
-        #arrows-svg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-        }
-        
-        .arrow-line {
-            fill: none;
-            stroke: #c9a030;
-            stroke-width: 1.5;
-            opacity: 0.6;
-        }
-        
-        /* Leaflet Custom Styles */
         .leaflet-container {
-            background: #fdf8ec;
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: #f8f8f4;
-            margin-top: 3rem;
-            border-top: 2px solid #c9a030;
-        }
-        
-        footer p {
-            color: #1f3a2c;
-            font-size: 0.95rem;
-        }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            animation: slideUp 0.3s ease;
-            direction: rtl;
-        }
-        
-        @keyframes slideUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .modal-header {
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-header h2 {
-            color: #1f3a2c;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .modal-region-number {
-            display: inline-block;
-            background: #c9a030;
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .modal-logo-container {
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background: #f8f8f4;
-            border-radius: 12px;
-            border: 2px solid #c9a030;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 250px;
-        }
-        
-        .modal-logo-container img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-        }
-        
-        .modal-close-btn {
-            background: #c9a030;
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: var(--gold-pale) !important;
             font-family: 'Cairo', sans-serif;
         }
-        
-        .modal-close-btn:hover {
-            background: #1f3a2c;
-            transform: scale(1.05);
+
+        /* ══ REGION LABELS on MAP ══ */
+        .region-label-icon {
+            background: transparent !important;
+            border: none !important;
         }
-        
-        .modal-close-icon {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            width: 32px;
-            height: 32px;
-            background: #c9a030;
-            color: white;
-            border: none;
+        .region-num-dot {
+            background: var(--gold, #c9a030);
+            border: 2.5px solid white;
             border-radius: 50%;
-            font-size: 1.5rem;
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 0.74rem;
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.28);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
-        
-        .modal-close-icon:hover {
-            background: #1f3a2c;
-            transform: rotate(90deg);
+        .region-num-dot:hover,
+        .region-num-dot.dot-highlighted {
+            transform: scale(1.45);
+            box-shadow: 0 5px 16px rgba(201,160,48,0.65);
+            background: #e0b84a;
+            z-index: 999 !important;
         }
-        
-        .modal-content {
+
+        /* ══ LEAFLET POPUP ══ */
+        .leaflet-popup-content-wrapper {
+            border-radius: 12px !important;
+            border: 2px solid var(--gold, #c9a030) !important;
+            box-shadow: 0 8px 26px rgba(0,0,0,0.18) !important;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+        .leaflet-popup-content { margin: 0 !important; width: auto !important; }
+        .leaflet-popup-tip { background: var(--gold, #c9a030) !important; }
+        .popup-inner {
+            background: white;
+            padding: 1rem 1.2rem;
+            text-align: center;
+            direction: rtl;
+            min-width: 210px;
+        }
+        .popup-num {
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 30px; height: 30px;
+            background: var(--gold, #c9a030);
+            color: white; border-radius: 50%;
+            font-weight: 800; font-size: 0.88rem;
+            margin-bottom: 0.45rem;
+        }
+        .popup-region { font-size: 0.7rem; color: var(--text-mid, #4a6358); font-weight: 600; margin-bottom: 0.25rem; }
+        .popup-club   { font-size: 0.8rem; color: var(--text-dark, #1f3a2c); font-weight: 700; line-height: 1.4; }
+        .popup-logo   { width: 58px; height: 58px; object-fit: contain; margin: 0.55rem auto 0; display: block; }
+
+        /* ══ ARROWS SVG ══ */
+        #arrows-svg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 500;
+        }
+        .arrow-path {
+            fill: none;
+            stroke: var(--gold, #c9a030);
+            stroke-width: 1.5;
+            stroke-dasharray: 5 4;
+            opacity: 0;
+            transition: opacity 0.28s ease;
+        }
+        .arrow-path.active { opacity: 0.72; }
+
+        /* ══ MODAL ══ */
+        .modal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(10,25,18,0.72);
+            z-index: 3000;
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 460px; width: 92%;
             position: relative;
+            text-align: center; direction: rtl;
+            animation: boxIn 0.3s ease;
+            box-shadow: 0 18px 64px rgba(0,0,0,0.32);
+            border: 2px solid var(--gold);
+        }
+        @keyframes boxIn {
+            from { transform: translateY(28px) scale(0.95); opacity: 0; }
+            to   { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute; top: 1rem; left: 1rem;
+            width: 32px; height: 32px;
+            background: var(--card-bg); border: 1.5px solid var(--card-border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1rem; color: var(--text-dark);
+            transition: all 0.2s ease; line-height: 1;
+        }
+        .modal-close:hover { background: var(--gold); color: white; border-color: var(--gold); transform: rotate(90deg); }
+        .modal-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--green-dark); color: white;
+            padding: 0.28rem 1rem 0.28rem 0.38rem;
+            border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        .modal-badge-num {
+            background: var(--gold); width: 24px; height: 24px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.78rem;
+        }
+        .modal-title {
+            font-size: 1.05rem; font-weight: 800;
+            color: var(--text-dark); line-height: 1.5;
+            margin-bottom: 1.1rem;
+        }
+        .modal-logo-frame {
+            background: var(--card-bg);
+            border: 2px solid var(--gold);
+            border-radius: 14px;
+            padding: 1.4rem;
+            margin-bottom: 1.1rem;
+            min-height: 190px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-logo-frame img { max-width: 100%; max-height: 190px; object-fit: contain; }
+        .modal-btn {
+            background: var(--green-dark); color: white;
+            border: none; padding: 0.65rem 2rem;
+            border-radius: 10px; font-family: 'Cairo', sans-serif;
+            font-size: 0.88rem; font-weight: 700; cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .modal-btn:hover { background: var(--gold); transform: scale(1.04); }
+
+        /* ══ FOOTER ══ */
+        footer {
+            background: var(--green-dark);
+            color: rgba(255,255,255,0.68);
+            text-align: center;
+            padding: 1.2rem 1rem;
+            font-size: 0.83rem;
+            margin-top: 1rem;
+        }
+        footer span { color: var(--gold); font-weight: 700; }
+
+        /* ══ RESPONSIVE ══ */
+        @media (max-width: 1100px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .col-left  { order: 3; }
+            .col-right { order: 2; }
+            .map-panel { order: 1; position: static; }
+            #map { height: 420px; }
+            #arrows-svg { display: none; }
+        }
+        @media (max-width: 600px) {
+            .header-inner { padding: 1.2rem 1rem; gap: 1rem; }
+            .header-icon  { width: 50px; height: 50px; }
+            #map { height: 310px; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <h1>ورقة تعريفية بأندية "جائزة أستاذ(ة) السنة" حسب الجهات</h1>
-        <p>توزيع أندية الجائزة عبر جهات المملكة المغربية مع شعاراتها الرسمية</p>
-    </header>
-    
-    <!-- Main Container -->
-    <div class="container">
-        <div class="grid-layout">
-            <!-- Right Column -->
-            <div class="right-column">
-                <div class="region-card" id="b1" data-region="1">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png" alt="طنجة تطوان الحسيمة">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة طنجة–تطوان–الحسيمة</div>
-                            <div class="region-badge">
-                                <span class="region-number">1</span>
-                                <span>الجهة الأولى</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="region-card" id="b2" data-region="2">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/2VmF9j7V/jht-alshrq.png" alt="الشرق">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة الشرق</div>
-                            <div class="region-badge">
-                                <span class="region-number">2</span>
-                                <span>الجهة الثانية</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="region-card" id="b3" data-region="3">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png" alt="فاس مكناس">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة فاس–مكناس</div>
-                            <div class="region-badge">
-                                <span class="region-number">3</span>
-                                <span>الجهة الثالثة</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="region-card" id="b4" data-region="4">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png" alt="الرباط سلا القنيطرة">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة الرباط–سلا–القنيطرة</div>
-                            <div class="region-badge">
-                                <span class="region-number">4</span>
-                                <span>الجهة الرابعة</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="region-card" id="b5" data-region="5">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png" alt="بني ملال خنيفرة">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة بني ملال–خنيفرة</div>
-                            <div class="region-badge">
-                                <span class="region-number">5</span>
-                                <span>الجهة الخامسة</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="region-card" id="b6" data-region="6">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png" alt="الدار البيضاء سطات">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة الدار البيضاء–سطات</div>
-                            <div class="region-badge">
-                                <span class="region-number">6</span>
-                                <span>الجهة السادسة</span>
-                            </div>
-                        </div>
+
+<!-- HEADER -->
+<header>
+    <div class="header-inner">
+        <div class="header-icon">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="27" stroke="#c9a030" stroke-width="2.5"/>
+                <path d="M32 13 L36 24 L48 24 L38.5 31.5 L42 44 L32 36.5 L22 44 L25.5 31.5 L16 24 L28 24 Z"
+                      fill="none" stroke="#c9a030" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="32" cy="32" r="3.5" fill="#c9a030" opacity="0.55"/>
+            </svg>
+        </div>
+        <div class="header-text">
+            <h1>ورقة تعريفية بأندية "جائزة أستاذ(ة) السنة" حسب الجهات</h1>
+            <p>التوزيع الجهوي الرسمي حسب خريطة المغرب &nbsp;|&nbsp; 12 جهة &nbsp;|&nbsp; 12 نادي</p>
+        </div>
+    </div>
+    <div class="header-divider"></div>
+</header>
+
+<!-- PAGE CONTENT -->
+<div class="page-wrapper">
+    <div class="main-grid">
+
+        <!-- RIGHT COLUMN: Regions 1–6 -->
+        <div class="col-right">
+            <div class="region-card" id="b1" data-region="1">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png" alt="طنجة تطوان الحسيمة" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة طنجة–تطوان–الحسيمة</div>
+                        <div class="card-badge"><span class="badge-num">1</span><span>الجهة الأولى</span></div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Map Panel (Center) -->
-            <div class="map-panel">
-                <h2>خريطة توزيع أندية الجائزة</h2>
-                <div id="map"></div>
+            <div class="region-card" id="b2" data-region="2">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/2VmF9j7V/jht-alshrq.png" alt="الشرق" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الشرق</div>
+                        <div class="card-badge"><span class="badge-num">2</span><span>الجهة الثانية</span></div>
+                    </div>
+                </div>
             </div>
-            
-            <!-- Left Column -->
-            <div class="left-column">
-                <div class="region-card" id="b7" data-region="7">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png" alt="مراكش آسفي">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة مراكش–آسفي</div>
-                            <div class="region-badge">
-                                <span class="region-number">7</span>
-                                <span>الجهة السابعة</span>
-                            </div>
-                        </div>
+            <div class="region-card" id="b3" data-region="3">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png" alt="فاس مكناس" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة فاس–مكناس</div>
+                        <div class="card-badge"><span class="badge-num">3</span><span>الجهة الثالثة</span></div>
                     </div>
                 </div>
-                
-                <div class="region-card" id="b8" data-region="8">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png" alt="سوس ماسة">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة سوس–ماسة</div>
-                            <div class="region-badge">
-                                <span class="region-number">8</span>
-                                <span>الجهة الثامنة</span>
-                            </div>
-                        </div>
+            </div>
+            <div class="region-card" id="b4" data-region="4">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png" alt="الرباط سلا القنيطرة" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الرباط–سلا–القنيطرة</div>
+                        <div class="card-badge"><span class="badge-num">4</span><span>الجهة الرابعة</span></div>
                     </div>
                 </div>
-                
-                <div class="region-card" id="b9" data-region="9">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png" alt="درعة تافيلالت">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة درعة–تافيلالت</div>
-                            <div class="region-badge">
-                                <span class="region-number">9</span>
-                                <span>الجهة التاسعة</span>
-                            </div>
-                        </div>
+            </div>
+            <div class="region-card" id="b5" data-region="5">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png" alt="بني ملال خنيفرة" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة بني ملال–خنيفرة</div>
+                        <div class="card-badge"><span class="badge-num">5</span><span>الجهة الخامسة</span></div>
                     </div>
                 </div>
-                
-                <div class="region-card" id="b10" data-region="10">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png" alt="كلميم واد نون">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة كلميم–واد نون</div>
-                            <div class="region-badge">
-                                <span class="region-number">10</span>
-                                <span>الجهة العاشرة</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="region-card" id="b11" data-region="11">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png" alt="العيون الساقية الحمراء">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة العيون–الساقية الحمراء</div>
-                            <div class="region-badge">
-                                <span class="region-number">11</span>
-                                <span>الجهة الحادية عشرة</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="region-card" id="b12" data-region="12">
-                    <div class="region-card-content">
-                        <div class="logo-box">
-                            <img src="https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png" alt="الداخلة وادي الذهب">
-                        </div>
-                        <div class="region-info">
-                            <div class="region-name">نادي جائزة أستاذ(ة) السنة – جهة الداخلة–وادي الذهب</div>
-                            <div class="region-badge">
-                                <span class="region-number">12</span>
-                                <span>الجهة الثانية عشرة</span>
-                            </div>
-                        </div>
+            </div>
+            <div class="region-card" id="b6" data-region="6">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png" alt="الدار البيضاء سطات" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الدار البيضاء–سطات</div>
+                        <div class="card-badge"><span class="badge-num">6</span><span>الجهة السادسة</span></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- SVG Overlay for Arrows -->
-    <svg id="arrows-svg"></svg>
-    
-    <!-- Modal for Region Logo -->
-    <div id="regionModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close-icon" onclick="closeRegionModal()">✕</button>
-            <div class="modal-header">
-                <h2 id="modalRegionName">اسم الجهة</h2>
-                <span class="modal-region-number" id="modalRegionNumber">الجهة</span>
+
+        <!-- CENTER COLUMN: Map -->
+        <div class="map-panel">
+            <div class="map-panel-header">
+                <h2>🗺️ خريطة توزيع أندية الجائزة</h2>
+                <div class="map-dot-legend">
+                    <div class="legend-dot"></div>
+                    <span>موقع الجهة</span>
+                </div>
             </div>
-            <div class="modal-logo-container">
-                <img id="modalLogo" src="" alt="شعار الجهة">
-            </div>
-            <button class="modal-close-btn" onclick="closeRegionModal()">إغلاق</button>
+            <div id="map"></div>
         </div>
+
+        <!-- LEFT COLUMN: Regions 7–12 -->
+        <div class="col-left">
+            <div class="region-card" id="b7" data-region="7">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png" alt="مراكش آسفي" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة مراكش–آسفي</div>
+                        <div class="card-badge"><span class="badge-num">7</span><span>الجهة السابعة</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="region-card" id="b8" data-region="8">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png" alt="سوس ماسة" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة سوس–ماسة</div>
+                        <div class="card-badge"><span class="badge-num">8</span><span>الجهة الثامنة</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="region-card" id="b9" data-region="9">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png" alt="درعة تافيلالت" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة درعة–تافيلالت</div>
+                        <div class="card-badge"><span class="badge-num">9</span><span>الجهة التاسعة</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="region-card" id="b10" data-region="10">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png" alt="كلميم واد نون" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة كلميم–واد نون</div>
+                        <div class="card-badge"><span class="badge-num">10</span><span>الجهة العاشرة</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="region-card" id="b11" data-region="11">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png" alt="العيون الساقية الحمراء" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة العيون–الساقية الحمراء</div>
+                        <div class="card-badge"><span class="badge-num">11</span><span>الجهة الحادية عشرة</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="region-card" id="b12" data-region="12">
+                <div class="card-inner">
+                    <div class="logo-wrap"><img src="https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png" alt="الداخلة وادي الذهب" loading="lazy"></div>
+                    <div class="card-text">
+                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الداخلة–وادي الذهب</div>
+                        <div class="card-badge"><span class="badge-num">12</span><span>الجهة الثانية عشرة</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /.main-grid -->
+</div><!-- /.page-wrapper -->
+
+<!-- SVG Arrow Overlay -->
+<svg id="arrows-svg" aria-hidden="true">
+    <defs>
+        <marker id="arrowhead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3 z" fill="#c9a030" opacity="0.88"/>
+        </marker>
+    </defs>
+</svg>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+    <div class="modal-box">
+        <button class="modal-close" id="modalClose" title="إغلاق">✕</button>
+        <div class="modal-badge">
+            <span class="modal-badge-num" id="modalNum">1</span>
+            <span id="modalRegionLabel">الجهة الأولى</span>
+        </div>
+        <div class="modal-title" id="modalTitle">اسم النادي</div>
+        <div class="modal-logo-frame">
+            <img id="modalImg" src="" alt="شعار الجهة">
+        </div>
+        <button class="modal-btn" id="modalCloseBtn">إغلاق</button>
     </div>
-    
-    <!-- Footer -->
-    <footer>
-        <p>© 2024 - جائزة أستاذ(ة) السنة - جميع الحقوق محفوظة</p>
-    </footer>
-    
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
-    <script>
-        // Region data
-        const regionData = {
-            1: { name: "نادي جائزة أستاذ(ة) السنة – جهة طنجة–تطوان–الحسيمة", logo: "https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png", number: "الجهة الأولى" },
-            2: { name: "نادي جائزة أستاذ(ة) السنة – جهة الشرق", logo: "https://i.postimg.cc/2VmF9j7V/jht-alshrq.png", number: "الجهة الثانية" },
-            3: { name: "نادي جائزة أستاذ(ة) السنة – جهة فاس–مكناس", logo: "https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png", number: "الجهة الثالثة" },
-            4: { name: "نادي جائزة أستاذ(ة) السنة – جهة الرباط–سلا–القنيطرة", logo: "https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png", number: "الجهة الرابعة" },
-            5: { name: "نادي جائزة أستاذ(ة) السنة – جهة بني ملال–خنيفرة", logo: "https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png", number: "الجهة الخامسة" },
-            6: { name: "نادي جائزة أستاذ(ة) السنة – جهة الدار البيضاء–سطات", logo: "https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png", number: "الجهة السادسة" },
-            7: { name: "نادي جائزة أستاذ(ة) السنة – جهة مراكش–آسفي", logo: "https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png", number: "الجهة السابعة" },
-            8: { name: "نادي جائزة أستاذ(ة) السنة – جهة سوس–ماسة", logo: "https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png", number: "الجهة الثامنة" },
-            9: { name: "نادي جائزة أستاذ(ة) السنة – جهة درعة–تافيلالت", logo: "https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png", number: "الجهة التاسعة" },
-            10: { name: "نادي جائزة أستاذ(ة) السنة – جهة كلميم–واد نون", logo: "https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png", number: "الجهة العاشرة" },
-            11: { name: "نادي جائزة أستاذ(ة) السنة – جهة العيون–الساقية الحمراء", logo: "https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png", number: "الجهة الحادية عشرة" },
-            12: { name: "نادي جائزة أستاذ(ة) السنة – جهة الداخلة–وادي الذهب", logo: "https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png", number: "الجهة الثانية عشرة" }
-        };
-        
-        // Function to show modal
-        function showRegionModal(regionNumber) {
-            const region = regionData[regionNumber];
-            if (!region) return;
-            
-            document.getElementById('modalRegionName').textContent = region.name;
-            document.getElementById('modalRegionNumber').textContent = region.number;
-            document.getElementById('modalLogo').src = region.logo;
-            document.getElementById('regionModal').classList.add('active');
+</div>
+
+<footer>
+    <p>© 2025 &nbsp;—&nbsp; <span>جائزة أستاذ(ة) السنة</span> &nbsp;—&nbsp; جميع الحقوق محفوظة</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════
+   MAPPING: GeoJSON id → region number & full data
+══════════════════════════════════════════════════════ */
+const ID_TO_NUM = {
+    "MA01": 1,  "MA02": 2,  "MA03": 3,  "MA04": 4,
+    "MA05": 5,  "MA06": 6,  "MA07": 7,  "MA09": 8,
+    "MA08": 9,  "MA10": 10, "MA11": 11, "MA12": 12
+};
+
+const REGIONS = {
+    1:  { name:"نادي جائزة أستاذ(ة) السنة – جهة طنجة–تطوان–الحسيمة",    label:"الجهة الأولى",          logo:"https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png"     },
+    2:  { name:"نادي جائزة أستاذ(ة) السنة – جهة الشرق",                   label:"الجهة الثانية",          logo:"https://i.postimg.cc/2VmF9j7V/jht-alshrq.png"                  },
+    3:  { name:"نادي جائزة أستاذ(ة) السنة – جهة فاس–مكناس",              label:"الجهة الثالثة",          logo:"https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png"               },
+    4:  { name:"نادي جائزة أستاذ(ة) السنة – جهة الرباط–سلا–القنيطرة",   label:"الجهة الرابعة",          logo:"https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png"    },
+    5:  { name:"نادي جائزة أستاذ(ة) السنة – جهة بني ملال–خنيفرة",       label:"الجهة الخامسة",          logo:"https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png"       },
+    6:  { name:"نادي جائزة أستاذ(ة) السنة – جهة الدار البيضاء–سطات",    label:"الجهة السادسة",          logo:"https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png"     },
+    7:  { name:"نادي جائزة أستاذ(ة) السنة – جهة مراكش–آسفي",            label:"الجهة السابعة",          logo:"https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png"            },
+    8:  { name:"نادي جائزة أستاذ(ة) السنة – جهة سوس–ماسة",              label:"الجهة الثامنة",          logo:"https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png"               },
+    9:  { name:"نادي جائزة أستاذ(ة) السنة – جهة درعة–تافيلالت",         label:"الجهة التاسعة",          logo:"https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png"          },
+    10: { name:"نادي جائزة أستاذ(ة) السنة – جهة كلميم–واد نون",         label:"الجهة العاشرة",          logo:"https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png"          },
+    11: { name:"نادي جائزة أستاذ(ة) السنة – جهة العيون–الساقية الحمراء",label:"الجهة الحادية عشرة",     logo:"https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png" },
+    12: { name:"نادي جائزة أستاذ(ة) السنة – جهة الداخلة–وادي الذهب",    label:"الجهة الثانية عشرة",     logo:"https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png"    }
+};
+
+/* ══════════════════════════════════════════════════════
+   MAP INIT
+══════════════════════════════════════════════════════ */
+const map = L.map('map', {
+    center: [29.5, -7.5],
+    zoom: 5,
+    zoomControl: true,
+    scrollWheelZoom: false,
+    attributionControl: false
+});
+
+/* Style helpers */
+const STYLE_NORMAL = {
+    fillColor:   '#fdf8ec',
+    fillOpacity: 0.82,
+    color:       '#c9a030',
+    weight:      1.8,
+    opacity:     1
+};
+const STYLE_HOVER = {
+    fillColor:   '#c9a030',
+    fillOpacity: 0.38,
+    color:       '#c9a030',
+    weight:      3,
+    opacity:     1
+};
+
+/* Store layer + marker references keyed by region_num */
+const regionLayers = {};   // num → Leaflet layer
+const dotMarkers   = {};   // num → Leaflet marker
+
+/* ══════════════════════════════════════════════════════
+   HIGHLIGHT HELPERS
+══════════════════════════════════════════════════════ */
+function highlightRegion(num, on) {
+    const layer = regionLayers[num];
+    if (!layer) return;
+    try {
+        layer.setStyle(on ? STYLE_HOVER : STYLE_NORMAL);
+        if (on) layer.bringToFront();
+    } catch(e) {}
+}
+
+function highlightDot(num, on) {
+    const marker = dotMarkers[num];
+    if (!marker) return;
+    const el  = marker.getElement();
+    if (!el)  return;
+    const dot = el.querySelector('.region-num-dot');
+    if (!dot) return;
+    dot.classList.toggle('dot-highlighted', on);
+}
+
+function highlightCard(num, on) {
+    const card = document.getElementById(`b${num}`);
+    if (!card) return;
+    card.classList.toggle('highlighted', on);
+}
+
+/* ══════════════════════════════════════════════════════
+   COMPUTE POLYGON CENTROID (for dot placement)
+   نستخدم getBounds().getCenter() من Leaflet لأنها أدق
+══════════════════════════════════════════════════════ */
+function getCentroid(feature) {
+    try {
+        /* الطريقة الأدق: نبني layer مؤقت ونأخذ مركز الـ bounds */
+        const tmpLayer = L.geoJSON(feature);
+        const center   = tmpLayer.getBounds().getCenter();
+        return [center.lat, center.lng];
+    } catch(e) {
+        /* احتياطي: متوسط إحداثيات حسابي */
+        const geom = feature.geometry;
+        let coords = [];
+        if (geom.type === 'Polygon') {
+            coords = geom.coordinates[0];
+        } else if (geom.type === 'MultiPolygon') {
+            let maxLen = 0;
+            geom.coordinates.forEach(poly => {
+                if (poly[0].length > maxLen) { maxLen = poly[0].length; coords = poly[0]; }
+            });
         }
-        
-        // Function to close modal
-        function closeRegionModal() {
-            document.getElementById('regionModal').classList.remove('active');
-        }
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', (event) => {
-            const modal = document.getElementById('regionModal');
-            if (event.target === modal) {
-                closeRegionModal();
-            }
+        if (!coords.length) return [0, 0];
+        let sumLng = 0, sumLat = 0;
+        coords.forEach(([lng, lat]) => { sumLng += lng; sumLat += lat; });
+        return [sumLat / coords.length, sumLng / coords.length];
+    }
+}
+
+/* ══════════════════════════════════════════════════════
+   LOAD GEOJSON → DRAW POLYGONS + DOTS
+══════════════════════════════════════════════════════ */
+
+function processGeoJSON(data) {
+    /* 1 ─ Draw polygons — one layer per feature */
+    data.features.forEach(feature => {
+        const gid = feature.properties.id;
+        const num = ID_TO_NUM[gid];
+        if (!num) return;
+
+        const layer = L.geoJSON(feature, {
+            style: () => ({ ...STYLE_NORMAL })
         });
-        
-        // Region coordinates (approximate positions on Morocco map)
-        const regionCoordinates = {
-            1: [35.5, -5.3],      // طنجة تطوان الحسيمة
-            2: [34.5, -2.2],      // الشرق
-            3: [34.0, -5.0],      // فاس مكناس
-            4: [34.0, -6.5],      // الرباط سلا القنيطرة
-            5: [32.5, -6.2],      // بني ملال خنيفرة
-            6: [33.3, -7.5],      // الدار البيضاء سطات
-            7: [31.6, -8.0],      // مراكش آسفي
-            8: [30.4, -9.0],      // سوس ماسة
-            9: [31.5, -4.5],      // درعة تافيلالت
-            10: [28.5, -10.0],    // كلميم واد نون
-            11: [27.0, -13.0],    // العيون الساقية الحمراء
-            12: [23.7, -15.5]     // الداخلة وادي الذهب
-        };
-        
-        let map;
-        let markers = {};
-        
-        // Initialize map
-        function initMap() {
-            map = L.map('map', {
-                center: [29, -8],
-                zoom: 5.5,
-                zoomControl: true,
-                scrollWheelZoom: true,
-                dragging: true
-            });
-            
-            // Add event listeners for map movements
-            map.on('zoom', () => {
-                setTimeout(() => {
-                    drawArrows();
-                }, 50);
-            });
-            
-            map.on('move', () => {
-                setTimeout(() => {
-                    drawArrows();
-                }, 50);
-            });
-            
-            map.on('zoomend', () => {
-                drawArrows();
-            });
-            
-            map.on('moveend', () => {
-                drawArrows();
-            });
-            
-            // Load GeoJSON data
-            fetch('ma.json')
-                .then(response => response.json())
-                .then(data => {
-                    L.geoJSON(data, {
-                        style: {
-                            fillColor: '#fdf8ec',
-                            fillOpacity: 1,
-                            color: '#c9a030',
-                            weight: 3,
-                            opacity: 1
-                        }
-                    }).addTo(map);
-                    
-                    // Add markers after GeoJSON is loaded
-                    addMarkers();
-                    
-                    // Draw arrows after everything is loaded
-                    setTimeout(() => {
-                        drawArrows();
-                    }, 500);
-                })
-                .catch(error => {
-                    console.error('Error loading GeoJSON:', error);
-                    // Fallback: still add markers even if GeoJSON fails
-                    addMarkers();
-                    setTimeout(() => {
-                        drawArrows();
-                    }, 500);
-                });
-        }
-        
-        // Add markers to map
-        function addMarkers() {
-            for (let i = 1; i <= 12; i++) {
-                const coords = regionCoordinates[i];
-                
-                const markerIcon = L.divIcon({
-                    className: 'custom-marker',
-                    html: `<div class="map-marker">${i}</div>`,
-                    iconSize: [36, 36],
-                    iconAnchor: [18, 18]
-                });
-                
-                const marker = L.marker(coords, { icon: markerIcon }).addTo(map);
-                markers[i] = marker;
-                
-                // Add click event
-                marker.on('click', () => {
-                    const card = document.getElementById(`b${i}`);
-                    if (card) {
-                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        card.style.transform = 'scale(1.05)';
-                        setTimeout(() => {
-                            card.style.transform = '';
-                        }, 300);
-                    }
-                });
-            }
-        }
-        
-        // Draw arrows from cards to map markers
-        function drawArrows() {
-            const svg = document.getElementById('arrows-svg');
-            svg.innerHTML = '';
-            
-            // Only draw arrows on larger screens
-            if (window.innerWidth < 1100) {
-                return;
-            }
-            
-            for (let i = 1; i <= 12; i++) {
-                const card = document.getElementById(`b${i}`);
-                const marker = markers[i];
-                
-                if (!card || !marker) continue;
-                
-                try {
-                    const cardRect = card.getBoundingClientRect();
-                    const markerElement = marker.getElement();
-                    if (!markerElement) continue;
-                    
-                    const markerRect = markerElement.getBoundingClientRect();
-                    
-                    // Calculate connection points
-                    const cardX = cardRect.left + cardRect.width / 2;
-                    const cardY = cardRect.top + cardRect.height / 2;
-                    const markerX = markerRect.left + markerRect.width / 2;
-                    const markerY = markerRect.top + markerRect.height / 2;
-                    
-                    // Create curved path
-                    const controlX = (cardX + markerX) / 2;
-                    const controlY = Math.min(cardY, markerY) - 50;
-                    
-                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                    const d = `M ${cardX} ${cardY} Q ${controlX} ${controlY} ${markerX} ${markerY}`;
-                    path.setAttribute('d', d);
-                    path.setAttribute('class', 'arrow-line');
-                    
-                    svg.appendChild(path);
-                } catch (e) {
-                    console.error('Error drawing arrow for region', i, e);
-                }
-            }
-        }
-        
-        // Handle window resize
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                drawArrows();
-            }, 200);
+
+        layer.on('mouseover', () => {
+            layer.setStyle(STYLE_HOVER);
+            layer.bringToFront();
+            highlightCard(num, true);
+            highlightDot(num, true);
+            showArrow(num);
+            updateArrowPositions();
         });
-        
-        // Initialize when page loads
-        window.addEventListener('load', () => {
-            initMap();
-            
-            // Add click handlers to cards and region numbers
-            for (let i = 1; i <= 12; i++) {
-                const card = document.getElementById(`b${i}`);
-                if (card) {
-                    card.addEventListener('click', () => {
-                        showRegionModal(i);
-                    });
-                    card.style.cursor = 'pointer';
-                }
-            }
+        layer.on('mouseout', () => {
+            layer.setStyle(STYLE_NORMAL);
+            highlightCard(num, false);
+            highlightDot(num, false);
+            hideArrow(num);
         });
-        
-        // Redraw arrows on scroll (for fixed positioning)
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                drawArrows();
-            }, 50);
-        }, { passive: true });
-    </script>
+        layer.on('click', () => openModal(num));
+
+        layer.addTo(map);
+        regionLayers[num] = layer;
+    });
+
+    /* 2 ─ Place numbered dots at polygon centroids */
+    data.features.forEach(feature => {
+        const gid = feature.properties.id;
+        const num = ID_TO_NUM[gid];
+        if (!num) return;
+
+        const center = getCentroid(feature);
+        const region = REGIONS[num];
+
+        const icon = L.divIcon({
+            className: 'region-label-icon',
+            html: `<div class="region-num-dot" id="dot${num}">${num}</div>`,
+            iconSize:   [28, 28],
+            iconAnchor: [14, 14],
+            popupAnchor:[0, -18]
+        });
+
+        const marker = L.marker(center, { icon, zIndexOffset: 1000 }).addTo(map);
+
+        const popupHtml = `
+            <div class="popup-inner">
+                <div class="popup-num">${num}</div>
+                <div class="popup-region">${region.label}</div>
+                <div class="popup-club">${region.name}</div>
+                <img class="popup-logo" src="${region.logo}" alt="شعار">
+            </div>`;
+        marker.bindPopup(popupHtml, { maxWidth: 260, closeButton: true });
+
+        marker.on('mouseover', () => {
+            if (regionLayers[num]) { regionLayers[num].setStyle(STYLE_HOVER); regionLayers[num].bringToFront(); }
+            highlightCard(num, true);
+            highlightDot(num, true);
+            showArrow(num);
+            updateArrowPositions();
+        });
+        marker.on('mouseout', () => {
+            if (regionLayers[num]) regionLayers[num].setStyle(STYLE_NORMAL);
+            highlightCard(num, false);
+            highlightDot(num, false);
+            hideArrow(num);
+        });
+        marker.on('click', () => openModal(num));
+
+        dotMarkers[num] = marker;
+    });
+
+    /* 3 ─ Fit map to Morocco bounds */
+    try {
+        const allLayers = L.geoJSON(data);
+        map.fitBounds(allLayers.getBounds(), { padding: [10, 10] });
+    } catch(e) {}
+
+    /* 4 ─ Build arrows after everything is ready */
+    setTimeout(buildArrows, 700);
+}
+
+/* ══════════════════════════════════════════════════════
+   GEOJSON — تحميل الخريطة الصحيحة
+   الأولوية: ma.json المحلي (12 جهة بـ properties.id صحيح)
+   الاحتياطي: مصدر خارجي مع ربط ذكي بالأسماء
+══════════════════════════════════════════════════════ */
+
+/* ── دالة ربط اسم الجهة برقمها ── */
+function getRegionNumber(props) {
+    /* 1) محاولة مباشرة عبر id */
+    if (props.id && ID_TO_NUM[props.id]) return ID_TO_NUM[props.id];
+
+    /* 2) بناء نص للمقارنة من جميع الحقول المحتملة */
+    const nm = (
+        props.region     || props.name       || props.Nom_Region ||
+        props.NOM_REGION || props.nom_region  || props.NAME_1    ||
+        props.name_1     || props.shapeName   || ''
+    ).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    const raw = JSON.stringify(props).toLowerCase();
+
+    if (nm.includes('tanger')  || nm.includes('tetouan') || nm.includes('hoceima'))  return 1;
+    if (nm.includes('oriental'))                                                       return 2;
+    if (nm.includes('fes')     || nm.includes('fez')     || nm.includes('meknes'))    return 3;
+    if (nm.includes('rabat')   || nm.includes('kenitra') || nm.includes('sale'))      return 4;
+    if (nm.includes('beni mel')|| nm.includes('khenifra'))                            return 5;
+    if (nm.includes('casablan')|| nm.includes('settat'))                              return 6;
+    if (nm.includes('marrakec')|| nm.includes('safi'))                                return 7;
+    if (nm.includes('souss')   || nm.includes('massa'))                               return 8;
+    if (nm.includes('draa')    || nm.includes('tafilal'))                             return 9;
+    if (nm.includes('guelmim') || nm.includes('oued noun'))                           return 10;
+    if (nm.includes('laayoune')|| nm.includes('sakia') || nm.includes('hamra'))       return 11;
+    if (nm.includes('dakhla')  || nm.includes('dahab'))                               return 12;
+
+    if (raw.includes('tanger'))    return 1;
+    if (raw.includes('oriental'))  return 2;
+    if (raw.includes('fes') || raw.includes('fez'))  return 3;
+    if (raw.includes('rabat'))     return 4;
+    if (raw.includes('beni'))      return 5;
+    if (raw.includes('casablan'))  return 6;
+    if (raw.includes('marrak'))    return 7;
+    if (raw.includes('souss'))     return 8;
+    if (raw.includes('draa') || raw.includes('tafilal')) return 9;
+    if (raw.includes('guelmim'))   return 10;
+    if (raw.includes('laayoune') || raw.includes('sakia')) return 11;
+    if (raw.includes('dakhla'))    return 12;
+
+    return null;
+}
+
+/* ── تطبيع features: ضمان وجود id صحيح (MA0X) في كل feature ── */
+function normalizeFeatures(data) {
+    return {
+        ...data,
+        features: data.features.map(f => {
+            let num = null;
+            /* أولاً: عبر id المباشر */
+            if (f.properties.id) num = ID_TO_NUM[f.properties.id];
+            /* ثانياً: عبر الاسم */
+            if (!num) num = getRegionNumber(f.properties);
+            if (!num) return null; /* تجاهل features غير المعرّفة */
+            const maId = Object.keys(ID_TO_NUM).find(k => ID_TO_NUM[k] === num);
+            return { ...f, properties: { ...f.properties, id: maId } };
+        }).filter(Boolean)
+    };
+}
+
+/* ── تحميل GeoJSON: أولاً ma.json المحلي، ثم المصدر الخارجي ── */
+fetch('ma.json')
+    .then(r => { if (!r.ok) throw new Error('ma.json: HTTP ' + r.status); return r.json(); })
+    .then(data => {
+        const normalized = normalizeFeatures(data);
+        if (normalized.features.length >= 10) {
+            /* ma.json يحتوي على بيانات كافية — استخدمه مباشرة */
+            processGeoJSON(normalized);
+        } else {
+            throw new Error('ma.json: بيانات غير كافية');
+        }
+    })
+    .catch(err => {
+        console.warn('ma.json غير كافٍ، جاري تحميل المصدر الخارجي —', err);
+        fetch('https://raw.githubusercontent.com/manalhama/Morocco-geojson/master/maroc.geojson')
+            .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            .then(data => processGeoJSON(normalizeFeatures(data)))
+            .catch(e => {
+                console.error('فشل تحميل الخريطة من جميع المصادر —', e);
+                setTimeout(buildArrows, 700);
+            });
+    });
+
+/* ══════════════════════════════════════════════════════
+   CARD EVENTS
+══════════════════════════════════════════════════════ */
+document.querySelectorAll('.region-card').forEach(card => {
+    const num = parseInt(card.dataset.region);
+    card.addEventListener('mouseenter', () => {
+        highlightRegion(num, true);
+        highlightDot(num, true);
+        showArrow(num);
+        updateArrowPositions();
+    });
+    card.addEventListener('mouseleave', () => {
+        highlightRegion(num, false);
+        highlightDot(num, false);
+        hideArrow(num);
+    });
+    card.addEventListener('click', () => openModal(num));
+});
+
+/* ══════════════════════════════════════════════════════
+   ARROWS
+══════════════════════════════════════════════════════ */
+const svgEl = document.getElementById('arrows-svg');
+const arrowPaths = {};
+
+function getCardCenter(num) {
+    const card = document.getElementById(`b${num}`);
+    if (!card) return null;
+    const r = card.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+}
+
+function getDotCenter(num) {
+    const marker = dotMarkers[num];
+    if (!marker) return null;
+    const el = marker.getElement();
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+}
+
+function buildArrows() {
+    svgEl.innerHTML = `<defs>
+        <marker id="arrowhead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3 z" fill="#c9a030" opacity="0.88"/>
+        </marker>
+    </defs>`;
+    arrowPaths.paths = {};
+
+    if (window.innerWidth < 1100) return;
+
+    for (let n = 1; n <= 12; n++) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('class', 'arrow-path');
+        path.setAttribute('marker-end', 'url(#arrowhead)');
+        svgEl.appendChild(path);
+        arrowPaths.paths[n] = path;
+    }
+    updateArrowPositions();
+}
+
+function updateArrowPositions() {
+    if (window.innerWidth < 1100) return;
+    for (let n = 1; n <= 12; n++) {
+        const path = arrowPaths.paths && arrowPaths.paths[n];
+        if (!path) continue;
+        const card = getCardCenter(n);
+        const dot  = getDotCenter(n);
+        if (!card || !dot) continue;
+        const mx = (card.x + dot.x) / 2;
+        const my = Math.min(card.y, dot.y) - 28;
+        path.setAttribute('d', `M${card.x},${card.y} Q${mx},${my} ${dot.x},${dot.y}`);
+    }
+}
+
+function showArrow(num) {
+    const p = arrowPaths.paths && arrowPaths.paths[num];
+    if (p) p.classList.add('active');
+}
+function hideArrow(num) {
+    const p = arrowPaths.paths && arrowPaths.paths[num];
+    if (p) p.classList.remove('active');
+}
+
+/* Map move/zoom → update arrows */
+map.on('zoom move zoomend moveend', updateArrowPositions);
+
+/* Resize + Scroll */
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildArrows, 160);
+});
+window.addEventListener('scroll', updateArrowPositions, { passive: true });
+
+/* ══════════════════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════════════════ */
+function openModal(num) {
+    const r = REGIONS[num];
+    if (!r) return;
+    document.getElementById('modalNum').textContent         = num;
+    document.getElementById('modalRegionLabel').textContent = r.label;
+    document.getElementById('modalTitle').textContent       = r.name;
+    document.getElementById('modalImg').src                 = r.logo;
+    document.getElementById('modal').classList.add('open');
+}
+function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+});
+</script>
 </body>
 </html>
