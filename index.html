@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ورقة تعريفية بأندية جائزة أستاذ(ة) السنة حسب الجهات</title>
+    <title>منصة الأندية الجهوية – جائزة أستاذ(ة) السنة</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,90 +25,247 @@
             --white:       #ffffff;
             --text-dark:   #1f3a2c;
             --text-mid:    #4a6358;
+            --text-body:   #333333;
+            --page-bg:     #f7f7f2;
         }
 
         html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: #eeeee8;
-            color: var(--text-dark);
+            background: var(--page-bg);
+            color: var(--text-body);
             direction: rtl;
             min-height: 100vh;
         }
 
-        /* ══ HEADER ══ */
-        header {
+        /* ══════════════════════════════════════
+           NAVBAR
+        ══════════════════════════════════════ */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            border-bottom: 2.5px solid var(--gold);
+            box-shadow: 0 2px 16px rgba(31,58,44,0.09);
+        }
+        .navbar-inner {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            height: 62px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .navbar-brand .brand-star {
+            width: 34px; height: 34px;
+            background: var(--green-dark);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1.5px solid rgba(201,160,48,0.55);
+            box-shadow: 0 2px 10px rgba(31,58,44,0.12);
+        }
+        .navbar-brand .brand-star svg { width: 18px; height: 18px; }
+        .navbar-brand .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #fff;
+            padding: 3px;
+        }
+        .navbar-brand .brand-name {
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            color: var(--green-dark);
+            line-height: 1.25;
+        }
+        .navbar-brand .brand-name span { color: var(--gold); display: block; font-size: 0.72rem; font-weight: 500; }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.15rem;
+            list-style: none;
+            flex: 1;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .navbar-nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.38rem 0.75rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            position: relative;
+        }
+        .navbar-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 2px; right: 50%; left: 50%;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 2px;
+            transition: all 0.22s ease;
+        }
+        .navbar-nav a:hover { color: var(--gold); background: var(--gold-pale); }
+        .navbar-nav a:hover::after { right: 10%; left: 10%; }
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: 1.5px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.4rem 0.6rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin-right: auto;
+        }
+
+        /* ══════════════════════════════════════
+           HEADER / HERO
+        ══════════════════════════════════════ */
+        #hero {
             background: linear-gradient(135deg, #1a2f24 0%, #2d5440 55%, #1f3a2c 100%);
             color: white;
             position: relative;
             overflow: hidden;
             box-shadow: 0 6px 28px rgba(0,0,0,0.28);
         }
-        header::before {
+        #hero::before {
             content: '';
             position: absolute;
-            top: -70px; left: -70px;
-            width: 240px; height: 240px;
+            top: -80px; left: -80px;
+            width: 280px; height: 280px;
             border-radius: 50%;
             background: rgba(201,160,48,0.07);
             pointer-events: none;
         }
-        header::after {
+        #hero::after {
             content: '';
             position: absolute;
-            bottom: -50px; right: -50px;
-            width: 180px; height: 180px;
+            bottom: -60px; right: -60px;
+            width: 220px; height: 220px;
             border-radius: 50%;
             background: rgba(201,160,48,0.05);
             pointer-events: none;
         }
-        .header-inner {
-            max-width: 1700px;
+        .hero-inner {
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 1.8rem 2rem;
+            padding: 2.5rem 2rem 2rem;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1.8rem;
             position: relative;
             z-index: 1;
         }
-        .header-icon {
-            width: 68px; height: 68px;
+        .hero-icon {
+            width: 80px; height: 80px;
             background: rgba(201,160,48,0.13);
             border: 2px solid rgba(201,160,48,0.45);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
-        .header-icon svg { width: 36px; height: 36px; }
-        .header-text { flex: 1; }
-        .header-text h1 {
-            font-size: clamp(1.2rem, 2.3vw, 1.9rem);
+        .hero-icon svg { width: 42px; height: 42px; }
+        .hero-text { flex: 1; }
+        .hero-text h1 {
+            font-family: 'Tajawal', sans-serif;
+            font-size: clamp(1.25rem, 2.5vw, 2.1rem);
             font-weight: 800;
             color: var(--gold);
             line-height: 1.4;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.45rem;
             text-shadow: 0 2px 8px rgba(0,0,0,0.22);
         }
-        .header-text p {
-            font-size: clamp(0.82rem, 1.4vw, 0.98rem);
+        .hero-text p {
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
             color: rgba(255,255,255,0.82);
+            line-height: 1.6;
         }
-        .header-divider {
+        .hero-stats {
+            display: flex;
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .hero-stat {
+            background: rgba(201,160,48,0.12);
+            border: 1px solid rgba(201,160,48,0.3);
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            text-align: center;
+        }
+        .hero-stat .num { font-size: 1.5rem; font-weight: 800; color: var(--gold); display: block; }
+        .hero-stat .lbl { font-size: 0.72rem; color: rgba(255,255,255,0.72); }
+        .hero-divider {
             width: 100%;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
 
-        /* ══ PAGE WRAPPER ══ */
-        .page-wrapper {
-            max-width: 1750px;
+        /* ══════════════════════════════════════
+           SECTION COMMON
+        ══════════════════════════════════════ */
+        .section {
+            padding: 3rem 1rem;
+        }
+        .section-inner {
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 1.4rem 1rem 3rem;
+        }
+        .section-title {
+            font-family: 'Tajawal', sans-serif;
+            font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+            font-weight: 800;
+            color: var(--green-dark);
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 1.4em;
+            background: var(--gold);
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+        .section-sub {
+            font-size: 0.92rem;
+            color: var(--text-mid);
+            margin-bottom: 2rem;
+            padding-right: 0.7rem;
+        }
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            margin-bottom: 2rem;
+            border-radius: 2px;
+            opacity: 0.35;
         }
 
-        /* ══ 3-COLUMN GRID ══ */
+        /* ══════════════════════════════════════
+           SECTION 1 – DISTRIBUTION (MAP + CARDS)
+        ══════════════════════════════════════ */
+        #distribution { background: var(--page-bg); }
+
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1.35fr 1fr;
@@ -125,7 +282,7 @@
         .col-right { display: flex; flex-direction: column; gap: 0.85rem; }
         .col-left  { display: flex; flex-direction: column; gap: 0.85rem; }
 
-        /* ══ REGION CARDS ══ */
+        /* region cards */
         .region-card {
             background: var(--card-bg);
             border: 1.5px solid var(--card-border);
@@ -147,20 +304,13 @@
             transition: opacity 0.22s ease;
             border-radius: 0 14px 14px 0;
         }
-        .region-card:hover,
-        .region-card.highlighted {
+        .region-card:hover, .region-card.highlighted {
             border-color: var(--gold);
             box-shadow: 0 6px 22px rgba(201,160,48,0.25);
             transform: scale(1.03);
         }
-        .region-card:hover::before,
-        .region-card.highlighted::before { opacity: 1; }
-
-        .card-inner {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
+        .region-card:hover::before, .region-card.highlighted::before { opacity: 1; }
+        .card-inner { display: flex; align-items: center; gap: 0.8rem; }
         .logo-wrap {
             width: 62px; height: 62px; min-width: 62px;
             background: white;
@@ -171,50 +321,29 @@
             padding: 4px;
             transition: border-color 0.22s ease;
         }
-        .region-card:hover .logo-wrap,
-        .region-card.highlighted .logo-wrap { border-color: var(--gold); }
+        .region-card:hover .logo-wrap, .region-card.highlighted .logo-wrap { border-color: var(--gold); }
         .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
-
         .card-text { flex: 1; min-width: 0; }
-        .card-name {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            line-height: 1.45;
-            margin-bottom: 0.42rem;
-        }
+        .card-name { font-size: 0.8rem; font-weight: 700; color: var(--text-dark); line-height: 1.45; margin-bottom: 0.42rem; }
         .card-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.32rem;
-            background: var(--green-dark);
-            color: white;
+            display: inline-flex; align-items: center; gap: 0.32rem;
+            background: var(--green-dark); color: white;
             padding: 0.2rem 0.6rem 0.2rem 0.28rem;
-            border-radius: 20px;
-            font-size: 0.73rem;
-            font-weight: 600;
-            white-space: nowrap;
+            border-radius: 20px; font-size: 0.73rem; font-weight: 600; white-space: nowrap;
         }
         .badge-num {
-            background: var(--gold);
-            color: white;
-            width: 20px; height: 20px;
-            border-radius: 50%;
+            background: var(--gold); color: white;
+            width: 20px; height: 20px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem; font-weight: 800;
-            flex-shrink: 0;
-            position: relative;
+            font-size: 0.7rem; font-weight: 800; flex-shrink: 0; position: relative;
         }
         .badge-num::after {
-            content: '';
-            position: absolute;
-            width: 5px; height: 5px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.32;
+            content: ''; position: absolute;
+            width: 5px; height: 5px; background: white;
+            border-radius: 50%; opacity: 0.32;
         }
 
-        /* ══ MAP PANEL ══ */
+        /* map panel */
         .map-panel {
             background: white;
             border: 2px solid var(--gold);
@@ -222,7 +351,7 @@
             overflow: hidden;
             box-shadow: 0 8px 34px rgba(31,58,44,0.14);
             position: sticky;
-            top: 1rem;
+            top: 70px;
             opacity: 0;
             animation: fadeInUp 0.75s ease forwards;
             animation-delay: 0.4s;
@@ -230,114 +359,497 @@
         .map-panel-header {
             background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
             padding: 0.85rem 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
+            display: flex; align-items: center; gap: 0.7rem;
         }
-        .map-panel-header h2 {
-            color: var(--gold);
-            font-size: 0.97rem;
-            font-weight: 700;
-            flex: 1;
-            text-align: center;
-        }
-        .map-dot-legend {
-            display: flex; align-items: center; gap: 0.38rem;
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.72);
-        }
-        .legend-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: var(--gold);
-        }
+        .map-panel-header h2 { color: var(--gold); font-size: 0.97rem; font-weight: 700; flex: 1; text-align: center; }
+        .map-dot-legend { display: flex; align-items: center; gap: 0.38rem; font-size: 0.7rem; color: rgba(255,255,255,0.72); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+        #map { width: 100%; height: 690px; background: var(--gold-pale); }
+        .leaflet-container { background: var(--gold-pale) !important; font-family: 'Cairo', sans-serif; }
 
-        #map {
-            width: 100%;
-            height: 690px;
-            background: var(--gold-pale);
-        }
-        .leaflet-container {
-            background: var(--gold-pale) !important;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        /* ══ REGION LABELS on MAP ══ */
-        .region-label-icon {
-            background: transparent !important;
-            border: none !important;
-        }
+        /* map dots */
+        .region-label-icon { background: transparent !important; border: none !important; }
         .region-num-dot {
             background: var(--gold, #c9a030);
-            border: 2.5px solid white;
-            border-radius: 50%;
+            border: 2.5px solid white; border-radius: 50%;
             width: 28px; height: 28px;
             display: flex; align-items: center; justify-content: center;
-            color: white;
-            font-weight: 800;
-            font-size: 0.74rem;
+            color: white; font-weight: 800; font-size: 0.74rem;
             font-family: 'Cairo', sans-serif;
             box-shadow: 0 2px 8px rgba(0,0,0,0.28);
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
-        .region-num-dot:hover,
-        .region-num-dot.dot-highlighted {
+        .region-num-dot:hover, .region-num-dot.dot-highlighted {
             transform: scale(1.45);
             box-shadow: 0 5px 16px rgba(201,160,48,0.65);
             background: #e0b84a;
             z-index: 999 !important;
         }
 
-        /* ══ LEAFLET POPUP ══ */
+        /* leaflet popup */
         .leaflet-popup-content-wrapper {
             border-radius: 12px !important;
             border: 2px solid var(--gold, #c9a030) !important;
             box-shadow: 0 8px 26px rgba(0,0,0,0.18) !important;
-            padding: 0 !important;
-            overflow: hidden;
+            padding: 0 !important; overflow: hidden;
         }
         .leaflet-popup-content { margin: 0 !important; width: auto !important; }
         .leaflet-popup-tip { background: var(--gold, #c9a030) !important; }
-        .popup-inner {
-            background: white;
-            padding: 1rem 1.2rem;
-            text-align: center;
-            direction: rtl;
-            min-width: 210px;
-        }
+        .popup-inner { background: white; padding: 1rem 1.2rem; text-align: center; direction: rtl; min-width: 210px; }
         .popup-num {
-            display: inline-flex;
-            align-items: center; justify-content: center;
-            width: 30px; height: 30px;
-            background: var(--gold, #c9a030);
-            color: white; border-radius: 50%;
-            font-weight: 800; font-size: 0.88rem;
-            margin-bottom: 0.45rem;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 30px; height: 30px; background: var(--gold, #c9a030);
+            color: white; border-radius: 50%; font-weight: 800; font-size: 0.88rem; margin-bottom: 0.45rem;
         }
         .popup-region { font-size: 0.7rem; color: var(--text-mid, #4a6358); font-weight: 600; margin-bottom: 0.25rem; }
-        .popup-club   { font-size: 0.8rem; color: var(--text-dark, #1f3a2c); font-weight: 700; line-height: 1.4; }
-        .popup-logo   { width: 58px; height: 58px; object-fit: contain; margin: 0.55rem auto 0; display: block; }
+        .popup-club { font-size: 0.8rem; color: var(--text-dark, #1f3a2c); font-weight: 700; line-height: 1.4; }
+        .popup-logo { width: 58px; height: 58px; object-fit: contain; margin: 0.55rem auto 0; display: block; }
 
-        /* ══ ARROWS SVG ══ */
-        #arrows-svg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 500;
-        }
-        .arrow-path {
-            fill: none;
-            stroke: var(--gold, #c9a030);
-            stroke-width: 1.5;
-            stroke-dasharray: 5 4;
-            opacity: 0;
-            transition: opacity 0.28s ease;
-        }
+        /* arrows */
+        #arrows-svg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500; }
+        .arrow-path { fill: none; stroke: var(--gold, #c9a030); stroke-width: 1.5; stroke-dasharray: 5 4; opacity: 0; transition: opacity 0.28s ease; }
         .arrow-path.active { opacity: 0.72; }
 
-        /* ══ MODAL ══ */
+        /* ══════════════════════════════════════
+           SECTION 2 – LOGOS
+        ══════════════════════════════════════ */
+        #logos { background: white; }
+        .logos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+        .logo-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(31,58,44,0.06);
+            transition: all 0.22s ease;
+        }
+        .logo-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 24px rgba(201,160,48,0.2);
+            transform: translateY(-3px);
+        }
+        .logo-card-title {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 0.2rem;
+        }
+        .logo-card-sub {
+            font-size: 0.72rem;
+            color: var(--text-mid);
+            margin-bottom: 0.9rem;
+        }
+        .logo-card-images {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 0.75rem;
+        }
+        .logo-img-box {
+            background: white;
+            border: 1.5px solid var(--card-border);
+            border-radius: 10px;
+            padding: 0.6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .logo-card:hover .logo-img-box { border-color: rgba(201,160,48,0.4); }
+        .logo-img-box img {
+            width: 100%; object-fit: contain;
+            transition: transform 0.25s ease;
+        }
+        .logo-img-box:hover img { transform: scale(1.07); }
+        .logo-img-box.square img { height: 68px; }
+        .logo-img-box.rect img { height: 52px; }
+        .logo-img-label {
+            font-size: 0.65rem;
+            color: var(--text-mid);
+            font-weight: 600;
+            background: var(--gold-pale);
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+        }
+        .logo-img-actions {
+            display: flex;
+            gap: 0.35rem;
+            margin-top: 0.3rem;
+            justify-content: center;
+        }
+        .logo-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.22rem 0.55rem;
+            border-radius: 6px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            text-decoration: none;
+            transition: all 0.18s ease;
+            font-family: 'Cairo', sans-serif;
+            white-space: nowrap;
+        }
+        .logo-action-btn.preview-btn {
+            background: var(--gold-pale);
+            border-color: var(--gold);
+            color: var(--green-dark);
+        }
+        .logo-action-btn.preview-btn:hover {
+            background: var(--gold);
+            color: white;
+        }
+        .logo-action-btn.download-btn {
+            background: var(--green-dark);
+            border-color: var(--green-dark);
+            color: white;
+        }
+        .logo-action-btn.download-btn:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* PREVIEW MODAL */
+        .preview-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(5,15,10,0.82);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+        .preview-overlay.open { display: flex; }
+        .preview-box {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            max-width: 650px;
+            width: 90%;
+            position: relative;
+            text-align: center;
+            direction: rtl;
+            animation: boxIn 0.28s ease;
+            box-shadow: 0 20px 70px rgba(0,0,0,0.45);
+            border: 2px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .preview-box-title {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            margin: 0.3rem 0 0.8rem;
+            flex: 0 0 auto;
+        }
+        .preview-img-frame {
+            background: white;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.2rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        .preview-img-frame img {
+            max-width: 100%;
+            max-height: 350px;
+            height: auto;
+            width: auto;
+            object-fit: contain;
+        }
+        .preview-close {
+            position: absolute; top: 0.85rem; left: 0.85rem;
+            width: 30px; height: 30px;
+            background: var(--card-bg); border: 1.5px solid var(--card-border);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 0.9rem; color: var(--text-dark);
+            transition: all 0.2s ease;
+        }
+        .preview-close:hover { background: var(--gold); color: white; border-color: var(--gold); transform: rotate(90deg); }
+        .preview-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--green-dark);
+            color: white;
+            padding: 0.55rem 1.6rem;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .preview-download-btn:hover { background: var(--gold); transform: scale(1.04); }
+
+        /* ══════════════════════════════════════
+           SECTION 3 – CLUB CARDS
+        ══════════════════════════════════════ */
+        #clubs { background: var(--page-bg); }
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4rem;
+        }
+        .club-card {
+            background: white;
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(31,58,44,0.07);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .club-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(201,160,48,0.2);
+            border-color: var(--gold);
+        }
+        .club-card-header {
+            background: var(--gold-pale);
+            border-bottom: 2px solid rgba(201,160,48,0.2);
+            padding: 0.85rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 90px;
+        }
+        .club-card-header img {
+            max-height: 70px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .club-card-body { padding: 1.1rem; flex: 1; display: flex; flex-direction: column; gap: 0.65rem; }
+        .club-card-name {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            line-height: 1.5;
+            text-align: center;
+            padding-bottom: 0.65rem;
+            border-bottom: 1.5px dashed var(--card-border);
+        }
+        .club-info-list { display: flex; flex-direction: column; gap: 0.45rem; flex: 1; }
+        .club-info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.55rem;
+            font-size: 0.78rem;
+            color: var(--text-body);
+            line-height: 1.5;
+        }
+        .club-info-row .icon { font-size: 0.92rem; flex-shrink: 0; margin-top: 0.05rem; }
+        .club-info-row strong { color: var(--green-dark); font-weight: 700; flex-shrink: 0; }
+        .club-info-row .placeholder { color: #999; font-style: italic; }
+        .club-bio {
+            background: var(--gold-pale);
+            border-right: 3px solid var(--gold);
+            border-radius: 0 8px 8px 0;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-mid);
+            line-height: 1.65;
+            margin-top: 0.3rem;
+        }
+        .club-btn {
+            display: block;
+            background: var(--green-dark);
+            color: white;
+            text-align: center;
+            padding: 0.65rem 1rem;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 0.8rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            position: relative;
+        }
+        .club-btn:hover {
+            background: var(--gold);
+            transform: scale(1.03);
+        }
+        .club-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            right: 50%;
+            transform: translateX(50%);
+            background: var(--green-dark);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            font-weight: 400;
+        }
+        .club-btn:hover::after { opacity: 1; }
+
+        /* ══════════════════════════════════════
+           SECTION 4 – DOCUMENTS
+        ══════════════════════════════════════ */
+        #docs { background: white; }
+        .docs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.4rem;
+        }
+        .doc-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem 1.6rem;
+            text-align: center;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.85rem;
+        }
+        .doc-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(201,160,48,0.18);
+            transform: translateY(-4px);
+        }
+        .doc-icon {
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 14px rgba(31,58,44,0.22);
+        }
+        .doc-title {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--green-dark);
+        }
+        .doc-desc {
+            font-size: 0.82rem;
+            color: var(--text-mid);
+            line-height: 1.7;
+            text-align: right;
+            max-width: 340px;
+        }
+        .doc-desc ul { padding-right: 1rem; list-style: disc; margin-top: 0.4rem; }
+        .doc-desc ul li { margin-bottom: 0.2rem; }
+        .doc-btn {
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 0.6rem 2rem;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        .doc-btn:hover { background: var(--green-dark); transform: scale(1.04); }
+
+        /* ══════════════════════════════════════
+           SECTION 5 – CONTACT
+        ══════════════════════════════════════ */
+        #contact { background: var(--page-bg); }
+        .contact-box {
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(31,58,44,0.25);
+        }
+        .contact-box::before {
+            content: '';
+            position: absolute;
+            top: -60px; left: -60px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: rgba(201,160,48,0.08);
+            pointer-events: none;
+        }
+        .contact-box::after {
+            content: '';
+            position: absolute;
+            bottom: -40px; right: -40px;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: rgba(201,160,48,0.06);
+            pointer-events: none;
+        }
+        .contact-box h3 {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 0.7rem;
+            position: relative;
+            z-index: 1;
+        }
+        .contact-box p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.82);
+            line-height: 1.75;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .contact-items {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        .contact-item {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(201,160,48,0.35);
+            border-radius: 12px;
+            padding: 0.75rem 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.88rem;
+            color: white;
+        }
+        .contact-item .icon { font-size: 1.2rem; }
+        .contact-item a { color: var(--gold); text-decoration: none; font-weight: 600; }
+        .contact-item a:hover { text-decoration: underline; }
+
+        /* ══════════════════════════════════════
+           MODAL
+        ══════════════════════════════════════ */
         .modal-overlay {
             display: none;
             position: fixed; inset: 0;
@@ -348,11 +860,8 @@
         }
         .modal-overlay.open { display: flex; }
         .modal-box {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            max-width: 460px; width: 92%;
-            position: relative;
+            background: white; border-radius: 20px; padding: 2rem;
+            max-width: 460px; width: 92%; position: relative;
             text-align: center; direction: rtl;
             animation: boxIn 0.3s ease;
             box-shadow: 0 18px 64px rgba(0,0,0,0.32);
@@ -366,8 +875,7 @@
             position: absolute; top: 1rem; left: 1rem;
             width: 32px; height: 32px;
             background: var(--card-bg); border: 1.5px solid var(--card-border);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
             cursor: pointer; font-size: 1rem; color: var(--text-dark);
             transition: all 0.2s ease; line-height: 1;
         }
@@ -376,72 +884,118 @@
             display: inline-flex; align-items: center; gap: 0.5rem;
             background: var(--green-dark); color: white;
             padding: 0.28rem 1rem 0.28rem 0.38rem;
-            border-radius: 20px; font-size: 0.78rem; font-weight: 600;
-            margin-bottom: 0.75rem;
+            border-radius: 20px; font-size: 0.78rem; font-weight: 600; margin-bottom: 0.75rem;
         }
         .modal-badge-num {
-            background: var(--gold); width: 24px; height: 24px;
-            border-radius: 50%;
+            background: var(--gold); width: 24px; height: 24px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-weight: 800; font-size: 0.78rem;
         }
-        .modal-title {
-            font-size: 1.05rem; font-weight: 800;
-            color: var(--text-dark); line-height: 1.5;
-            margin-bottom: 1.1rem;
-        }
+        .modal-title { font-size: 1.05rem; font-weight: 800; color: var(--text-dark); line-height: 1.5; margin-bottom: 1.1rem; }
         .modal-logo-frame {
-            background: var(--card-bg);
-            border: 2px solid var(--gold);
-            border-radius: 14px;
-            padding: 1.4rem;
-            margin-bottom: 1.1rem;
-            min-height: 190px;
-            display: flex; align-items: center; justify-content: center;
+            background: var(--card-bg); border: 2px solid var(--gold);
+            border-radius: 14px; padding: 1.4rem; margin-bottom: 1.1rem;
+            min-height: 190px; display: flex; align-items: center; justify-content: center;
         }
         .modal-logo-frame img { max-width: 100%; max-height: 190px; object-fit: contain; }
         .modal-btn {
-            background: var(--green-dark); color: white;
-            border: none; padding: 0.65rem 2rem;
-            border-radius: 10px; font-family: 'Cairo', sans-serif;
-            font-size: 0.88rem; font-weight: 700; cursor: pointer;
+            background: var(--green-dark); color: white; border: none;
+            padding: 0.65rem 2rem; border-radius: 10px;
+            font-family: 'Cairo', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer;
             transition: all 0.2s ease;
         }
         .modal-btn:hover { background: var(--gold); transform: scale(1.04); }
 
-        /* ══ FOOTER ══ */
+        /* ══════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════ */
         footer {
             background: var(--green-dark);
             color: rgba(255,255,255,0.68);
             text-align: center;
-            padding: 1.2rem 1rem;
+            padding: 1.5rem 1rem;
             font-size: 0.83rem;
-            margin-top: 1rem;
         }
         footer span { color: var(--gold); font-weight: 700; }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--gold); }
 
-        /* ══ RESPONSIVE ══ */
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
         @media (max-width: 1100px) {
             .main-grid { grid-template-columns: 1fr; }
             .col-left  { order: 3; }
             .col-right { order: 2; }
-            .map-panel { order: 1; position: static; }
+            .map-panel { order: 1; position: static; top: auto; }
             #map { height: 420px; }
             #arrows-svg { display: none; }
+            .clubs-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .navbar-nav { display: none; flex-direction: column; position: absolute; top: 62px; right: 0; left: 0; background: white; border-bottom: 2px solid var(--gold); padding: 0.75rem; gap: 0.3rem; z-index: 999; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+            .navbar-nav.open { display: flex; }
+            .navbar-toggle { display: flex; align-items: center; justify-content: center; }
+            .navbar-inner { position: relative; }
+            .clubs-grid { grid-template-columns: 1fr; }
+            .docs-grid { grid-template-columns: 1fr; }
+            .logos-grid { grid-template-columns: 1fr; }
+            .hero-stats { gap: 0.7rem; }
         }
         @media (max-width: 600px) {
-            .header-inner { padding: 1.2rem 1rem; gap: 1rem; }
-            .header-icon  { width: 50px; height: 50px; }
+            .hero-inner { padding: 1.5rem 1rem 1.2rem; gap: 1rem; }
+            .hero-icon  { width: 58px; height: 58px; }
             #map { height: 310px; }
+            .section { padding: 2rem 0.75rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-    <div class="header-inner">
-        <div class="header-icon">
+<!-- ══════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════ -->
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="#hero" class="navbar-brand">
+            <div class="brand-star brand-logo" aria-hidden="true">
+                <img src="https://oustadsana.com/assets/img/logo.png" alt="شعار جائزة أستاذ(ة) السنة" loading="eager">
+            </div>
+            <div class="brand-name">
+                منصة الأندية الجهوية
+                <span>جائزة أستاذ(ة) السنة</span>
+            </div>
+        </a>
+        <button class="navbar-toggle" id="navToggle" aria-label="القائمة">☰</button>
+        <ul class="navbar-nav" id="navMenu">
+            <li><a href="#hero">الرئيسية</a></li>
+            <li><a href="#distribution">التوزيع الجهوي</a></li>
+            <li><a href="#logos">شعارات الجهات</a></li>
+            <li><a href="#clubs">الأندية الجهوية</a></li>
+            <li><a href="#docs">الوثائق الرسمية</a></li>
+            <li><a href="#contact">تواصل</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section id="hero">
+    <div class="hero-inner">
+        <div class="hero-icon">
             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="32" cy="32" r="27" stroke="#c9a030" stroke-width="2.5"/>
                 <path d="M32 13 L36 24 L48 24 L38.5 31.5 L42 44 L32 36.5 L22 44 L25.5 31.5 L16 24 L28 24 Z"
@@ -449,150 +1003,542 @@
                 <circle cx="32" cy="32" r="3.5" fill="#c9a030" opacity="0.55"/>
             </svg>
         </div>
-        <div class="header-text">
+        <div class="hero-text">
             <h1>ورقة تعريفية بأندية "جائزة أستاذ(ة) السنة" حسب الجهات</h1>
-            <p>التوزيع الجهوي الرسمي حسب خريطة المغرب &nbsp;|&nbsp; 12 جهة &nbsp;|&nbsp; 12 نادي</p>
+            <p>منصة متكاملة للتعريف بالأندية الجهوية لجائزة أستاذ(ة) السنة عبر جهات المملكة المغربية الاثنتي عشرة</p>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="num">12</span><span class="lbl">جهة</span></div>
+                <div class="hero-stat"><span class="num">12</span><span class="lbl">نادي جهوي</span></div>
+                <div class="hero-stat"><span class="num">12</span><span class="lbl">شعار رسمي</span></div>
+            </div>
         </div>
     </div>
-    <div class="header-divider"></div>
-</header>
+    <div class="hero-divider"></div>
+</section>
 
-<!-- PAGE CONTENT -->
-<div class="page-wrapper">
-    <div class="main-grid">
+<!-- ══════════════════════════════════════
+     SECTION 1 – DISTRIBUTION
+══════════════════════════════════════ -->
+<section class="section" id="distribution">
+    <div class="section-inner">
+        <div class="section-title">التوزيع الجهوي الرسمي للأندية</div>
+        <p class="section-sub">حسب خريطة المغرب — 12 جهة — 12 نادي جهوي لجائزة أستاذ(ة) السنة</p>
+        <div class="section-divider"></div>
 
-        <!-- RIGHT COLUMN: Regions 1–6 -->
-        <div class="col-right">
-            <div class="region-card" id="b1" data-region="1">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png" alt="طنجة تطوان الحسيمة" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة طنجة–تطوان–الحسيمة</div>
-                        <div class="card-badge"><span class="badge-num">1</span><span>الجهة الأولى</span></div>
+        <div class="main-grid">
+            <!-- RIGHT COLUMN: Regions 1–6 -->
+            <div class="col-right">
+                <div class="region-card" id="b1" data-region="1">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png" alt="طنجة تطوان الحسيمة" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة طنجة–تطوان–الحسيمة</div>
+                            <div class="card-badge"><span class="badge-num">1</span><span>الجهة الأولى</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="region-card" id="b2" data-region="2">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/2VmF9j7V/jht-alshrq.png" alt="الشرق" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الشرق</div>
+                            <div class="card-badge"><span class="badge-num">2</span><span>الجهة الثانية</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="region-card" id="b3" data-region="3">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png" alt="فاس مكناس" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة فاس–مكناس</div>
+                            <div class="card-badge"><span class="badge-num">3</span><span>الجهة الثالثة</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="region-card" id="b4" data-region="4">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png" alt="الرباط سلا القنيطرة" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الرباط–سلا–القنيطرة</div>
+                            <div class="card-badge"><span class="badge-num">4</span><span>الجهة الرابعة</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="region-card" id="b5" data-region="5">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png" alt="بني ملال خنيفرة" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة بني ملال–خنيفرة</div>
+                            <div class="card-badge"><span class="badge-num">5</span><span>الجهة الخامسة</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="region-card" id="b6" data-region="6">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png" alt="الدار البيضاء سطات" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الدار البيضاء–سطات</div>
+                            <div class="card-badge"><span class="badge-num">6</span><span>الجهة السادسة</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="region-card" id="b2" data-region="2">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/2VmF9j7V/jht-alshrq.png" alt="الشرق" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الشرق</div>
-                        <div class="card-badge"><span class="badge-num">2</span><span>الجهة الثانية</span></div>
+
+            <!-- CENTER COLUMN: Map -->
+            <div class="map-panel">
+                <div class="map-panel-header">
+                    <h2>🗺️ خريطة توزيع أندية الجائزة</h2>
+                    <div class="map-dot-legend">
+                        <div class="legend-dot"></div>
+                        <span>موقع الجهة</span>
                     </div>
                 </div>
+                <div id="map"></div>
             </div>
-            <div class="region-card" id="b3" data-region="3">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png" alt="فاس مكناس" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة فاس–مكناس</div>
-                        <div class="card-badge"><span class="badge-num">3</span><span>الجهة الثالثة</span></div>
+
+            <!-- LEFT COLUMN: Regions 7–12 -->
+            <div class="col-left">
+                <div class="region-card" id="b7" data-region="7">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png" alt="مراكش آسفي" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة مراكش–آسفي</div>
+                            <div class="card-badge"><span class="badge-num">7</span><span>الجهة السابعة</span></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="region-card" id="b4" data-region="4">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png" alt="الرباط سلا القنيطرة" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الرباط–سلا–القنيطرة</div>
-                        <div class="card-badge"><span class="badge-num">4</span><span>الجهة الرابعة</span></div>
+                <div class="region-card" id="b8" data-region="8">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png" alt="سوس ماسة" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة سوس–ماسة</div>
+                            <div class="card-badge"><span class="badge-num">8</span><span>الجهة الثامنة</span></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="region-card" id="b5" data-region="5">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png" alt="بني ملال خنيفرة" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة بني ملال–خنيفرة</div>
-                        <div class="card-badge"><span class="badge-num">5</span><span>الجهة الخامسة</span></div>
+                <div class="region-card" id="b9" data-region="9">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png" alt="درعة تافيلالت" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة درعة–تافيلالت</div>
+                            <div class="card-badge"><span class="badge-num">9</span><span>الجهة التاسعة</span></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="region-card" id="b6" data-region="6">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png" alt="الدار البيضاء سطات" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الدار البيضاء–سطات</div>
-                        <div class="card-badge"><span class="badge-num">6</span><span>الجهة السادسة</span></div>
+                <div class="region-card" id="b10" data-region="10">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png" alt="كلميم واد نون" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة كلميم–واد نون</div>
+                            <div class="card-badge"><span class="badge-num">10</span><span>الجهة العاشرة</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="region-card" id="b11" data-region="11">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png" alt="العيون الساقية الحمراء" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة العيون–الساقية الحمراء</div>
+                            <div class="card-badge"><span class="badge-num">11</span><span>الجهة الحادية عشرة</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="region-card" id="b12" data-region="12">
+                    <div class="card-inner">
+                        <div class="logo-wrap"><img src="https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png" alt="الداخلة وادي الذهب" loading="lazy"></div>
+                        <div class="card-text">
+                            <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الداخلة–وادي الذهب</div>
+                            <div class="card-badge"><span class="badge-num">12</span><span>الجهة الثانية عشرة</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
-        <!-- CENTER COLUMN: Map -->
-        <div class="map-panel">
-            <div class="map-panel-header">
-                <h2>🗺️ خريطة توزيع أندية الجائزة</h2>
-                <div class="map-dot-legend">
-                    <div class="legend-dot"></div>
-                    <span>موقع الجهة</span>
+<!-- ══════════════════════════════════════
+     SECTION 2 – LOGOS
+══════════════════════════════════════ -->
+<section class="section" id="logos">
+    <div class="section-inner">
+        <div class="section-title">شعارات الجهات الرسمية</div>
+        <p class="section-sub">الشعار المربّع والشعار المستطيل لكل نادي من أندية جائزة أستاذ(ة) السنة</p>
+        <div class="section-divider"></div>
+        <div class="logos-grid">
+            <!-- 1 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة طنجة–تطوان–الحسيمة</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة الأولى</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png','جهة طنجة–تطوان–الحسيمة – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/T3mS3Q79/Tanger.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/T3mS3Q79/Tanger.png','جهة طنجة–تطوان–الحسيمة – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/T3mS3Q79/Tanger.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id="map"></div>
+            <!-- 2 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة الشرق</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة الثانية</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/2VmF9j7V/jht-alshrq.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/2VmF9j7V/jht-alshrq.png','جهة الشرق – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/2VmF9j7V/jht-alshrq.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/g2R524tF/Oriental.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/g2R524tF/Oriental.png','جهة الشرق – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/g2R524tF/Oriental.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 3 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة فاس–مكناس</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة الثالثة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png','جهة فاس–مكناس – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/NjTVjbJC/Fes-Meknes.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/NjTVjbJC/Fes-Meknes.png','جهة فاس–مكناس – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/NjTVjbJC/Fes-Meknes.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 4 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة الرباط–سلا–القنيطرة</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة الرابعة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png','جهة الرباط–سلا–القنيطرة – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/L8f78vCB/Rabat-Sale-Kenitra.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/L8f78vCB/Rabat-Sale-Kenitra.png','جهة الرباط–سلا–القنيطرة – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/L8f78vCB/Rabat-Sale-Kenitra.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 5 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة بني ملال–خنيفرة</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة الخامسة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png','جهة بني ملال–خنيفرة – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/7Yjd4jVS/Beni-Melal-khenifra.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/7Yjd4jVS/Beni-Melal-khenifra.png','جهة بني ملال–خنيفرة – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/7Yjd4jVS/Beni-Melal-khenifra.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 6 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة الدار البيضاء–سطات</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة السادسة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png','جهة الدار البيضاء–سطات – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/65FgKF0R/Casablanca-Settat.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/65FgKF0R/Casablanca-Settat.png','جهة الدار البيضاء–سطات – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/65FgKF0R/Casablanca-Settat.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 7 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة مراكش–آسفي</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة السابعة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png','جهة مراكش–آسفي – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/zX46N4jg/Marakech-Safi.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/zX46N4jg/Marakech-Safi.png','جهة مراكش–آسفي – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/zX46N4jg/Marakech-Safi.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 8 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة سوس–ماسة</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة الثامنة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png','جهة سوس–ماسة – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/zXy69qT9/sous-Massa.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/zXy69qT9/sous-Massa.png','جهة سوس–ماسة – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/zXy69qT9/sous-Massa.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 9 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة درعة–تافيلالت</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة التاسعة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png','جهة درعة–تافيلالت – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/dtgpFgBk/Deraa-Tafilalet.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/dtgpFgBk/Deraa-Tafilalet.png','جهة درعة–تافيلالت – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/dtgpFgBk/Deraa-Tafilalet.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 10 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة كلميم–واد نون</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة العاشرة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png','جهة كلميم–واد نون – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/RVWyjvcr/Guelmim.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/RVWyjvcr/Guelmim.png','جهة كلميم–واد نون – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/RVWyjvcr/Guelmim.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 11 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة العيون–الساقية الحمراء</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة الحادية عشرة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png','جهة العيون–الساقية الحمراء – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/vH4kpG5J/Laayoune.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/vH4kpG5J/Laayoune.png','جهة العيون–الساقية الحمراء – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/vH4kpG5J/Laayoune.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 12 -->
+            <div class="logo-card">
+                <div class="logo-card-title">جهة الداخلة–وادي الذهب</div>
+                <div class="logo-card-sub">نادي جائزة أستاذ(ة) السنة – الجهة الثانية عشرة</div>
+                <div class="logo-card-images">
+                    <div class="logo-img-box square">
+                        <img src="https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png" alt="مربع">
+                        <span class="logo-img-label">مربّع</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png','جهة الداخلة–وادي الذهب – مربّع')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                    <div class="logo-img-box rect">
+                        <img src="https://i.postimg.cc/jdDmGRyB/dakhla-Oued-dahab.png" alt="مستطيل">
+                        <span class="logo-img-label">مستطيل</span>
+                        <div class="logo-img-actions">
+                            <button class="logo-action-btn preview-btn" onclick="previewLogo('https://i.postimg.cc/jdDmGRyB/dakhla-Oued-dahab.png','جهة الداخلة–وادي الذهب – مستطيل')">👁 معاينة</button>
+                            <a class="logo-action-btn download-btn" href="https://i.postimg.cc/jdDmGRyB/dakhla-Oued-dahab.png" download target="_blank">⬇ تحميل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
 
-        <!-- LEFT COLUMN: Regions 7–12 -->
-        <div class="col-left">
-            <div class="region-card" id="b7" data-region="7">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png" alt="مراكش آسفي" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة مراكش–آسفي</div>
-                        <div class="card-badge"><span class="badge-num">7</span><span>الجهة السابعة</span></div>
+<!-- ══════════════════════════════════════
+     SECTION 3 – CLUB CARDS
+══════════════════════════════════════ -->
+<section class="section" id="clubs">
+    <div class="section-inner">
+        <div class="section-title">الأندية الجهوية لجائزة أستاذ(ة) السنة</div>
+        <p class="section-sub">بطاقات تعريفية للأندية الجهوية الـ 12 عبر مناطق المملكة المغربية</p>
+        <div class="section-divider"></div>
+        <div class="clubs-grid" id="clubsGrid"></div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 4 – DOCUMENTS
+══════════════════════════════════════ -->
+<section class="section" id="docs">
+    <div class="section-inner">
+        <div class="section-title">الوثائق المرجعية الرسمية للأندية</div>
+        <p class="section-sub">الميثاق التنظيمي والبطاقة التقنية للمنصة الجهوية</p>
+        <div class="section-divider"></div>
+        <div class="docs-grid">
+            <div class="doc-card">
+                <div class="doc-icon">📄</div>
+                <div class="doc-title">الميثاق التنظيمي للأندية الجهوية</div>
+                <div class="doc-desc">
+                    وثيقة مرجعية رسمية تحدد الإطار التنظيمي والقانوني للأندية الجهوية لجائزة أستاذ(ة) السنة، وتتضمن:
+                    <ul>
+                        <li>الأهداف الاستراتيجية للأندية</li>
+                        <li>القيم والمبادئ الموجِّهة</li>
+                        <li>طرق الاشتغال والتنظيم الداخلي</li>
+                        <li>آليات التنسيق بين الجهات</li>
+                    </ul>
+                </div>
+                <a href="https://drive.google.com/file/d/1MKu4HujT0UgD8BZeKYa-oQo8WuLUmvoj/view" target="_blank" class="doc-btn">📥 تحميل الوثيقة</a>
+            </div>
+            <div class="doc-card">
+                <div class="doc-icon">⚙️</div>
+                <div class="doc-title">البطاقة التقنية</div>
+                <div class="doc-desc">
+                    وثيقة تقنية رسمية خاصة بالأندية الجهوية لجائزة أستاذ(ة) السنة، تُقدّم تصوراً شاملاً لوظائف النادي، مجالات تدخله، هيكلته التنظيمية، وشركائه الاستراتيجيين داخل المنظومة التربوية. وتتضمن:
+                    <ul>
+                        <li>تعريف شامل بالنادي الجهوي وطبيعته المهنية</li>
+                        <li>الأهداف العامة المرتبطة بدعم التميّز والإبداع التربوي</li>
+                        <li>مجالات التخصص (الذكاء الاصطناعي، التكنولوجيا التربوية، المسرح…)</li>
+                        <li>مجالات التدخل: التأطير، الورشات الجهوية، التنسيق الوطني، المواكبة التربوية</li>
+                        <li>الهيكلة التنظيمية (المنسق الجهوي، اللجان التربوية، لجنة التواصل…)</li>
+                        <li>الشراكات المؤسساتية (الجامعات، المدارس العليا، المراكز الجهوية…)</li>
+                        <li>آليات التتبع والتقويم والتقرير السنوي</li>
+                    </ul>
+                </div>
+                <a href="https://drive.google.com/file/d/1bkU8W84ScB6EX0JzReosWN_pHCj2l1vs/view?usp=sharing" target="_blank" class="doc-btn">📥 تحميل الوثيقة</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 5 – CONTACT
+══════════════════════════════════════ -->
+<section class="section" id="contact">
+    <div class="section-inner">
+        <div class="section-divider"></div>
+        <div class="contact-box">
+            <h3>تواصل معنا</h3>
+            <p>يمكن للراغبين في الاستفسار أو الانضمام التنسيق عبر البريد الإلكتروني الرسمي للجائزة، أو عبر منسقي الأندية الجهوية بعد الإعلان عنهم رسمياً.</p>
+            <div class="contact-items">
+                <div class="contact-item">
+                    <span class="icon">✉️</span>
+                    <div>
+                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:2px">البريد الإلكتروني</div>
+                        <a href="mailto:oriental@oustadsana.ma">oriental@oustadsana.ma</a>
                     </div>
                 </div>
-            </div>
-            <div class="region-card" id="b8" data-region="8">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png" alt="سوس ماسة" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة سوس–ماسة</div>
-                        <div class="card-badge"><span class="badge-num">8</span><span>الجهة الثامنة</span></div>
+                <div class="contact-item">
+                    <span class="icon">📍</span>
+                    <div>
+                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:2px">المقر</div>
+                        <span style="color:var(--gold-light)">المملكة المغربية – 12 جهة</span>
                     </div>
                 </div>
-            </div>
-            <div class="region-card" id="b9" data-region="9">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png" alt="درعة تافيلالت" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة درعة–تافيلالت</div>
-                        <div class="card-badge"><span class="badge-num">9</span><span>الجهة التاسعة</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="region-card" id="b10" data-region="10">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png" alt="كلميم واد نون" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة كلميم–واد نون</div>
-                        <div class="card-badge"><span class="badge-num">10</span><span>الجهة العاشرة</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="region-card" id="b11" data-region="11">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png" alt="العيون الساقية الحمراء" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة العيون–الساقية الحمراء</div>
-                        <div class="card-badge"><span class="badge-num">11</span><span>الجهة الحادية عشرة</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="region-card" id="b12" data-region="12">
-                <div class="card-inner">
-                    <div class="logo-wrap"><img src="https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png" alt="الداخلة وادي الذهب" loading="lazy"></div>
-                    <div class="card-text">
-                        <div class="card-name">نادي جائزة أستاذ(ة) السنة – جهة الداخلة–وادي الذهب</div>
-                        <div class="card-badge"><span class="badge-num">12</span><span>الجهة الثانية عشرة</span></div>
+                <div class="contact-item">
+                    <span class="icon">🌐</span>
+                    <div>
+                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:2px">الموقع</div>
+                        <a href="https://prix-professeur-annee.vercel.app/" target="_blank">prix-professeur-annee.vercel.app</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
-    </div><!-- /.main-grid -->
-</div><!-- /.page-wrapper -->
-
-<!-- SVG Arrow Overlay -->
+<!-- SVG Arrows -->
 <svg id="arrows-svg" aria-hidden="true">
     <defs>
         <marker id="arrowhead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
@@ -617,35 +1563,146 @@
     </div>
 </div>
 
+<!-- Footer -->
 <footer>
-    <p>© 2025 &nbsp;—&nbsp; <span>جائزة أستاذ(ة) السنة</span> &nbsp;—&nbsp; جميع الحقوق محفوظة</p>
+    <div class="footer-links">
+        <a href="#hero">الرئيسية</a>
+        <a href="#distribution">التوزيع الجهوي</a>
+        <a href="#logos">الشعارات</a>
+        <a href="#clubs">الأندية</a>
+        <a href="#docs">الوثائق</a>
+        <a href="#contact">تواصل</a>
+    </div>
+    <p>© 2026 &nbsp;—&nbsp; <span>جائزة أستاذ(ة) السنة</span> &nbsp;—&nbsp; منصة الأندية الجهوية &nbsp;—&nbsp; جميع الحقوق محفوظة</p>
 </footer>
+
+<!-- PREVIEW MODAL -->
+<div class="preview-overlay" id="previewOverlay">
+    <div class="preview-box">
+        <button class="preview-close" id="previewClose" title="إغلاق">✕</button>
+        <div class="preview-box-title" id="previewTitle">معاينة الشعار</div>
+        <div class="preview-img-frame">
+            <img id="previewImg" src="" alt="معاينة الشعار">
+        </div>
+        <a id="previewDownloadBtn" href="#" download target="_blank" class="preview-download-btn">
+            ⬇ تحميل الشعار بالحجم الأصلي
+        </a>
+    </div>
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* ══════════════════════════════════════════════════════
-   MAPPING: GeoJSON id → region number & full data
+   NAVBAR TOGGLE
 ══════════════════════════════════════════════════════ */
+document.getElementById('navToggle').addEventListener('click', () => {
+    document.getElementById('navMenu').classList.toggle('open');
+});
+document.querySelectorAll('.navbar-nav a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navMenu').classList.remove('open'));
+});
+
+/* ══════════════════════════════════════════════════════
+   REGIONS DATA — NEW SOURCE
+══════════════════════════════════════════════════════ */
+// مابينغ من id إلى رقم الجهة
 const ID_TO_NUM = {
-    "MA01": 1,  "MA02": 2,  "MA03": 3,  "MA04": 4,
-    "MA05": 5,  "MA06": 6,  "MA07": 7,  "MA09": 8,
-    "MA08": 9,  "MA10": 10, "MA11": 11, "MA12": 12
+    "MA01": 1,
+    "MA02": 2,
+    "MA03": 3,
+    "MA04": 4,
+    "MA05": 5,
+    "MA06": 6,
+    "MA07": 7,
+    "MA08": 8,
+    "MA09": 9,
+    "MA10": 10,
+    "MA11": 11,
+    "MA12": 12
 };
 
-const REGIONS = {
-    1:  { name:"نادي جائزة أستاذ(ة) السنة – جهة طنجة–تطوان–الحسيمة",    label:"الجهة الأولى",          logo:"https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png"     },
-    2:  { name:"نادي جائزة أستاذ(ة) السنة – جهة الشرق",                   label:"الجهة الثانية",          logo:"https://i.postimg.cc/2VmF9j7V/jht-alshrq.png"                  },
-    3:  { name:"نادي جائزة أستاذ(ة) السنة – جهة فاس–مكناس",              label:"الجهة الثالثة",          logo:"https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png"               },
-    4:  { name:"نادي جائزة أستاذ(ة) السنة – جهة الرباط–سلا–القنيطرة",   label:"الجهة الرابعة",          logo:"https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png"    },
-    5:  { name:"نادي جائزة أستاذ(ة) السنة – جهة بني ملال–خنيفرة",       label:"الجهة الخامسة",          logo:"https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png"       },
-    6:  { name:"نادي جائزة أستاذ(ة) السنة – جهة الدار البيضاء–سطات",    label:"الجهة السادسة",          logo:"https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png"     },
-    7:  { name:"نادي جائزة أستاذ(ة) السنة – جهة مراكش–آسفي",            label:"الجهة السابعة",          logo:"https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png"            },
-    8:  { name:"نادي جائزة أستاذ(ة) السنة – جهة سوس–ماسة",              label:"الجهة الثامنة",          logo:"https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png"               },
-    9:  { name:"نادي جائزة أستاذ(ة) السنة – جهة درعة–تافيلالت",         label:"الجهة التاسعة",          logo:"https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png"          },
-    10: { name:"نادي جائزة أستاذ(ة) السنة – جهة كلميم–واد نون",         label:"الجهة العاشرة",          logo:"https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png"          },
-    11: { name:"نادي جائزة أستاذ(ة) السنة – جهة العيون–الساقية الحمراء",label:"الجهة الحادية عشرة",     logo:"https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png" },
-    12: { name:"نادي جائزة أستاذ(ة) السنة – جهة الداخلة–وادي الذهب",    label:"الجهة الثانية عشرة",     logo:"https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png"    }
+// أسماء الجهات بالعربية حسب نفس الترقيم
+const REGION_NAMES_AR = {
+    1:  "جهة طنجة–تطوان–الحسيمة",
+    2:  "جهة الشرق",
+    3:  "جهة فاس–مكناس",
+    4:  "جهة الرباط–سلا–القنيطرة",
+    5:  "جهة بني ملال–خنيفرة",
+    6:  "جهة الدار البيضاء–سطات",
+    7:  "جهة مراكش–آسفي",
+    8:  "جهة درعة–تافيلالت",
+    9:  "جهة سوس–ماسة",
+    10: "جهة كلميم–واد نون",
+    11: "جهة العيون–الساقية الحمراء",
+    12: "جهة الداخلة–وادي الذهب"
 };
+
+// رابط مصدر GeoJSON الرسمي
+const GEOJSON_URL = 'https://raw.githubusercontent.com/ikbalrtx-cmd/prix-professeur-annee/refs/heads/main/ma.json';
+
+const REGIONS = {
+    1:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[1],    label:"الجهة الأولى",         logo:"https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png",  rect:"https://i.postimg.cc/T3mS3Q79/Tanger.png" },
+    2:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[2],    label:"الجهة الثانية",         logo:"https://i.postimg.cc/2VmF9j7V/jht-alshrq.png",               rect:"https://i.postimg.cc/g2R524tF/Oriental.png",
+          coordinator:"إقبال أوعيسى", phone:"0660053335", email:"ikbal.ouaissa@taalim.ma", website:"https://prix-professeur-annee.vercel.app/", members:"عدنان الكولالي" },
+    3:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[3],    label:"الجهة الثالثة",         logo:"https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png",            rect:"https://i.postimg.cc/NjTVjbJC/Fes-Meknes.png" },
+    4:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[4],    label:"الجهة الرابعة",         logo:"https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png", rect:"https://i.postimg.cc/L8f78vCB/Rabat-Sale-Kenitra.png" },
+    5:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[5],    label:"الجهة الخامسة",         logo:"https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png",    rect:"https://i.postimg.cc/7Yjd4jVS/Beni-Melal-khenifra.png" },
+    6:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[6],    label:"الجهة السادسة",         logo:"https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png",  rect:"https://i.postimg.cc/65FgKF0R/Casablanca-Settat.png" },
+    7:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[7],    label:"الجهة السابعة",         logo:"https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png",         rect:"https://i.postimg.cc/zX46N4jg/Marakech-Safi.png" },
+    8:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[8],    label:"الجهة الثامنة",         logo:"https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png",       rect:"https://i.postimg.cc/dtgpFgBk/Deraa-Tafilalet.png" },
+    9:  { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[9],    label:"الجهة التاسعة",         logo:"https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png",            rect:"https://i.postimg.cc/zXy69qT9/sous-Massa.png" },
+    10: { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[10],   label:"الجهة العاشرة",         logo:"https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png",       rect:"https://i.postimg.cc/RVWyjvcr/Guelmim.png" },
+    11: { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[11],   label:"الجهة الحادية عشرة",    logo:"https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png", rect:"https://i.postimg.cc/vH4kpG5J/Laayoune.png",
+          coordinator:"اسماعيل باحساين", phone:"0673220186" },
+    12: { name:"نادي جائزة أستاذ(ة) السنة – " + REGION_NAMES_AR[12],   label:"الجهة الثانية عشرة",    logo:"https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png", rect:"https://i.postimg.cc/jdDmGRyB/dakhla-Oued-dahab.png" }
+};
+
+/* ══════════════════════════════════════════════════════
+   BUILD CLUB CARDS
+══════════════════════════════════════════════════════ */
+(function buildClubCards() {
+    const grid = document.getElementById('clubsGrid');
+    for (let n = 1; n <= 12; n++) {
+        const r = REGIONS[n];
+        const coordRow  = r.coordinator
+            ? `<div class="club-info-row"><span class="icon">👤</span><strong>المنسق/ة:</strong><span>${r.coordinator}</span></div>`
+            : `<div class="club-info-row"><span class="icon">👤</span><strong>المنسق/ة:</strong><span class="placeholder">سيتم التعيين الرسمي لاحقاً</span></div>`;
+        const phoneRow  = r.phone
+            ? `<div class="club-info-row"><span class="icon">☎️</span><strong>الهاتف:</strong><a href="tel:${r.phone}" style="color:var(--gold);font-size:0.78rem">${r.phone}</a></div>`
+            : `<div class="club-info-row"><span class="icon">☎️</span><strong>الهاتف:</strong><span class="placeholder">سيتم الإعلان بعد التعيين</span></div>`;
+        const emailRow  = r.email
+            ? `<div class="club-info-row"><span class="icon">✉️</span><strong>البريد:</strong><a href="mailto:${r.email}" style="color:var(--gold);font-size:0.78rem">${r.email}</a></div>`
+            : `<div class="club-info-row"><span class="icon">✉️</span><strong>البريد:</strong><span class="placeholder">سيتم الإعلان بعد التعيين</span></div>`;
+        const webRow    = r.website
+            ? `<div class="club-info-row"><span class="icon">🌐</span><strong>الموقع:</strong><a href="${r.website}" target="_blank" style="color:var(--gold);font-size:0.78rem">${r.website.replace('https://','')}</a></div>`
+            : `<div class="club-info-row"><span class="icon">🌐</span><strong>الموقع:</strong><span class="placeholder">سيتم التفعيل قريباً</span></div>`;
+        const membersRow = r.members
+            ? `<div class="club-info-row"><span class="icon">🧑‍🤝‍🧑</span><strong>الأعضاء:</strong><span>${r.members}</span></div>`
+            : `<div class="club-info-row"><span class="icon">🧑‍🤝‍🧑</span><strong>الأعضاء:</strong><span class="placeholder">سيتم الإعلان لاحقاً</span></div>`;
+        grid.innerHTML += `
+        <div class="club-card">
+            <div class="club-card-header">
+                <img src="${r.rect}" alt="${r.name}" loading="lazy">
+            </div>
+            <div class="club-card-body">
+                <div class="club-card-name">${r.name}</div>
+                <div class="club-info-list">
+                    ${coordRow}
+                    ${phoneRow}
+                    ${emailRow}
+                    ${webRow}
+                    ${membersRow}
+                </div>
+                <div class="club-bio">
+                    يُسهم النادي في تأطير المبادرات التربوية الجهوية من خلال التعريف بالجائزة، ومواكبة الأستاذات والأساتذة، وتنظيم برامج التكوين والتواصل، وتنسيق المشاريع المشتركة بين المؤسسات التعليمية، بما يعزز الابتكار وجودة الممارسات المهنية داخل الجهة.
+                </div>
+                <button class="club-btn" data-tooltip="سيتم تفعيل نماذج الانضمام قريباً" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+                    ✨ طلب الانضمام للنادي
+                </button>
+            </div>
+        </div>`;
+    }
+})();
 
 /* ══════════════════════════════════════════════════════
    MAP INIT
@@ -658,261 +1715,126 @@ const map = L.map('map', {
     attributionControl: false
 });
 
-/* Style helpers */
-const STYLE_NORMAL = {
-    fillColor:   '#fdf8ec',
-    fillOpacity: 0.82,
-    color:       '#c9a030',
-    weight:      1.8,
-    opacity:     1
-};
-const STYLE_HOVER = {
-    fillColor:   '#c9a030',
-    fillOpacity: 0.38,
-    color:       '#c9a030',
-    weight:      3,
-    opacity:     1
-};
+const STYLE_NORMAL = { fillColor:'#fdf8ec', fillOpacity:0.82, color:'#c9a030', weight:1.8, opacity:1 };
+const STYLE_HOVER  = { fillColor:'#c9a030', fillOpacity:0.38, color:'#c9a030', weight:3,   opacity:1 };
 
-/* Store layer + marker references keyed by region_num */
-const regionLayers = {};   // num → Leaflet layer
-const dotMarkers   = {};   // num → Leaflet marker
+const regionLayers = {};
+const dotMarkers   = {};
 
-/* ══════════════════════════════════════════════════════
-   HIGHLIGHT HELPERS
-══════════════════════════════════════════════════════ */
 function highlightRegion(num, on) {
     const layer = regionLayers[num];
     if (!layer) return;
-    try {
-        layer.setStyle(on ? STYLE_HOVER : STYLE_NORMAL);
-        if (on) layer.bringToFront();
-    } catch(e) {}
+    try { layer.setStyle(on ? STYLE_HOVER : STYLE_NORMAL); if (on) layer.bringToFront(); } catch(e) {}
 }
-
 function highlightDot(num, on) {
     const marker = dotMarkers[num];
     if (!marker) return;
-    const el  = marker.getElement();
-    if (!el)  return;
+    const el = marker.getElement();
+    if (!el) return;
     const dot = el.querySelector('.region-num-dot');
     if (!dot) return;
     dot.classList.toggle('dot-highlighted', on);
 }
-
 function highlightCard(num, on) {
     const card = document.getElementById(`b${num}`);
     if (!card) return;
     card.classList.toggle('highlighted', on);
 }
 
-/* ══════════════════════════════════════════════════════
-   COMPUTE POLYGON CENTROID (for dot placement)
-   نستخدم getBounds().getCenter() من Leaflet لأنها أدق
-══════════════════════════════════════════════════════ */
 function getCentroid(feature) {
     try {
-        /* الطريقة الأدق: نبني layer مؤقت ونأخذ مركز الـ bounds */
         const tmpLayer = L.geoJSON(feature);
-        const center   = tmpLayer.getBounds().getCenter();
+        const center = tmpLayer.getBounds().getCenter();
         return [center.lat, center.lng];
     } catch(e) {
-        /* احتياطي: متوسط إحداثيات حسابي */
         const geom = feature.geometry;
         let coords = [];
-        if (geom.type === 'Polygon') {
-            coords = geom.coordinates[0];
-        } else if (geom.type === 'MultiPolygon') {
+        if (geom.type === 'Polygon') coords = geom.coordinates[0];
+        else if (geom.type === 'MultiPolygon') {
             let maxLen = 0;
-            geom.coordinates.forEach(poly => {
-                if (poly[0].length > maxLen) { maxLen = poly[0].length; coords = poly[0]; }
-            });
+            geom.coordinates.forEach(poly => { if (poly[0].length > maxLen) { maxLen = poly[0].length; coords = poly[0]; } });
         }
-        if (!coords.length) return [0, 0];
+        if (!coords.length) return [0,0];
         let sumLng = 0, sumLat = 0;
-        coords.forEach(([lng, lat]) => { sumLng += lng; sumLat += lat; });
-        return [sumLat / coords.length, sumLng / coords.length];
+        coords.forEach(([lng,lat]) => { sumLng += lng; sumLat += lat; });
+        return [sumLat/coords.length, sumLng/coords.length];
     }
 }
 
-/* ══════════════════════════════════════════════════════
-   LOAD GEOJSON → DRAW POLYGONS + DOTS
-══════════════════════════════════════════════════════ */
-
 function processGeoJSON(data) {
-    /* 1 ─ Draw polygons — one layer per feature */
     data.features.forEach(feature => {
         const gid = feature.properties.id;
         const num = ID_TO_NUM[gid];
         if (!num) return;
-
-        const layer = L.geoJSON(feature, {
-            style: () => ({ ...STYLE_NORMAL })
-        });
-
-        layer.on('mouseover', () => {
-            layer.setStyle(STYLE_HOVER);
-            layer.bringToFront();
-            highlightCard(num, true);
-            highlightDot(num, true);
-            showArrow(num);
-            updateArrowPositions();
-        });
-        layer.on('mouseout', () => {
-            layer.setStyle(STYLE_NORMAL);
-            highlightCard(num, false);
-            highlightDot(num, false);
-            hideArrow(num);
-        });
+        const layer = L.geoJSON(feature, { style: () => ({ ...STYLE_NORMAL }) });
+        layer.on('mouseover', () => { layer.setStyle(STYLE_HOVER); layer.bringToFront(); highlightCard(num,true); highlightDot(num,true); showArrow(num); updateArrowPositions(); });
+        layer.on('mouseout',  () => { layer.setStyle(STYLE_NORMAL); highlightCard(num,false); highlightDot(num,false); hideArrow(num); });
         layer.on('click', () => openModal(num));
-
         layer.addTo(map);
         regionLayers[num] = layer;
     });
 
-    /* 2 ─ Place numbered dots at polygon centroids */
     data.features.forEach(feature => {
         const gid = feature.properties.id;
         const num = ID_TO_NUM[gid];
         if (!num) return;
-
         const center = getCentroid(feature);
         const region = REGIONS[num];
-
         const icon = L.divIcon({
             className: 'region-label-icon',
             html: `<div class="region-num-dot" id="dot${num}">${num}</div>`,
-            iconSize:   [28, 28],
-            iconAnchor: [14, 14],
-            popupAnchor:[0, -18]
+            iconSize:[28,28], iconAnchor:[14,14], popupAnchor:[0,-18]
         });
-
-        const marker = L.marker(center, { icon, zIndexOffset: 1000 }).addTo(map);
-
-        const popupHtml = `
-            <div class="popup-inner">
-                <div class="popup-num">${num}</div>
-                <div class="popup-region">${region.label}</div>
-                <div class="popup-club">${region.name}</div>
-                <img class="popup-logo" src="${region.logo}" alt="شعار">
-            </div>`;
-        marker.bindPopup(popupHtml, { maxWidth: 260, closeButton: true });
-
-        marker.on('mouseover', () => {
-            if (regionLayers[num]) { regionLayers[num].setStyle(STYLE_HOVER); regionLayers[num].bringToFront(); }
-            highlightCard(num, true);
-            highlightDot(num, true);
-            showArrow(num);
-            updateArrowPositions();
-        });
-        marker.on('mouseout', () => {
-            if (regionLayers[num]) regionLayers[num].setStyle(STYLE_NORMAL);
-            highlightCard(num, false);
-            highlightDot(num, false);
-            hideArrow(num);
-        });
+        const marker = L.marker(center, { icon, zIndexOffset:1000 }).addTo(map);
+        const popupHtml = `<div class="popup-inner"><div class="popup-num">${num}</div><div class="popup-region">${region.label}</div><div class="popup-club">${region.name}</div><img class="popup-logo" src="${region.logo}" alt="شعار"></div>`;
+        marker.bindPopup(popupHtml, { maxWidth:260, closeButton:true });
+        marker.on('mouseover', () => { if(regionLayers[num]){regionLayers[num].setStyle(STYLE_HOVER);regionLayers[num].bringToFront();} highlightCard(num,true); highlightDot(num,true); showArrow(num); updateArrowPositions(); });
+        marker.on('mouseout',  () => { if(regionLayers[num])regionLayers[num].setStyle(STYLE_NORMAL); highlightCard(num,false); highlightDot(num,false); hideArrow(num); });
         marker.on('click', () => openModal(num));
-
         dotMarkers[num] = marker;
     });
 
-    /* 3 ─ Fit map to Morocco bounds */
-    try {
-        const allLayers = L.geoJSON(data);
-        map.fitBounds(allLayers.getBounds(), { padding: [10, 10] });
-    } catch(e) {}
+    try { const allLayers = L.geoJSON(data); map.fitBounds(allLayers.getBounds(), {padding:[10,10]}); } catch(e) {}
 
-    /* 4 ─ Build arrows after everything is ready */
+    // Build arrows after markers are attached to DOM and leaflet settles
     setTimeout(buildArrows, 700);
+    setTimeout(updateArrowPositions, 900);
+    setTimeout(updateArrowPositions, 1600);
 }
 
-/* ══════════════════════════════════════════════════════
-   GEOJSON — تحميل الخريطة الصحيحة
-   الأولوية: ma.json المحلي (12 جهة بـ properties.id صحيح)
-   الاحتياطي: مصدر خارجي مع ربط ذكي بالأسماء
-══════════════════════════════════════════════════════ */
-
-/* ── دالة ربط اسم الجهة برقمها ── */
-function getRegionNumber(props) {
-    /* 1) محاولة مباشرة عبر id */
-    if (props.id && ID_TO_NUM[props.id]) return ID_TO_NUM[props.id];
-
-    /* 2) بناء نص للمقارنة من جميع الحقول المحتملة */
-    const nm = (
-        props.region     || props.name       || props.Nom_Region ||
-        props.NOM_REGION || props.nom_region  || props.NAME_1    ||
-        props.name_1     || props.shapeName   || ''
-    ).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-    const raw = JSON.stringify(props).toLowerCase();
-
-    if (nm.includes('tanger')  || nm.includes('tetouan') || nm.includes('hoceima'))  return 1;
-    if (nm.includes('oriental'))                                                       return 2;
-    if (nm.includes('fes')     || nm.includes('fez')     || nm.includes('meknes'))    return 3;
-    if (nm.includes('rabat')   || nm.includes('kenitra') || nm.includes('sale'))      return 4;
-    if (nm.includes('beni mel')|| nm.includes('khenifra'))                            return 5;
-    if (nm.includes('casablan')|| nm.includes('settat'))                              return 6;
-    if (nm.includes('marrakec')|| nm.includes('safi'))                                return 7;
-    if (nm.includes('souss')   || nm.includes('massa'))                               return 8;
-    if (nm.includes('draa')    || nm.includes('tafilal'))                             return 9;
-    if (nm.includes('guelmim') || nm.includes('oued noun'))                           return 10;
-    if (nm.includes('laayoune')|| nm.includes('sakia') || nm.includes('hamra'))       return 11;
-    if (nm.includes('dakhla')  || nm.includes('dahab'))                               return 12;
-
-    if (raw.includes('tanger'))    return 1;
-    if (raw.includes('oriental'))  return 2;
-    if (raw.includes('fes') || raw.includes('fez'))  return 3;
-    if (raw.includes('rabat'))     return 4;
-    if (raw.includes('beni'))      return 5;
-    if (raw.includes('casablan'))  return 6;
-    if (raw.includes('marrak'))    return 7;
-    if (raw.includes('souss'))     return 8;
-    if (raw.includes('draa') || raw.includes('tafilal')) return 9;
-    if (raw.includes('guelmim'))   return 10;
-    if (raw.includes('laayoune') || raw.includes('sakia')) return 11;
-    if (raw.includes('dakhla'))    return 12;
-
-    return null;
-}
-
-/* ── تطبيع features: ضمان وجود id صحيح (MA0X) في كل feature ── */
+// تبسيط معالجة البيانات: نستخدم فقط features التي تحتوي على properties.id صحيح
 function normalizeFeatures(data) {
     return {
         ...data,
         features: data.features.map(f => {
-            let num = null;
-            /* أولاً: عبر id المباشر */
-            if (f.properties.id) num = ID_TO_NUM[f.properties.id];
-            /* ثانياً: عبر الاسم */
-            if (!num) num = getRegionNumber(f.properties);
-            if (!num) return null; /* تجاهل features غير المعرّفة */
-            const maId = Object.keys(ID_TO_NUM).find(k => ID_TO_NUM[k] === num);
-            return { ...f, properties: { ...f.properties, id: maId } };
+            const gid = f.properties.id;
+            const num = ID_TO_NUM[gid];
+            if (!num) return null;
+            return f;
         }).filter(Boolean)
     };
 }
 
-/* ── تحميل GeoJSON: أولاً ma.json المحلي، ثم المصدر الخارجي ── */
-fetch('ma.json')
-    .then(r => { if (!r.ok) throw new Error('ma.json: HTTP ' + r.status); return r.json(); })
+// تحميل الخريطة من المصدر الرسمي فقط (بدون fallback)
+fetch(GEOJSON_URL)
+    .then(r => { 
+        if (!r.ok) throw new Error('GeoJSON HTTP ' + r.status); 
+        return r.json(); 
+    })
     .then(data => {
         const normalized = normalizeFeatures(data);
-        if (normalized.features.length >= 10) {
-            /* ma.json يحتوي على بيانات كافية — استخدمه مباشرة */
+        console.log('✅ تم تحميل ' + normalized.features.length + ' جهة من GeoJSON');
+        if (normalized.features.length === 12) { 
+            processGeoJSON(normalized); 
+        }
+        else {
+            console.warn('⚠️ عدد الجهات المحمّلة: ' + normalized.features.length + ' من أصل 12');
             processGeoJSON(normalized);
-        } else {
-            throw new Error('ma.json: بيانات غير كافية');
         }
     })
-    .catch(err => {
-        console.warn('ma.json غير كافٍ، جاري تحميل المصدر الخارجي —', err);
-        fetch('https://raw.githubusercontent.com/manalhama/Morocco-geojson/master/maroc.geojson')
-            .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-            .then(data => processGeoJSON(normalizeFeatures(data)))
-            .catch(e => {
-                console.error('فشل تحميل الخريطة من جميع المصادر —', e);
-                setTimeout(buildArrows, 700);
-            });
+    .catch(err => { 
+        console.error('❌ فشل تحميل خريطة الجهات من المصدر الرسمي —', err);
+        console.error('تأكد من أن الملف متاح على: ' + GEOJSON_URL);
     });
 
 /* ══════════════════════════════════════════════════════
@@ -920,17 +1842,8 @@ fetch('ma.json')
 ══════════════════════════════════════════════════════ */
 document.querySelectorAll('.region-card').forEach(card => {
     const num = parseInt(card.dataset.region);
-    card.addEventListener('mouseenter', () => {
-        highlightRegion(num, true);
-        highlightDot(num, true);
-        showArrow(num);
-        updateArrowPositions();
-    });
-    card.addEventListener('mouseleave', () => {
-        highlightRegion(num, false);
-        highlightDot(num, false);
-        hideArrow(num);
-    });
+    card.addEventListener('mouseenter', () => { highlightRegion(num,true); highlightDot(num,true); showArrow(num); updateArrowPositions(); });
+    card.addEventListener('mouseleave', () => { highlightRegion(num,false); highlightDot(num,false); hideArrow(num); });
     card.addEventListener('click', () => openModal(num));
 });
 
@@ -944,38 +1857,42 @@ function getCardCenter(num) {
     const card = document.getElementById(`b${num}`);
     if (!card) return null;
     const r = card.getBoundingClientRect();
-    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    return { x: r.left + r.width/2, y: r.top + r.height/2 };
 }
-
 function getDotCenter(num) {
     const marker = dotMarkers[num];
     if (!marker) return null;
     const el = marker.getElement();
     if (!el) return null;
-    const r = el.getBoundingClientRect();
-    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+
+    // Prefer the dot element itself (more stable than marker container)
+    const dotEl = el.querySelector('.region-num-dot');
+    const target = dotEl || el;
+    const r = target.getBoundingClientRect();
+
+    // If marker is not currently in the viewport/layout, skip
+    if (!isFinite(r.left) || r.width === 0 || r.height === 0) return null;
+
+    return { x: r.left + r.width/2, y: r.top + r.height/2 };
 }
-
 function buildArrows() {
-    svgEl.innerHTML = `<defs>
-        <marker id="arrowhead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L7,3 z" fill="#c9a030" opacity="0.88"/>
-        </marker>
-    </defs>`;
+    svgEl.innerHTML = `<defs><marker id="arrowhead" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#c9a030" opacity="0.88"/></marker></defs>`;
     arrowPaths.paths = {};
-
     if (window.innerWidth < 1100) return;
-
     for (let n = 1; n <= 12; n++) {
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('class', 'arrow-path');
-        path.setAttribute('marker-end', 'url(#arrowhead)');
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        path.setAttribute('class','arrow-path');
+        path.setAttribute('marker-end','url(#arrowhead)');
         svgEl.appendChild(path);
         arrowPaths.paths[n] = path;
     }
     updateArrowPositions();
-}
 
+    // Safety: once leaflet finishes rendering markers, recompute again
+    requestAnimationFrame(updateArrowPositions);
+    setTimeout(updateArrowPositions, 250);
+    setTimeout(updateArrowPositions, 900);
+}
 function updateArrowPositions() {
     if (window.innerWidth < 1100) return;
     for (let n = 1; n <= 12; n++) {
@@ -983,32 +1900,22 @@ function updateArrowPositions() {
         if (!path) continue;
         const card = getCardCenter(n);
         const dot  = getDotCenter(n);
-        if (!card || !dot) continue;
-        const mx = (card.x + dot.x) / 2;
+
+        // Hide path if we can't compute either point
+        if (!card || !dot) { path.setAttribute('d', ''); continue; }
+
+        const mx = (card.x + dot.x)/2;
         const my = Math.min(card.y, dot.y) - 28;
         path.setAttribute('d', `M${card.x},${card.y} Q${mx},${my} ${dot.x},${dot.y}`);
     }
 }
+function showArrow(num) { const p = arrowPaths.paths && arrowPaths.paths[num]; if (p) p.classList.add('active'); }
+function hideArrow(num) { const p = arrowPaths.paths && arrowPaths.paths[num]; if (p) p.classList.remove('active'); }
 
-function showArrow(num) {
-    const p = arrowPaths.paths && arrowPaths.paths[num];
-    if (p) p.classList.add('active');
-}
-function hideArrow(num) {
-    const p = arrowPaths.paths && arrowPaths.paths[num];
-    if (p) p.classList.remove('active');
-}
-
-/* Map move/zoom → update arrows */
 map.on('zoom move zoomend moveend', updateArrowPositions);
-
-/* Resize + Scroll */
 let resizeTimer;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(buildArrows, 160);
-});
-window.addEventListener('scroll', updateArrowPositions, { passive: true });
+window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(buildArrows, 160); });
+window.addEventListener('scroll', updateArrowPositions, { passive:true });
 
 /* ══════════════════════════════════════════════════════
    MODAL
@@ -1022,13 +1929,31 @@ function openModal(num) {
     document.getElementById('modalImg').src                 = r.logo;
     document.getElementById('modal').classList.add('open');
 }
-function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
 document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
-document.getElementById('modal').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal')) closeModal();
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+/* ══════════════════════════════════════════════════════
+   PREVIEW LOGO MODAL
+══════════════════════════════════════════════════════ */
+function previewLogo(src, title) {
+    document.getElementById('previewImg').src            = src;
+    document.getElementById('previewTitle').textContent  = title;
+    document.getElementById('previewDownloadBtn').href   = src;
+    document.getElementById('previewDownloadBtn').setAttribute('download', title.replace(/[–\s]/g, '_') + '.png');
+    document.getElementById('previewOverlay').classList.add('open');
+}
+function closePreview() {
+    document.getElementById('previewOverlay').classList.remove('open');
+    document.getElementById('previewImg').src = '';
+}
+document.getElementById('previewClose').addEventListener('click', closePreview);
+document.getElementById('previewOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('previewOverlay')) closePreview();
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal(); closePreview(); }
 });
 </script>
 </body>
