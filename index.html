@@ -139,7 +139,7 @@
            HEADER / HERO
         ══════════════════════════════════════ */
         #hero {
-            background: linear-gradient(135deg, #1a2f24 0%, #2d5440 55%, #1f3a2c 100%);
+            background: linear-gradient(135deg, #1e3d2f 0%, #2c5c42 55%, #244835 100%);
             color: white;
             position: relative;
             overflow: hidden;
@@ -182,6 +182,7 @@
             flex-shrink: 0;
         }
         .hero-icon svg { width: 42px; height: 42px; }
+        .hero-icon:empty { display: none; }
         .hero-text { flex: 1; }
         .hero-text h1 {
             font-family: 'Tajawal', sans-serif;
@@ -357,7 +358,7 @@
             animation-delay: 0.4s;
         }
         .map-panel-header {
-            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            background: linear-gradient(135deg, #1e3d2f, #2c5c42);
             padding: 0.85rem 1.2rem;
             display: flex; align-items: center; gap: 0.7rem;
         }
@@ -779,7 +780,7 @@
         ══════════════════════════════════════ */
         #contact { background: var(--page-bg); }
         .contact-box {
-            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            background: linear-gradient(135deg, #1e3d2f, #2c5c42);
             border-radius: 20px;
             padding: 2.5rem 2rem;
             color: white;
@@ -910,7 +911,7 @@
            FOOTER
         ══════════════════════════════════════ */
         footer {
-            background: var(--green-dark);
+            background: linear-gradient(135deg, #1e3d2f, #244835);
             color: rgba(255,255,255,0.68);
             text-align: center;
             padding: 1.5rem 1rem;
@@ -960,6 +961,60 @@
             #map { height: 310px; }
             .section { padding: 2rem 0.75rem; }
         }
+        /* ══════════════════════════════════════
+           SECTION PARTNERS
+        ══════════════════════════════════════ */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            align-items: stretch;
+            justify-items: center;
+        }
+        .partner-card {
+            background: white;
+            border: 2px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+            cursor: default;
+        }
+        .partner-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 12px 32px rgba(201,160,48,0.18);
+            border-color: var(--gold);
+        }
+        .partner-card-gold {
+            border-color: var(--gold);
+            box-shadow: 0 4px 16px rgba(201,160,48,0.15);
+        }
+        .partner-card img {
+            width: 100%;
+            max-height: 110px;
+            object-fit: contain;
+        }
+        .partner-name {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            line-height: 1.55;
+            text-align: center;
+        }
+        @media (max-width: 900px) {
+            .partners-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .partner-card  { max-width: 100%; }
+        }
+        @media (max-width: 600px) {
+            .partners-grid { gap: 1rem; }
+        }
     </style>
 </head>
 <body>
@@ -994,19 +1049,11 @@
      HERO
 ══════════════════════════════════════ -->
 <section id="hero">
-    <div class="hero-inner">
-        <div class="hero-icon">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="27" stroke="#c9a030" stroke-width="2.5"/>
-                <path d="M32 13 L36 24 L48 24 L38.5 31.5 L42 44 L32 36.5 L22 44 L25.5 31.5 L16 24 L28 24 Z"
-                      fill="none" stroke="#c9a030" stroke-width="2" stroke-linejoin="round"/>
-                <circle cx="32" cy="32" r="3.5" fill="#c9a030" opacity="0.55"/>
-            </svg>
-        </div>
+    <div class="hero-inner" style="justify-content: center; text-align: center;">
         <div class="hero-text">
             <h1>ورقة تعريفية بأندية "جائزة أستاذ(ة) السنة" حسب الجهات</h1>
             <p>منصة متكاملة للتعريف بالأندية الجهوية لجائزة أستاذ(ة) السنة عبر جهات المملكة المغربية الاثنتي عشرة</p>
-            <div class="hero-stats">
+            <div class="hero-stats" style="justify-content: center;">
                 <div class="hero-stat"><span class="num">12</span><span class="lbl">جهة</span></div>
                 <div class="hero-stat"><span class="num">12</span><span class="lbl">نادي جهوي</span></div>
                 <div class="hero-stat"><span class="num">12</span><span class="lbl">شعار رسمي</span></div>
@@ -1533,6 +1580,33 @@
                         <a href="https://prix-professeur-annee.vercel.app/" target="_blank">prix-professeur-annee.vercel.app</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 6 – PARTNERS
+══════════════════════════════════════ -->
+<section class="section" id="partners" style="background: white;">
+    <div class="section-inner">
+        <div class="section-title" style="justify-content: center; margin-bottom: 2rem;">الشركاء</div>
+        <p class="section-sub" style="text-align: center; max-width: 700px; margin: 0 auto 2.5rem;">بفضل دعم شركائنا الاستراتيجيين، نعمل معاً للنهوض بالمنظومة التربوية وتعزيز التميز المهني</p>
+        <div class="partners-grid">
+            <!-- وزارة التربية الوطنية -->
+            <div class="partner-card">
+                <img src="https://upload.wikimedia.org/wikipedia/ar/archive/a/af/20231126102448%21%D8%B4%D8%B9%D8%A7%D8%B1_%D9%88%D8%B2%D8%A7%D8%B1%D8%A9_%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D8%B7%D9%86%D9%8A%D8%A9_%D9%88%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D9%84%D9%8A_%D9%88%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9.png" alt="وزارة التربية الوطنية والتعليم الأولي والرياضة" loading="lazy">
+                <div class="partner-name">وزارة التربية الوطنية والتعليم الأولي والرياضة</div>
+            </div>
+            <!-- مؤسسة محمد السادس -->
+            <div class="partner-card partner-card-gold">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Logo-fm6education-ar.png/1280px-Logo-fm6education-ar.png" alt="مؤسسة محمد السادس للنهوض بالأعمال الاجتماعية" loading="lazy">
+                <div class="partner-name">مؤسسة محمد السادس للنهوض بالأعمال الاجتماعية</div>
+            </div>
+            <!-- جمعية أصدقاء المدرسة العمومية -->
+            <div class="partner-card">
+                <img src="https://i.postimg.cc/d0XzBBQk/Gemini-Generated-Image-4lvjaf4lvjaf4lvj-removebg-preview.png" alt="جمعية أصدقاء المدرسة العمومية" loading="lazy">
+                <div class="partner-name">جمعية أصدقاء المدرسة العمومية</div>
             </div>
         </div>
     </div>
