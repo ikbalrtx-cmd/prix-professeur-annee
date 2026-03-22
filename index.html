@@ -1067,7 +1067,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ← ضع رابط Web App بعد النشر من Apps Script
-const SHEET_URL    = "ضع_رابط_Web_App_هنا";
+const SHEET_URL    = "https://script.google.com/macros/s/AKfycbxcQ7V7X1WNW5nWWBN88oQhJo-1tASPaLukYgRSVnYRtWO2Sy1qurVdThsFwBX1tZTo1g/exec";
 const SECRET_TOKEN = "OUSTAD2026-SECRET"; // ← نفس الـ Token في Apps Script
 
 function selectRole(el){document.querySelectorAll('.radio-item').forEach(r=>r.classList.remove('selected'));el.classList.add('selected');}
@@ -1115,7 +1115,12 @@ async function submitForm(){
   // إرسال للـ Google Sheets
   try{
     if(SHEET_URL && SHEET_URL !== 'ضع_رابط_Web_App_هنا'){
-      await fetch(SHEET_URL,{method:'POST',body:JSON.stringify(payload)});
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode:   'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body:   JSON.stringify(payload)
+      });
     }
   }catch(err){ console.warn('تعذّر الإرسال للـ Sheet:',err); }
 
