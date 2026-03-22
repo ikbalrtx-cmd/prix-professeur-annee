@@ -2,293 +2,345 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>منصة الأندية الجهوية – جائزة أستاذ(ة) السنة</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --green-dark:#1f3a2c;--green-mid:#2d5440;--gold:#c9a030;--gold-light:#e0b84a;
-  --gold-pale:#fdf8ec;--card-bg:#f8f8f4;--card-border:#e0e0d5;--white:#ffffff;
-  --text-dark:#1f3a2c;--text-mid:#4a6358;--text-body:#333333;--page-bg:#f7f7f2;
+  --green:#1f3a2c;--green-mid:#2d5440;--gold:#c9a030;--gold-light:#e0b84a;
+  --gold-pale:#fdf8ec;--card-bg:#f8f8f4;--card-border:#e0e0d5;
+  --white:#fff;--text-dark:#1f3a2c;--text-mid:#4a6358;--text-body:#333;--page-bg:#f7f7f2;
 }
 html{scroll-behavior:smooth}
 body{font-family:'Cairo',sans-serif;background:var(--page-bg);color:var(--text-body);direction:rtl;min-height:100vh}
 
-/* NAVBAR */
+/* ══ NAVBAR ══ */
 .navbar{position:sticky;top:0;z-index:1000;background:var(--white);border-bottom:2.5px solid var(--gold);box-shadow:0 2px 16px rgba(31,58,44,0.09)}
-.navbar-inner{max-width:1600px;margin:0 auto;padding:0 1.2rem;display:flex;align-items:center;gap:1rem;height:62px}
-.navbar-brand{display:flex;align-items:center;gap:0.55rem;text-decoration:none;flex-shrink:0;cursor:pointer}
-.brand-circle{width:34px;height:34px;background:var(--green-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1.5px solid rgba(201,160,48,0.55)}
+.navbar-inner{max-width:1400px;margin:0 auto;padding:0 1rem;display:flex;align-items:center;gap:0.8rem;height:60px}
+.navbar-brand{display:flex;align-items:center;gap:0.5rem;cursor:pointer;flex-shrink:0;text-decoration:none}
+.brand-circle{width:32px;height:32px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1.5px solid rgba(201,160,48,0.55);flex-shrink:0}
 .brand-circle img{width:100%;height:100%;object-fit:contain;padding:3px}
-.brand-name{font-family:'Tajawal',sans-serif;font-weight:800;font-size:0.92rem;color:var(--green-dark);line-height:1.25}
-.brand-name span{color:var(--gold);display:block;font-size:0.72rem;font-weight:500}
+.brand-name{font-family:'Tajawal',sans-serif;font-weight:800;font-size:0.88rem;color:var(--green);line-height:1.25}
+.brand-name span{color:var(--gold);display:block;font-size:0.68rem;font-weight:500}
 .navbar-nav{display:flex;align-items:center;gap:0.1rem;list-style:none;flex:1;justify-content:center;flex-wrap:wrap}
-.navbar-nav a{text-decoration:none;color:var(--text-dark);font-size:0.8rem;font-weight:600;padding:0.38rem 0.7rem;border-radius:8px;transition:all 0.2s;white-space:nowrap;cursor:pointer;position:relative}
-.navbar-nav a::after{content:'';position:absolute;bottom:2px;right:50%;left:50%;height:2px;background:var(--gold);border-radius:2px;transition:all 0.22s}
-.navbar-nav a:hover{color:var(--gold);background:var(--gold-pale)}
-.navbar-nav a:hover::after,.navbar-nav a.active::after{right:10%;left:10%}
-.navbar-nav a.active{color:var(--gold);background:var(--gold-pale)}
-.pdf-nav-btn{display:flex;align-items:center;gap:0.4rem;text-decoration:none;background:var(--gold);color:var(--green-dark);font-size:0.78rem;font-weight:800;padding:0.42rem 0.95rem;border-radius:8px;border:none;cursor:pointer;transition:all 0.22s;white-space:nowrap;font-family:'Cairo',sans-serif;flex-shrink:0;opacity:0;pointer-events:none}
+.navbar-nav a{text-decoration:none;color:var(--text-dark);font-size:0.78rem;font-weight:600;padding:0.35rem 0.65rem;border-radius:8px;transition:all 0.2s;white-space:nowrap;cursor:pointer}
+.navbar-nav a:hover,.navbar-nav a.active{color:var(--gold);background:var(--gold-pale)}
+.pdf-nav-btn{display:flex;align-items:center;gap:0.35rem;text-decoration:none;background:var(--gold);color:var(--green);font-size:0.75rem;font-weight:800;padding:0.4rem 0.85rem;border-radius:8px;cursor:pointer;transition:all 0.2s;white-space:nowrap;font-family:'Cairo',sans-serif;flex-shrink:0;opacity:0;pointer-events:none}
 .pdf-nav-btn.visible{opacity:1;pointer-events:auto}
-.pdf-nav-btn:hover{background:var(--green-dark);color:var(--gold)}
-.pdf-nav-btn svg{width:14px;height:14px;flex-shrink:0}
+.pdf-nav-btn:hover{background:var(--green);color:var(--gold)}
+.pdf-nav-btn svg{width:13px;height:13px;flex-shrink:0}
+/* hamburger */
+.hamburger{display:none;background:none;border:1.5px solid var(--card-border);border-radius:8px;width:38px;height:38px;cursor:pointer;font-size:1.1rem;color:var(--text-dark);align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
+.hamburger:hover{border-color:var(--gold);color:var(--gold)}
 
-/* PAGES */
+/* ══ PAGES ══ */
 .page{display:none}.page.active{display:block}
 
-/* HERO */
-.page-hero{background:linear-gradient(135deg,#1e3d2f 0%,#2c5c42 55%,#244835 100%);color:white;padding:3rem 1.5rem 2.2rem;text-align:center;position:relative;overflow:hidden}
-.page-hero::before{content:'';position:absolute;top:-80px;left:-80px;width:280px;height:280px;border-radius:50%;background:rgba(201,160,48,0.07)}
-.page-hero::after{content:'';position:absolute;bottom:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(201,160,48,0.05)}
-.page-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
-.page-hero h1{font-family:'Tajawal',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:var(--gold);margin-bottom:0.5rem;text-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.page-hero p{font-size:0.92rem;color:rgba(255,255,255,0.82);line-height:1.7}
-.hero-stats{display:flex;gap:1.2rem;margin-top:1.2rem;flex-wrap:wrap;justify-content:center}
-.hero-stat{background:rgba(201,160,48,0.12);border:1px solid rgba(201,160,48,0.3);border-radius:10px;padding:0.5rem 1rem;text-align:center}
-.hero-stat .num{font-size:1.5rem;font-weight:800;color:var(--gold);display:block}
-.hero-stat .lbl{font-size:0.72rem;color:rgba(255,255,255,0.72)}
+/* ══ HERO ══ */
+.page-hero{background:linear-gradient(135deg,#1e3d2f 0%,#2c5c42 55%,#244835 100%);color:white;padding:2.5rem 1rem 2rem;text-align:center;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;top:-60px;left:-60px;width:220px;height:220px;border-radius:50%;background:rgba(201,160,48,0.07)}
+.page-hero::after{content:'';position:absolute;bottom:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(201,160,48,0.05)}
+.page-hero-inner{max-width:800px;margin:0 auto;position:relative;z-index:1}
+.page-hero h1{font-family:'Tajawal',sans-serif;font-size:clamp(1.1rem,3.5vw,1.9rem);font-weight:900;color:var(--gold);margin-bottom:0.5rem;line-height:1.4}
+.page-hero p{font-size:clamp(0.8rem,2vw,0.95rem);color:rgba(255,255,255,0.82);line-height:1.7}
+.hero-stats{display:flex;gap:0.8rem;margin-top:1.2rem;flex-wrap:wrap;justify-content:center}
+.hero-stat{background:rgba(201,160,48,0.12);border:1px solid rgba(201,160,48,0.3);border-radius:10px;padding:0.45rem 0.9rem;text-align:center}
+.hero-stat .num{font-size:1.4rem;font-weight:800;color:var(--gold);display:block}
+.hero-stat .lbl{font-size:0.68rem;color:rgba(255,255,255,0.72)}
 .hero-divider{height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
 
-/* SECTION */
-.section{padding:3rem 1rem}
+/* ══ SECTION ══ */
+.section{padding:2.5rem 1rem}
 .section-inner{max-width:1400px;margin:0 auto}
-.sec-title{font-family:'Tajawal',sans-serif;font-size:clamp(1.2rem,2.2vw,1.7rem);font-weight:800;color:var(--green-dark);margin-bottom:0.4rem;display:flex;align-items:center;gap:0.6rem}
-.sec-title::before{content:'';display:inline-block;width:5px;height:1.4em;background:var(--gold);border-radius:3px;flex-shrink:0}
-.sec-sub{font-size:0.92rem;color:var(--text-mid);margin-bottom:2rem;padding-right:0.7rem}
-.sec-divider{height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:2rem;border-radius:2px;opacity:0.35}
+.sec-title{font-family:'Tajawal',sans-serif;font-size:clamp(1.1rem,2.5vw,1.6rem);font-weight:800;color:var(--green);margin-bottom:0.4rem;display:flex;align-items:center;gap:0.55rem}
+.sec-title::before{content:'';display:inline-block;width:5px;height:1.3em;background:var(--gold);border-radius:3px;flex-shrink:0}
+.sec-sub{font-size:0.88rem;color:var(--text-mid);margin-bottom:1.8rem;padding-right:0.6rem}
+.sec-divider{height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:1.8rem;border-radius:2px;opacity:0.35}
 
-/* MAP */
-.main-grid{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:1.1rem;align-items:start}
-.col-right,.col-left{display:flex;flex-direction:column;gap:0.85rem}
-.region-card{background:var(--card-bg);border:1.5px solid var(--card-border);border-radius:14px;padding:0.85rem 0.95rem;box-shadow:0 2px 8px rgba(31,58,44,0.07);transition:all 0.22s;cursor:pointer;position:relative;overflow:hidden}
-.region-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:var(--gold);opacity:0;transition:opacity 0.22s;border-radius:0 14px 14px 0}
-.region-card:hover,.region-card.highlighted{border-color:var(--gold);box-shadow:0 6px 22px rgba(201,160,48,0.25);transform:scale(1.03)}
+/* ══ MAP ══ */
+.main-grid{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:1rem;align-items:start}
+.col-right,.col-left{display:flex;flex-direction:column;gap:0.75rem}
+.region-card{background:var(--card-bg);border:1.5px solid var(--card-border);border-radius:12px;padding:0.75rem 0.85rem;box-shadow:0 2px 8px rgba(31,58,44,0.06);transition:all 0.22s;cursor:pointer;position:relative;overflow:hidden}
+.region-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:var(--gold);opacity:0;transition:opacity 0.22s;border-radius:0 12px 12px 0}
+.region-card:hover,.region-card.highlighted{border-color:var(--gold);box-shadow:0 5px 18px rgba(201,160,48,0.22);transform:scale(1.02)}
 .region-card:hover::before,.region-card.highlighted::before{opacity:1}
-.card-inner{display:flex;align-items:center;gap:0.8rem}
-.logo-wrap{width:62px;height:62px;min-width:62px;background:white;border:1.5px solid var(--card-border);border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px}
+.card-inner{display:flex;align-items:center;gap:0.7rem}
+.logo-wrap{width:54px;height:54px;min-width:54px;background:white;border:1.5px solid var(--card-border);border-radius:9px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:3px}
 .logo-wrap img{width:100%;height:100%;object-fit:contain}
 .card-text{flex:1;min-width:0}
-.card-name{font-size:0.8rem;font-weight:700;color:var(--text-dark);line-height:1.45;margin-bottom:0.42rem}
-.card-badge{display:inline-flex;align-items:center;gap:0.32rem;background:var(--green-dark);color:white;padding:0.2rem 0.6rem 0.2rem 0.28rem;border-radius:20px;font-size:0.73rem;font-weight:600;white-space:nowrap}
-.badge-num{background:var(--gold);color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800;flex-shrink:0}
-.map-panel{background:white;border:2px solid var(--gold);border-radius:18px;overflow:hidden;box-shadow:0 8px 34px rgba(31,58,44,0.14);position:sticky;top:70px}
-.map-panel-header{background:linear-gradient(135deg,#1e3d2f,#2c5c42);padding:0.85rem 1.2rem;display:flex;align-items:center}
-.map-panel-header h2{color:var(--gold);font-size:0.97rem;font-weight:700;flex:1;text-align:center;font-family:'Tajawal',sans-serif}
-#map{width:100%;height:690px;background:var(--gold-pale)}
+.card-name{font-size:0.75rem;font-weight:700;color:var(--text-dark);line-height:1.4;margin-bottom:0.35rem}
+.card-badge{display:inline-flex;align-items:center;gap:0.28rem;background:var(--green);color:white;padding:0.18rem 0.55rem 0.18rem 0.25rem;border-radius:20px;font-size:0.68rem;font-weight:600;white-space:nowrap}
+.badge-num{background:var(--gold);color:white;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;flex-shrink:0}
+.map-panel{background:white;border:2px solid var(--gold);border-radius:16px;overflow:hidden;box-shadow:0 6px 28px rgba(31,58,44,0.12);position:sticky;top:68px}
+.map-panel-header{background:linear-gradient(135deg,#1e3d2f,#2c5c42);padding:0.75rem 1rem;display:flex;align-items:center}
+.map-panel-header h2{color:var(--gold);font-size:0.9rem;font-weight:700;flex:1;text-align:center;font-family:'Tajawal',sans-serif}
+#map{width:100%;height:660px;background:var(--gold-pale)}
 .leaflet-container{background:var(--gold-pale)!important;font-family:'Cairo',sans-serif!important}
 .region-label-icon{background:transparent!important;border:none!important}
-.region-num-dot{background:var(--gold);border:2.5px solid white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:0.74rem;font-family:'Cairo',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.28);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
-.region-num-dot:hover{transform:scale(1.45);box-shadow:0 5px 16px rgba(201,160,48,0.65)}
+.region-num-dot{background:var(--gold);border:2.5px solid white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:0.7rem;font-family:'Cairo',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer;transition:transform 0.2s}
+.region-num-dot:hover{transform:scale(1.45)}
 .leaflet-popup-content-wrapper{border-radius:12px!important;border:2px solid var(--gold)!important;padding:0!important;overflow:hidden;font-family:'Cairo',sans-serif!important}
-.leaflet-popup-content{margin:0!important;font-family:'Cairo',sans-serif!important}
-.popup-inner{background:white;padding:1rem 1.2rem;text-align:center;direction:rtl;min-width:210px;font-family:'Cairo',sans-serif}
-.popup-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--gold);color:white;border-radius:50%;font-weight:800;font-size:0.88rem;margin-bottom:0.45rem}
-.popup-region{font-size:0.7rem;color:var(--text-mid);font-weight:600;margin-bottom:0.25rem;font-family:'Tajawal',sans-serif}
-.popup-club{font-size:0.82rem;color:var(--text-dark);font-weight:700;line-height:1.5;font-family:'Tajawal',sans-serif}
-.popup-logo{width:64px;height:64px;object-fit:contain;margin:0.55rem auto 0;display:block}
+.leaflet-popup-content{margin:0!important}
+.popup-inner{background:white;padding:0.9rem 1.1rem;text-align:center;direction:rtl;min-width:200px;font-family:'Cairo',sans-serif}
+.popup-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--gold);color:white;border-radius:50%;font-weight:800;font-size:0.82rem;margin-bottom:0.4rem}
+.popup-region{font-size:0.68rem;color:var(--text-mid);font-weight:600;margin-bottom:0.2rem;font-family:'Tajawal',sans-serif}
+.popup-club{font-size:0.78rem;color:var(--text-dark);font-weight:700;line-height:1.4;font-family:'Tajawal',sans-serif}
+.popup-logo{width:56px;height:56px;object-fit:contain;margin:0.5rem auto 0;display:block}
 #arrows-svg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500}
 .arrow-path{fill:none;stroke:var(--gold);stroke-width:1.5;stroke-dasharray:5 4;opacity:0;transition:opacity 0.28s}
 .arrow-path.active{opacity:0.72}
 
-/* ABOUT */
-.intro-card{background:var(--green-dark);color:white;padding:1.2rem 1.8rem;border-radius:14px;border:2px solid var(--gold);text-align:center;font-size:0.92rem;line-height:1.8;margin-bottom:2.5rem;box-shadow:0 6px 24px rgba(31,58,44,0.22)}
-.values-row{display:flex;justify-content:center;gap:1.8rem;margin-bottom:2.5rem;flex-wrap:wrap}
-.val-badge{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:var(--green-dark);width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:0.78rem;font-weight:800;box-shadow:0 6px 18px rgba(201,160,48,0.38);border:3px solid white;outline:2px solid var(--green-dark);gap:0.3rem;transition:transform 0.2s}
+/* ══ ABOUT ══ */
+.intro-card{background:var(--green);color:white;padding:1.1rem 1.5rem;border-radius:14px;border:2px solid var(--gold);text-align:center;font-size:0.88rem;line-height:1.8;margin-bottom:2rem;box-shadow:0 5px 20px rgba(31,58,44,0.2)}
+.values-row{display:flex;justify-content:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.val-badge{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:var(--green);width:82px;height:82px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;box-shadow:0 5px 16px rgba(201,160,48,0.35);border:3px solid white;outline:2px solid var(--green);gap:0.25rem;transition:transform 0.2s}
 .val-badge:hover{transform:scale(1.08)}
-.val-badge .ico{font-size:1.6rem}
-.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:2.5rem}
-.info-box{background:white;border:2px solid var(--gold);border-radius:14px;padding:1.2rem 1.4rem;box-shadow:0 3px 12px rgba(31,58,44,0.07)}
-.info-box h3{font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:800;color:var(--green-dark);text-align:center;border-bottom:2px dashed rgba(201,160,48,0.4);padding-bottom:0.55rem;margin-bottom:0.8rem}
-.info-box li{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.83rem;color:var(--text-body);font-weight:600;margin-bottom:0.55rem;line-height:1.5;list-style:none}
-.info-box li .chk{color:var(--gold);font-size:1rem;flex-shrink:0}
-.timeline{position:relative;margin-bottom:3rem}
+.val-badge .ico{font-size:1.5rem}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2rem}
+.info-box{background:white;border:2px solid var(--gold);border-radius:14px;padding:1.1rem 1.3rem;box-shadow:0 3px 10px rgba(31,58,44,0.06)}
+.info-box h3{font-family:'Tajawal',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green);text-align:center;border-bottom:2px dashed rgba(201,160,48,0.4);padding-bottom:0.5rem;margin-bottom:0.7rem}
+.info-box li{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8rem;color:var(--text-body);font-weight:600;margin-bottom:0.5rem;line-height:1.5;list-style:none}
+.info-box li .chk{color:var(--gold);font-size:0.95rem;flex-shrink:0}
+/* timeline */
+.timeline{position:relative;margin-bottom:2.5rem}
 .timeline::before{content:'';position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:3px;background:var(--gold);border-radius:2px;z-index:0}
-.tl-row{display:flex;width:100%;align-items:center;position:relative;z-index:2;margin-bottom:1.2rem}
+.tl-row{display:flex;width:100%;align-items:center;position:relative;z-index:2;margin-bottom:1rem}
 .tl-side{width:45%}
-.tl-side.rs{display:flex;justify-content:flex-end;padding-left:1.2rem}
-.tl-side.ls{display:flex;justify-content:flex-start;padding-right:1.2rem}
+.tl-side.rs{display:flex;justify-content:flex-end;padding-left:1.1rem}
+.tl-side.ls{display:flex;justify-content:flex-start;padding-right:1.1rem}
 .tl-mid{width:10%;display:flex;justify-content:center;align-items:center}
-.tl-node{width:15px;height:15px;background:var(--green-dark);border:3px solid var(--gold-light);border-radius:50%;box-shadow:0 0 0 3px white;transition:transform 0.2s}
+.tl-node{width:14px;height:14px;background:var(--green);border:3px solid var(--gold-light);border-radius:50%;box-shadow:0 0 0 3px white;transition:transform 0.2s}
 .tl-row:hover .tl-node{transform:scale(1.3)}
-.tl-card{background:white;border:1.5px solid var(--card-border);border-radius:12px;padding:0.9rem 1.1rem;box-shadow:0 3px 10px rgba(31,58,44,0.07);width:100%;transition:all 0.2s}
-.tl-card:hover{border-color:var(--gold);box-shadow:0 8px 24px rgba(201,160,48,0.2);transform:scale(1.02)}
-.tl-card.lb{border-right:4px solid var(--green-dark)}
+.tl-card{background:white;border:1.5px solid var(--card-border);border-radius:11px;padding:0.8rem 1rem;box-shadow:0 2px 8px rgba(31,58,44,0.06);width:100%;transition:all 0.2s}
+.tl-card:hover{border-color:var(--gold);box-shadow:0 6px 20px rgba(201,160,48,0.18);transform:scale(1.02)}
+.tl-card.lb{border-right:4px solid var(--green)}
 .tl-card.rb{border-left:4px solid var(--gold)}
-.tl-yr{color:var(--gold);font-size:0.72rem;font-weight:800;display:block;margin-bottom:0.25rem}
-.tl-ed{color:var(--green-dark);font-size:0.92rem;font-weight:800;margin-bottom:0.25rem}
-.tl-de{color:#555;font-size:0.8rem;line-height:1.55}
-.tl-highlight{background:var(--green-dark)!important;border-color:var(--gold)!important}
+.tl-yr{color:var(--gold);font-size:0.7rem;font-weight:800;display:block;margin-bottom:0.2rem}
+.tl-ed{color:var(--green);font-size:0.88rem;font-weight:800;margin-bottom:0.2rem}
+.tl-de{color:#555;font-size:0.77rem;line-height:1.55}
+.tl-highlight{background:var(--green)!important;border-color:var(--gold)!important}
 .tl-highlight .tl-yr{color:var(--gold-light)}
 .tl-highlight .tl-ed{color:white}
 .tl-highlight .tl-de{color:rgba(255,255,255,0.85)}
-.badge-now{display:inline-block;background:var(--gold);color:var(--green-dark);font-size:0.62rem;font-weight:800;padding:0.12rem 0.5rem;border-radius:4px;margin-left:0.4rem;vertical-align:middle}
-.badge-memo{display:inline-block;margin-top:0.5rem;background:rgba(201,160,48,0.18);color:var(--gold-light);padding:0.22rem 0.75rem;border-radius:6px;font-size:0.72rem;font-weight:800;border:1px solid rgba(201,160,48,0.4)}
-.tl-node-active{background:var(--gold)!important;border-color:var(--green-dark)!important;width:19px!important;height:19px!important}
-.clubs-tags{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.65rem}
-.club-tag{background:rgba(201,160,48,0.18);border:1px solid rgba(201,160,48,0.5);color:var(--gold-light);font-size:0.72rem;font-weight:700;padding:0.2rem 0.65rem;border-radius:20px}
+.badge-now{display:inline-block;background:var(--gold);color:var(--green);font-size:0.6rem;font-weight:800;padding:0.1rem 0.45rem;border-radius:4px;margin-left:0.35rem;vertical-align:middle}
+.badge-memo{display:inline-block;margin-top:0.45rem;background:rgba(201,160,48,0.18);color:var(--gold-light);padding:0.2rem 0.65rem;border-radius:6px;font-size:0.68rem;font-weight:800;border:1px solid rgba(201,160,48,0.4)}
+.tl-node-active{background:var(--gold)!important;border-color:var(--green)!important;width:18px!important;height:18px!important}
+.clubs-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.55rem}
+.club-tag{background:rgba(201,160,48,0.18);border:1px solid rgba(201,160,48,0.5);color:var(--gold-light);font-size:0.68rem;font-weight:700;padding:0.18rem 0.6rem;border-radius:20px}
 
-/* ══════════════════════════════
-   CHARTER PAGE – INFOGRAPHIC
-══════════════════════════════ */
-.charter-section{padding:2.5rem 1rem}
+/* ══ CHARTER ══ */
+.charter-section{padding:2rem 1rem}
 .charter-inner{max-width:1100px;margin:0 auto}
-.ch-block{margin-bottom:3rem}
-.ch-title{font-family:'Tajawal',sans-serif;font-size:1.35rem;font-weight:900;color:var(--green-dark);margin-bottom:0.35rem;display:flex;align-items:center;gap:0.6rem}
-.ch-title::before{content:'';width:5px;height:1.3em;background:var(--gold);border-radius:3px;flex-shrink:0;display:inline-block}
-.ch-sub{font-size:0.85rem;color:var(--text-mid);margin-bottom:1.5rem;padding-right:0.6rem}
-.ch-divider{height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:1.8rem;opacity:0.35;border-radius:2px}
-/* بطاقة هوية */
-.identity-card{background:linear-gradient(135deg,var(--green-dark) 0%,#2c5c42 100%);border-radius:20px;padding:1.8rem 2rem;display:flex;align-items:center;gap:1.8rem;margin-bottom:2rem;border:2px solid var(--gold);box-shadow:0 8px 28px rgba(31,58,44,0.22)}
-.identity-logo{width:80px;height:80px;background:rgba(201,160,48,0.18);border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0}
-.identity-text h2{font-family:'Tajawal',sans-serif;font-size:1.15rem;font-weight:900;color:var(--gold);margin-bottom:0.4rem}
-.identity-text p{font-size:0.85rem;color:rgba(255,255,255,0.82);line-height:1.7}
-/* شبكة الأهداف */
-.goals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.goal-card{background:white;border-radius:14px;padding:1.3rem 1rem;text-align:center;border:1.5px solid var(--card-border);transition:all 0.22s;position:relative;overflow:hidden}
+.ch-block{margin-bottom:2.5rem}
+.ch-title{font-family:'Tajawal',sans-serif;font-size:1.25rem;font-weight:900;color:var(--green);margin-bottom:0.35rem;display:flex;align-items:center;gap:0.55rem}
+.ch-title::before{content:'';width:5px;height:1.2em;background:var(--gold);border-radius:3px;flex-shrink:0}
+.ch-sub{font-size:0.83rem;color:var(--text-mid);margin-bottom:1.4rem;padding-right:0.5rem}
+.ch-divider{height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:1.6rem;opacity:0.35;border-radius:2px}
+.identity-card{background:linear-gradient(135deg,var(--green),var(--green-mid));border-radius:16px;padding:1.5rem;display:flex;align-items:center;gap:1.4rem;margin-bottom:1.8rem;border:2px solid var(--gold);box-shadow:0 6px 24px rgba(31,58,44,0.2)}
+.identity-logo{width:70px;height:70px;background:rgba(201,160,48,0.15);border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+.identity-text h2{font-family:'Tajawal',sans-serif;font-size:1.05rem;font-weight:900;color:var(--gold);margin-bottom:0.35rem}
+.identity-text p{font-size:0.82rem;color:rgba(255,255,255,0.82);line-height:1.65}
+.ch-sec-title{font-family:'Tajawal',sans-serif;font-size:0.92rem;font-weight:800;color:var(--green);margin:1.8rem 0 0.9rem;display:flex;align-items:center;gap:0.45rem}
+.ch-sec-title::before{content:'';width:4px;height:1em;background:var(--gold);border-radius:3px;display:inline-block;flex-shrink:0}
+.goals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.9rem;margin-bottom:0.5rem}
+.goal-card{background:white;border-radius:13px;padding:1.1rem 0.9rem;text-align:center;border:1.5px solid var(--card-border);transition:all 0.22s;position:relative;overflow:hidden}
 .goal-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light))}
-.goal-card:hover{border-color:var(--gold);box-shadow:0 8px 22px rgba(201,160,48,0.18);transform:translateY(-3px)}
-.goal-num{position:absolute;top:0.6rem;left:0.7rem;font-size:0.6rem;font-weight:800;color:var(--gold);background:var(--gold-pale);border-radius:20px;padding:0.1rem 0.45rem}
-.goal-ico{font-size:2rem;margin-bottom:0.6rem;display:block}
-.goal-title{font-family:'Tajawal',sans-serif;font-size:0.9rem;font-weight:800;color:var(--green-dark);margin-bottom:0.35rem}
-.goal-desc{font-size:0.74rem;color:var(--text-mid);line-height:1.55}
-/* مجالات التخصص */
-.domains-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0.7rem}
-.domain-chip{background:white;border:1.5px solid var(--card-border);border-radius:10px;padding:0.65rem 0.8rem;display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;font-weight:700;color:var(--text-dark);transition:all 0.2s}
-.domain-chip:hover{border-color:var(--gold);background:var(--gold-pale);color:var(--green-dark)}
-.domain-chip .dico{font-size:1.1rem;flex-shrink:0}
-/* مجالات التدخل */
-.intervention-list{display:flex;flex-direction:column;gap:0.65rem}
-.interv-item{display:flex;align-items:center;gap:1rem;background:white;border:1.5px solid var(--card-border);border-radius:12px;padding:0.85rem 1.2rem;transition:all 0.2s}
-.interv-item:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(201,160,48,0.12)}
-.interv-num{background:var(--green-dark);color:var(--gold);font-size:0.78rem;font-weight:800;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--gold)}
-.interv-item p{font-size:0.83rem;color:var(--text-body);line-height:1.5;margin:0}
-.interv-item p strong{color:var(--green-dark);font-weight:800;display:block;margin-bottom:0.1rem;font-family:'Tajawal',sans-serif}
-/* الهيكلة التنظيمية */
-.org-tree{background:white;border:2px solid var(--card-border);border-radius:18px;padding:2rem 1.5rem;text-align:center}
-.org-top-node{display:inline-flex;align-items:center;gap:0.7rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--green-dark);padding:0.75rem 1.8rem;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:0.92rem;font-weight:800;border:2px solid var(--green-dark);box-shadow:0 4px 14px rgba(201,160,48,0.3)}
-.org-vline{width:2px;height:32px;background:var(--gold);margin:0 auto}
-.org-mid-node{display:inline-flex;align-items:center;gap:0.7rem;background:linear-gradient(135deg,var(--green-dark),var(--green-mid));color:white;padding:0.7rem 1.6rem;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:0.88rem;font-weight:800;border:2px solid var(--gold)}
-.org-hline-wrap{display:flex;justify-content:center;margin:0}
-.org-hline{width:70%;height:2px;background:var(--gold);margin:0}
-.org-leaves{display:grid;grid-template-columns:repeat(4,1fr);gap:0.7rem;margin-top:0.5rem}
-.org-leaf{background:var(--card-bg);border:1.5px solid var(--card-border);border-radius:10px;padding:0.8rem 0.6rem;text-align:center;transition:all 0.2s}
+.goal-card:hover{border-color:var(--gold);box-shadow:0 6px 18px rgba(201,160,48,0.15);transform:translateY(-3px)}
+.goal-num{position:absolute;top:0.55rem;left:0.65rem;font-size:0.58rem;font-weight:800;color:var(--gold);background:var(--gold-pale);border-radius:20px;padding:0.08rem 0.4rem}
+.goal-ico{font-size:1.8rem;margin-bottom:0.5rem;display:block}
+.goal-title{font-family:'Tajawal',sans-serif;font-size:0.85rem;font-weight:800;color:var(--green);margin-bottom:0.3rem}
+.goal-desc{font-size:0.72rem;color:var(--text-mid);line-height:1.5}
+.domains-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;margin-bottom:0.5rem}
+.domain-chip{background:white;border:1.5px solid var(--card-border);border-radius:9px;padding:0.55rem 0.7rem;display:flex;align-items:center;gap:0.45rem;font-size:0.75rem;font-weight:700;color:var(--text-dark);transition:all 0.2s}
+.domain-chip:hover{border-color:var(--gold);background:var(--gold-pale);color:var(--green)}
+.domain-chip .dico{font-size:1rem;flex-shrink:0}
+.intervention-list{display:flex;flex-direction:column;gap:0.6rem}
+.interv-item{display:flex;align-items:center;gap:0.9rem;background:white;border:1.5px solid var(--card-border);border-radius:11px;padding:0.8rem 1.1rem;transition:all 0.2s}
+.interv-item:hover{border-color:var(--gold);box-shadow:0 3px 12px rgba(201,160,48,0.1)}
+.interv-num{background:var(--green);color:var(--gold);font-size:0.75rem;font-weight:800;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--gold)}
+.interv-item p{font-size:0.8rem;color:var(--text-body);line-height:1.5;margin:0}
+.interv-item p strong{color:var(--green);font-weight:800;display:block;margin-bottom:0.1rem;font-family:'Tajawal',sans-serif}
+.org-tree{background:white;border:2px solid var(--card-border);border-radius:16px;padding:1.6rem 1.2rem;text-align:center}
+.org-top-node{display:inline-flex;align-items:center;gap:0.6rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--green);padding:0.65rem 1.5rem;border-radius:11px;font-family:'Tajawal',sans-serif;font-size:0.88rem;font-weight:800;border:2px solid var(--green);box-shadow:0 3px 12px rgba(201,160,48,0.28)}
+.org-vline{width:2px;height:26px;background:var(--gold);margin:0 auto}
+.org-hline-wrap{display:flex;justify-content:center}
+.org-hline{width:70%;height:2px;background:var(--gold)}
+.org-leaves{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;margin-top:0.5rem}
+.org-leaf{background:var(--card-bg);border:1.5px solid var(--card-border);border-radius:9px;padding:0.7rem 0.55rem;text-align:center;transition:all 0.2s}
 .org-leaf:hover{border-color:var(--gold);background:var(--gold-pale)}
-.org-leaf .leaf-ico{font-size:1.4rem;margin-bottom:0.3rem;display:block}
-.org-leaf strong{display:block;font-size:0.78rem;font-weight:800;color:var(--green-dark);font-family:'Tajawal',sans-serif;margin-bottom:0.25rem}
-.org-leaf span{font-size:0.68rem;color:var(--text-mid);line-height:1.4;display:block}
-/* الشراكات */
-.partners-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem}
-.partner-chip{display:flex;align-items:center;gap:0.7rem;background:white;border:1.5px solid var(--card-border);border-radius:12px;padding:0.85rem 1rem;transition:all 0.2s}
-.partner-chip:hover{border-color:var(--gold);box-shadow:0 4px 12px rgba(201,160,48,0.15)}
-.partner-chip .pico{font-size:1.6rem;flex-shrink:0}
-.partner-chip p{font-size:0.78rem;color:var(--text-dark);font-weight:700;line-height:1.45;margin:0}
-/* مؤشرات التتبع */
-.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.kpi-card{background:linear-gradient(135deg,var(--green-dark),var(--green-mid));border-radius:14px;padding:1.3rem 1rem;text-align:center;border:2px solid rgba(201,160,48,0.35)}
-.kpi-ico{font-size:2rem;margin-bottom:0.5rem;display:block}
-.kpi-label{font-family:'Tajawal',sans-serif;font-size:0.85rem;font-weight:800;color:var(--gold);margin-bottom:0.25rem}
-.kpi-desc{font-size:0.72rem;color:rgba(255,255,255,0.72);line-height:1.5}
-/* فاصل بين البطاقتين */
-.big-divider{background:linear-gradient(135deg,var(--green-dark),#244835);border-radius:16px;padding:1.6rem 2rem;margin:2.5rem 0;display:flex;align-items:center;gap:1.2rem;border:2px solid var(--gold)}
-.big-divider .bd-icon{font-size:2.5rem;flex-shrink:0}
-.big-divider h3{font-family:'Tajawal',sans-serif;font-size:1.15rem;font-weight:900;color:var(--gold);margin-bottom:0.3rem}
-.big-divider p{font-size:0.83rem;color:rgba(255,255,255,0.78);line-height:1.6}
-/* قيم الميثاق */
-.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.value-card{background:white;border-radius:14px;padding:1.2rem 0.9rem;text-align:center;border:1.5px solid var(--card-border);transition:all 0.22s;position:relative;overflow:hidden}
+.org-leaf .leaf-ico{font-size:1.3rem;margin-bottom:0.25rem;display:block}
+.org-leaf strong{display:block;font-size:0.73rem;font-weight:800;color:var(--green);font-family:'Tajawal',sans-serif;margin-bottom:0.2rem}
+.org-leaf span{font-size:0.64rem;color:var(--text-mid);line-height:1.35;display:block}
+.partners-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem}
+.partner-chip{display:flex;align-items:center;gap:0.65rem;background:white;border:1.5px solid var(--card-border);border-radius:11px;padding:0.8rem 0.95rem;transition:all 0.2s}
+.partner-chip:hover{border-color:var(--gold);box-shadow:0 3px 10px rgba(201,160,48,0.12)}
+.partner-chip .pico{font-size:1.5rem;flex-shrink:0}
+.partner-chip p{font-size:0.75rem;color:var(--text-dark);font-weight:700;line-height:1.4;margin:0}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.9rem}
+.kpi-card{background:linear-gradient(135deg,var(--green),var(--green-mid));border-radius:13px;padding:1.1rem 0.9rem;text-align:center;border:2px solid rgba(201,160,48,0.3)}
+.kpi-ico{font-size:1.8rem;margin-bottom:0.4rem;display:block}
+.kpi-label{font-family:'Tajawal',sans-serif;font-size:0.82rem;font-weight:800;color:var(--gold);margin-bottom:0.2rem}
+.kpi-desc{font-size:0.68rem;color:rgba(255,255,255,0.72);line-height:1.5}
+.big-divider{background:linear-gradient(135deg,var(--green),#244835);border-radius:14px;padding:1.4rem 1.8rem;margin:2.2rem 0;display:flex;align-items:center;gap:1rem;border:2px solid var(--gold)}
+.big-divider .bd-icon{font-size:2.2rem;flex-shrink:0}
+.big-divider h3{font-family:'Tajawal',sans-serif;font-size:1.05rem;font-weight:900;color:var(--gold);margin-bottom:0.25rem}
+.big-divider p{font-size:0.8rem;color:rgba(255,255,255,0.78);line-height:1.6}
+.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.9rem}
+.value-card{background:white;border-radius:13px;padding:1.1rem 0.85rem;text-align:center;border:1.5px solid var(--card-border);transition:all 0.22s;position:relative;overflow:hidden}
 .value-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-light))}
-.value-card:hover{border-color:var(--gold);box-shadow:0 6px 18px rgba(201,160,48,0.18);transform:translateY(-3px)}
-.value-ico{font-size:1.8rem;margin-bottom:0.5rem;display:block}
-.value-name{font-family:'Tajawal',sans-serif;font-size:0.88rem;font-weight:800;color:var(--green-dark);margin-bottom:0.35rem}
-.value-desc{font-size:0.72rem;color:var(--text-mid);line-height:1.5}
-/* أبواب الميثاق */
-.chapters-list{display:flex;flex-direction:column;gap:0.8rem}
-.chapter-item{background:white;border:1.5px solid var(--card-border);border-radius:14px;overflow:hidden;transition:all 0.2s}
-.chapter-item:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(201,160,48,0.12)}
-.chapter-header{display:flex;align-items:center;gap:1rem;padding:1rem 1.3rem;background:linear-gradient(90deg,var(--gold-pale),white)}
-.chapter-num{background:var(--green-dark);color:var(--gold);font-size:0.75rem;font-weight:800;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--gold)}
-.chapter-name{font-family:'Tajawal',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green-dark)}
-.chapter-body{padding:0.8rem 1.3rem 1rem 1.3rem;border-top:1px dashed var(--card-border)}
-.chapter-body ul{list-style:none;display:flex;flex-direction:column;gap:0.4rem}
-.chapter-body li{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8rem;color:var(--text-body);line-height:1.55}
-.chapter-body li::before{content:'◆';color:var(--gold);font-size:0.5rem;flex-shrink:0;margin-top:0.3rem}
-/* زر تحميل */
-.dl-btn{display:inline-flex;align-items:center;gap:0.55rem;background:var(--green-dark);color:white;padding:0.75rem 2.2rem;border-radius:12px;font-family:'Cairo',sans-serif;font-size:0.88rem;font-weight:800;text-decoration:none;transition:all 0.22s;border:2px solid var(--green-dark)}
+.value-card:hover{border-color:var(--gold);box-shadow:0 5px 16px rgba(201,160,48,0.15);transform:translateY(-2px)}
+.value-ico{font-size:1.7rem;margin:0.4rem 0 0.35rem;display:block}
+.value-name{font-family:'Tajawal',sans-serif;font-size:0.85rem;font-weight:800;color:var(--green);margin-bottom:0.3rem}
+.value-desc{font-size:0.7rem;color:var(--text-mid);line-height:1.5}
+.chapters-list{display:flex;flex-direction:column;gap:0.7rem}
+.chapter-item{background:white;border:1.5px solid var(--card-border);border-radius:13px;overflow:hidden;transition:all 0.2s}
+.chapter-item:hover{border-color:var(--gold);box-shadow:0 3px 12px rgba(201,160,48,0.1)}
+.chapter-header{display:flex;align-items:center;gap:0.9rem;padding:0.9rem 1.2rem;background:linear-gradient(90deg,var(--gold-pale),white)}
+.chapter-num{background:var(--green);color:var(--gold);font-size:0.72rem;font-weight:800;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--gold)}
+.chapter-name{font-family:'Tajawal',sans-serif;font-size:0.9rem;font-weight:800;color:var(--green)}
+.chapter-body{padding:0.7rem 1.2rem 0.9rem;border-top:1px dashed var(--card-border)}
+.chapter-body ul{list-style:none;display:flex;flex-direction:column;gap:0.35rem}
+.chapter-body li{display:flex;align-items:flex-start;gap:0.45rem;font-size:0.78rem;color:var(--text-body);line-height:1.55}
+.chapter-body li::before{content:'◆';color:var(--gold);font-size:0.48rem;flex-shrink:0;margin-top:0.32rem}
+.dl-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--green);color:white;padding:0.7rem 2rem;border-radius:11px;font-family:'Cairo',sans-serif;font-size:0.85rem;font-weight:800;text-decoration:none;transition:all 0.22s;border:2px solid var(--green)}
 .dl-btn:hover{background:var(--gold);border-color:var(--gold);transform:scale(1.03)}
-.dl-center{text-align:center;margin:2rem 0}
+.dl-center{text-align:center;margin:1.8rem 0}
+.charter-divider{height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:2.5rem 0;border-radius:2px}
 
-/* ══ EVENTS PAGE ══ */
-.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.4rem}
-.ev-card{background:white;border:1.5px solid var(--card-border);border-radius:18px;overflow:hidden;box-shadow:0 3px 14px rgba(31,58,44,0.08);transition:all 0.25s;display:flex;flex-direction:column}
-.ev-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(201,160,48,0.2);border-color:var(--gold)}
-.ev-img{width:100%;height:190px;object-fit:cover;display:block}
-.ev-img-placeholder{width:100%;height:190px;background:linear-gradient(135deg,#f0f7f3,var(--gold-pale));display:flex;align-items:center;justify-content:center;font-size:3rem}
-.ev-body{padding:1.2rem;flex:1;display:flex;flex-direction:column;gap:0.6rem}
-.ev-meta-row{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
-.ev-type{display:inline-block;padding:0.22rem 0.7rem;border-radius:20px;font-size:0.68rem;font-weight:800;font-family:'Cairo',sans-serif}
+/* ══ EVENTS ══ */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem}
+.ev-card{background:white;border:1.5px solid var(--card-border);border-radius:16px;overflow:hidden;box-shadow:0 3px 12px rgba(31,58,44,0.07);transition:all 0.25s;display:flex;flex-direction:column}
+.ev-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(201,160,48,0.18);border-color:var(--gold)}
+.ev-img{width:100%;height:180px;object-fit:cover}
+.ev-img-placeholder{width:100%;height:180px;background:linear-gradient(135deg,#f0f7f3,var(--gold-pale));display:flex;align-items:center;justify-content:center;font-size:2.8rem}
+.ev-body{padding:1.1rem;flex:1;display:flex;flex-direction:column;gap:0.55rem}
+.ev-meta-row{display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap}
+.ev-type{display:inline-block;padding:0.2rem 0.65rem;border-radius:20px;font-size:0.65rem;font-weight:800}
 .ev-type-لقاء{background:#e3f2fd;color:#1565c0}
 .ev-type-تكوين{background:#f3e5f5;color:#6a1b9a}
 .ev-type-تقرير{background:#e8f5e9;color:#2e7d32}
 .ev-type-ندوة{background:#fff3e0;color:#e65100}
-.ev-type-أخرى{background:var(--gold-pale);color:var(--green-dark)}
-.ev-date{font-size:0.72rem;color:var(--text-mid);display:flex;align-items:center;gap:0.3rem}
-.ev-title{font-family:'Tajawal',sans-serif;font-size:0.97rem;font-weight:800;color:var(--green-dark);line-height:1.5}
-.ev-region{font-size:0.75rem;color:var(--text-mid);display:flex;align-items:center;gap:0.3rem}
-.ev-desc{font-size:0.8rem;color:var(--text-body);line-height:1.65;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.ev-footer{padding:0.85rem 1.2rem;border-top:1.5px dashed var(--card-border);display:flex;gap:0.6rem;align-items:center}
-.ev-btn-read{flex:1;background:var(--green-dark);color:white;border:none;padding:0.55rem 0.8rem;border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center}
+.ev-type-أخرى{background:var(--gold-pale);color:var(--green)}
+.ev-date{font-size:0.7rem;color:var(--text-mid)}
+.ev-title{font-family:'Tajawal',sans-serif;font-size:0.93rem;font-weight:800;color:var(--green);line-height:1.5}
+.ev-region{font-size:0.72rem;color:var(--text-mid)}
+.ev-desc{font-size:0.78rem;color:var(--text-body);line-height:1.6;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ev-footer{padding:0.8rem 1.1rem;border-top:1.5px dashed var(--card-border);display:flex;gap:0.55rem}
+.ev-btn-read{flex:1;background:var(--green);color:white;border:none;padding:0.52rem 0.7rem;border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.2s}
 .ev-btn-read:hover{background:var(--gold)}
-.ev-btn-pdf{background:var(--gold-pale);color:var(--green-dark);border:1.5px solid var(--gold);padding:0.5rem 0.8rem;border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem}
+.ev-btn-pdf{background:var(--gold-pale);color:var(--green);border:1.5px solid var(--gold);padding:0.48rem 0.7rem;border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem}
 .ev-btn-pdf:hover{background:var(--gold);color:white}
-.pg-btn{background:white;border:1.5px solid var(--card-border);color:var(--text-mid);font-size:0.8rem;font-weight:700;padding:0.45rem 1rem;border-radius:20px;cursor:pointer;transition:all 0.2s;font-family:'Cairo',sans-serif}
-.pg-btn:hover,.pg-btn.active{background:var(--green-dark);border-color:var(--green-dark);color:var(--gold)}
-.events-filter{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1.8rem}
-.filter-btn{background:white;border:1.5px solid var(--card-border);color:var(--text-mid);font-size:0.78rem;font-weight:700;padding:0.38rem 0.9rem;border-radius:20px;cursor:pointer;transition:all 0.2s;font-family:'Cairo',sans-serif}
+.events-filter{display:flex;gap:0.55rem;flex-wrap:wrap;margin-bottom:1.6rem}
+.filter-btn{background:white;border:1.5px solid var(--card-border);color:var(--text-mid);font-size:0.75rem;font-weight:700;padding:0.35rem 0.85rem;border-radius:20px;cursor:pointer;transition:all 0.2s;font-family:'Cairo',sans-serif}
 .filter-btn:hover,.filter-btn.active{background:var(--gold);border-color:var(--gold);color:white}
+.pg-btn{background:white;border:1.5px solid var(--card-border);color:var(--text-mid);font-size:0.78rem;font-weight:700;padding:0.42rem 0.95rem;border-radius:20px;cursor:pointer;transition:all 0.2s;font-family:'Cairo',sans-serif}
+.pg-btn:hover,.pg-btn.active{background:var(--green);border-color:var(--green);color:var(--gold)}
 
-/* JOIN */
-.form-card{background:white;border-radius:20px;border:2px solid var(--gold);box-shadow:0 8px 36px rgba(31,58,44,0.12);padding:2.2rem 2rem;max-width:720px;margin:0 auto}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
-.form-group{display:flex;flex-direction:column;gap:0.4rem}
+/* ══ JOIN ══ */
+.form-card{background:white;border-radius:18px;border:2px solid var(--gold);box-shadow:0 6px 30px rgba(31,58,44,0.1);padding:1.8rem 1.5rem;max-width:700px;margin:0 auto}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:0.38rem}
 .form-group.full{grid-column:1/-1}
-.form-label{font-size:0.82rem;font-weight:700;color:var(--green-dark);display:flex;align-items:center;gap:0.4rem}
-.form-input,.form-select{width:100%;padding:0.65rem 0.9rem;border:1.5px solid var(--card-border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:0.85rem;color:var(--text-body);background:var(--card-bg);transition:border-color 0.2s,box-shadow 0.2s;outline:none}
-.form-input:focus,.form-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,160,48,0.15)}
-.radio-group{display:flex;flex-direction:column;gap:0.55rem;margin-top:0.2rem}
-.radio-item{display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.8rem;border:1.5px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all 0.2s;font-size:0.83rem;font-weight:600;color:var(--text-body)}
-.radio-item:hover,.radio-item.selected{border-color:var(--gold);background:var(--gold-pale);color:var(--green-dark)}
-.radio-item input{accent-color:var(--gold);width:16px;height:16px;flex-shrink:0}
-.checkbox-row{display:flex;align-items:flex-start;gap:0.7rem;padding:0.9rem 1rem;background:var(--gold-pale);border:1.5px solid var(--gold);border-radius:12px;cursor:pointer}
-.checkbox-row input{accent-color:var(--gold);width:17px;height:17px;margin-top:2px;flex-shrink:0}
-.checkbox-row span{font-size:0.82rem;color:var(--text-body);line-height:1.6;font-weight:600}
-.submit-btn{width:100%;background:var(--green-dark);color:white;border:none;padding:0.85rem 2rem;border-radius:12px;font-family:'Cairo',sans-serif;font-size:0.95rem;font-weight:800;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-top:0.5rem}
+.form-label{font-size:0.79rem;font-weight:700;color:var(--green);display:flex;align-items:center;gap:0.35rem}
+.form-input,.form-select{width:100%;padding:0.62rem 0.85rem;border:1.5px solid var(--card-border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.83rem;color:var(--text-body);background:var(--card-bg);outline:none;transition:border-color 0.2s,box-shadow 0.2s}
+.form-input:focus,.form-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,160,48,0.12)}
+.radio-group{display:flex;flex-direction:column;gap:0.5rem}
+.radio-item{display:flex;align-items:center;gap:0.55rem;padding:0.5rem 0.75rem;border:1.5px solid var(--card-border);border-radius:9px;cursor:pointer;transition:all 0.2s;font-size:0.8rem;font-weight:600;color:var(--text-body)}
+.radio-item:hover,.radio-item.selected{border-color:var(--gold);background:var(--gold-pale);color:var(--green)}
+.radio-item input{accent-color:var(--gold);width:15px;height:15px;flex-shrink:0}
+.checkbox-row{display:flex;align-items:flex-start;gap:0.65rem;padding:0.85rem 0.95rem;background:var(--gold-pale);border:1.5px solid var(--gold);border-radius:11px;cursor:pointer}
+.checkbox-row input{accent-color:var(--gold);width:16px;height:16px;margin-top:2px;flex-shrink:0}
+.checkbox-row span{font-size:0.79rem;color:var(--text-body);line-height:1.6;font-weight:600}
+.submit-btn{width:100%;background:var(--green);color:white;border:none;padding:0.82rem 2rem;border-radius:11px;font-family:'Cairo',sans-serif;font-size:0.92rem;font-weight:800;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.5rem}
 .submit-btn:hover{background:var(--gold);transform:scale(1.02)}
-.form-divider{height:1.5px;background:linear-gradient(90deg,var(--gold),transparent);margin:1.4rem 0;opacity:0.3;border-radius:2px}
-.form-sec-title{font-family:'Tajawal',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green-dark);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem}
+.form-divider{height:1.5px;background:linear-gradient(90deg,var(--gold),transparent);margin:1.3rem 0;opacity:0.3;border-radius:2px}
+.form-sec-title{font-family:'Tajawal',sans-serif;font-size:0.93rem;font-weight:800;color:var(--green);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.45rem}
 .form-sec-title::before{content:'';width:4px;height:1em;background:var(--gold);border-radius:3px;display:inline-block}
-.success-msg{display:none;text-align:center;padding:2rem;background:var(--gold-pale);border:2px solid var(--gold);border-radius:14px;margin-top:1rem}
-.success-msg .ico{font-size:2.5rem;margin-bottom:0.6rem;display:block}
-.success-msg h3{font-family:'Tajawal',sans-serif;color:var(--green-dark);font-size:1.1rem;font-weight:800;margin-bottom:0.4rem}
-.success-msg p{font-size:0.85rem;color:var(--text-mid)}
+.success-msg{display:none;text-align:center;padding:1.8rem;background:var(--gold-pale);border:2px solid var(--gold);border-radius:13px;margin-top:0.8rem}
+.success-msg .ico{font-size:2.2rem;margin-bottom:0.5rem;display:block}
+.success-msg h3{font-family:'Tajawal',sans-serif;color:var(--green);font-size:1rem;font-weight:800;margin-bottom:0.35rem}
+.success-msg p{font-size:0.82rem;color:var(--text-mid)}
 
-/* PARTNERS */
-.partners-grid-pg{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;align-items:stretch;justify-items:center}
-.partner-card{background:white;border:2px solid var(--card-border);border-radius:16px;padding:2rem 1.5rem;width:100%;max-width:300px;box-shadow:0 4px 16px rgba(0,0,0,0.07);display:flex;flex-direction:column;align-items:center;gap:1rem;transition:all 0.28s}
-.partner-card:hover{transform:translateY(-5px) scale(1.03);box-shadow:0 12px 32px rgba(201,160,48,0.18);border-color:var(--gold)}
+/* ══ PARTNERS ══ */
+.partners-grid-pg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;justify-items:center}
+.partner-card{background:white;border:2px solid var(--card-border);border-radius:16px;padding:1.8rem 1.2rem;width:100%;max-width:280px;box-shadow:0 3px 14px rgba(0,0,0,0.06);display:flex;flex-direction:column;align-items:center;gap:0.9rem;transition:all 0.28s}
+.partner-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 10px 28px rgba(201,160,48,0.15);border-color:var(--gold)}
 .partner-card-gold{border-color:var(--gold)}
-.partner-card img{width:100%;max-height:110px;object-fit:contain}
-.partner-name{font-family:'Tajawal',sans-serif;font-size:0.85rem;font-weight:700;color:var(--green-dark);line-height:1.55;text-align:center}
+.partner-card img{width:100%;max-height:100px;object-fit:contain}
+.partner-name{font-family:'Tajawal',sans-serif;font-size:0.82rem;font-weight:700;color:var(--green);line-height:1.5;text-align:center}
 
-footer{background:linear-gradient(135deg,#1e3d2f,#244835);color:rgba(255,255,255,0.68);text-align:center;padding:1.5rem 1rem;font-size:0.83rem}
+/* ══ FOOTER ══ */
+footer{background:linear-gradient(135deg,#1e3d2f,#244835);color:rgba(255,255,255,0.68);text-align:center;padding:1.4rem 1rem;font-size:0.8rem}
 footer span{color:var(--gold);font-weight:700}
-.footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:0.75rem;flex-wrap:wrap}
-.footer-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.8rem;transition:color 0.2s;cursor:pointer}
+.footer-links{display:flex;justify-content:center;gap:1.2rem;margin-bottom:0.7rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.78rem;transition:color 0.2s;cursor:pointer}
 .footer-links a:hover{color:var(--gold)}
 
-@media(max-width:1100px){.main-grid{grid-template-columns:1fr}#map{height:420px}#arrows-svg{display:none}.goals-grid{grid-template-columns:repeat(2,1fr)}.values-grid{grid-template-columns:repeat(2,1fr)}.domains-wrap{grid-template-columns:repeat(2,1fr)}.kpi-row{grid-template-columns:repeat(2,1fr)}.org-leaves{grid-template-columns:repeat(2,1fr)}.partners-wrap{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.bottom-grid{grid-template-columns:1fr}.partners-grid-pg{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.timeline::before{left:20px}.tl-row{flex-direction:column;align-items:flex-start;padding-right:40px}.tl-side{width:100%;padding:0}.tl-mid{position:absolute;right:8px;top:50%;transform:translateY(-50%)}.goals-grid{grid-template-columns:1fr}.values-grid{grid-template-columns:1fr}.domains-wrap{grid-template-columns:1fr}.kpi-row{grid-template-columns:1fr}.identity-card{flex-direction:column;text-align:center}.partners-wrap{grid-template-columns:1fr}}
+/* ══ RESPONSIVE ══ */
+@media(max-width:1100px){
+  .main-grid{grid-template-columns:1fr}
+  .map-panel{position:static}
+  #map{height:400px}
+  #arrows-svg{display:none}
+  .goals-grid{grid-template-columns:repeat(2,1fr)}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .values-grid{grid-template-columns:repeat(2,1fr)}
+  .domains-wrap{grid-template-columns:repeat(3,1fr)}
+  .org-leaves{grid-template-columns:repeat(2,1fr)}
+  .partners-wrap{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  /* navbar mobile */
+  .brand-name{display:none}
+  .navbar-nav{display:none;flex-direction:column;position:fixed;top:60px;right:0;left:0;background:white;border-bottom:2px solid var(--gold);padding:0.5rem;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+  .navbar-nav.open{display:flex}
+  .navbar-nav a{font-size:0.88rem;padding:0.6rem 1rem;width:100%;text-align:center;border-radius:8px}
+  .hamburger{display:flex}
+  .pdf-nav-btn .btn-text{display:none}
+  .pdf-nav-btn{padding:0.4rem 0.6rem}
+  /* layout */
+  .page-hero{padding:1.8rem 0.9rem 1.5rem}
+  .section{padding:1.8rem 0.75rem}
+  .bottom-grid{grid-template-columns:1fr}
+  .partners-grid-pg{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .form-card{padding:1.3rem 1rem}
+  /* timeline mobile */
+  .timeline::before{left:16px;right:auto;transform:none}
+  .tl-row{flex-direction:column;padding-right:36px;padding-left:0}
+  .tl-side{width:100%;padding:0!important}
+  .tl-side.rs,.tl-side.ls{justify-content:flex-start}
+  .tl-mid{position:absolute;right:0;left:auto;top:10px;width:auto;transform:none}
+  /* charter */
+  .goals-grid{grid-template-columns:repeat(2,1fr)}
+  .values-grid{grid-template-columns:repeat(2,1fr)}
+  .domains-wrap{grid-template-columns:repeat(2,1fr)}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .org-leaves{grid-template-columns:repeat(2,1fr)}
+  .partners-wrap{grid-template-columns:1fr}
+  .identity-card{flex-direction:column;text-align:center;padding:1.1rem}
+  .big-divider{flex-direction:column;text-align:center;padding:1.1rem}
+  /* events */
+  .events-grid{grid-template-columns:1fr}
+  /* stats */
+  .hero-stats{gap:0.5rem}
+  .hero-stat{padding:0.38rem 0.65rem}
+  .hero-stat .num{font-size:1.2rem}
+  #map{height:320px}
+  .map-panel-header h2{font-size:0.82rem}
+}
+@media(max-width:480px){
+  .goals-grid{grid-template-columns:1fr}
+  .values-grid{grid-template-columns:1fr}
+  .domains-wrap{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:1fr}
+  .org-leaves{grid-template-columns:1fr}
+  .page-hero h1{font-size:1rem}
+  .val-badge{width:72px;height:72px}
+  .chapter-name{font-size:0.82rem}
+}
 </style>
 </head>
 <body>
@@ -300,7 +352,7 @@ footer span{color:var(--gold);font-weight:700}
       <div class="brand-circle"><img src="https://oustadsana.com/assets/img/logo.png" alt="شعار"></div>
       <div class="brand-name">منصة الأندية الجهوية<span>جائزة أستاذ(ة) السنة</span></div>
     </div>
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" id="navMenu">
       <li><a id="nav-about" onclick="showPage('about')" class="active">عن الجائزة</a></li>
       <li><a id="nav-clubs" onclick="showPage('clubs')">الأندية الجهوية</a></li>
       <li><a id="nav-charter" onclick="showPage('charter')">الميثاق التنظيمي</a></li>
@@ -310,8 +362,9 @@ footer span{color:var(--gold);font-weight:700}
     </ul>
     <a id="pdfBtn" class="pdf-nav-btn" href="https://drive.google.com/file/d/1CkDrPCAU8pPECundtLkKNulSqabpts74/view?usp=drive_link" target="_blank">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 16l-4-4h3V4h2v8h3l-4 4z"/><path d="M4 18h16v2H4z"/></svg>
-      البطاقة التعريفية PDF
+      <span class="btn-text">البطاقة التعريفية PDF</span>
     </a>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="القائمة">☰</button>
   </div>
 </nav>
 
@@ -384,7 +437,7 @@ footer span{color:var(--gold);font-weight:700}
   <div class="page-hero">
     <div class="page-hero-inner">
       <h1>ورقة تعريفية بأندية "جائزة أستاذ(ة) السنة" حسب الجهات</h1>
-      <p>منصة متكاملة للتعريف بالأندية الجهوية لجائزة أستاذ(ة) السنة عبر جهات المملكة المغربية الاثنتي عشرة</p>
+      <p>منصة متكاملة للتعريف بالأندية الجهوية عبر جهات المملكة المغربية الاثنتي عشرة</p>
       <div class="hero-stats">
         <div class="hero-stat"><span class="num">1</span><span class="lbl">نادي وطني للتربية الدامجة</span></div>
         <div class="hero-stat"><span class="num">12</span><span class="lbl">جهة</span></div>
@@ -435,198 +488,127 @@ footer span{color:var(--gold);font-weight:700}
   <div class="hero-divider"></div>
   <div class="charter-section">
     <div class="charter-inner">
-
-      <!-- ══ قسم 1: البطاقة التقنية ══ -->
       <div class="ch-block">
         <div class="ch-title">البطاقة التقنية للنادي الجهوي</div>
         <p class="ch-sub">ملخص إنفوغرافيك للبطاقة التقنية النمطية الموحدة لأندية جائزة أستاذ(ة) السنة</p>
         <div class="ch-divider"></div>
-
-        <!-- هوية النادي -->
         <div class="identity-card">
           <div class="identity-logo">🏅</div>
           <div class="identity-text">
             <h2>النادي الجهوي لجائزة أستاذ(ة) السنة</h2>
-            <p>إطار مواطن ومهني يضم مجموعة من الأستاذات والأساتذة الفاعلين تربوياً، يعمل على دعم مبادرات الإبداع والتميز داخل الجهة، وتعزيز الانفتاح والتواصل، وتثمين الممارسات البيداغوجية المبتكرة عبر جهات المملكة المغربية الاثنتي عشرة.</p>
+            <p>إطار مواطن ومهني يضم مجموعة من الأستاذات والأساتذة الفاعلين تربوياً، يعمل على دعم مبادرات الإبداع والتميز داخل الجهة، وتعزيز الانفتاح والتواصل، وتثمين الممارسات البيداغوجية المبتكرة عبر جهات المملكة المغربية.</p>
           </div>
         </div>
-
-        <!-- الأهداف -->
-        <div class="ch-title" style="font-size:1rem;margin-bottom:1rem">🎯 الأهداف العامة للأندية الجهوية</div>
-        <div class="goals-grid" style="margin-bottom:2rem">
-          <div class="goal-card"><span class="goal-num">01</span><span class="goal-ico">🌟</span><div class="goal-title">تعزيز قيم التميز</div><div class="goal-desc">تعزيز قيم التميز، الإبداع، الريادة، والعمل المشترك بين الأساتذة</div></div>
-          <div class="goal-card"><span class="goal-num">02</span><span class="goal-ico">💡</span><div class="goal-title">إبراز المبادرات</div><div class="goal-desc">المساهمة في إبراز المبادرات التربوية الناجحة داخل الجهة ونشرها</div></div>
-          <div class="goal-card"><span class="goal-num">03</span><span class="goal-ico">📝</span><div class="goal-title">دعم الترشح</div><div class="goal-desc">دعم الأساتذة في إعداد ملفات الترشح للجائزة ومواكبتهم</div></div>
-          <div class="goal-card"><span class="goal-num">04</span><span class="goal-ico">🎓</span><div class="goal-title">أنشطة تكوينية</div><div class="goal-desc">تنظيم أنشطة تكوينية جهوية ووطنية حول الممارسة البيداغوجية</div></div>
-          <div class="goal-card"><span class="goal-num">05</span><span class="goal-ico">🔗</span><div class="goal-title">جسور التنسيق</div><div class="goal-desc">خلق جسور تنسيق بين مختلف أندية الجهات عبر منصة موحدة</div></div>
-          <div class="goal-card"><span class="goal-num">06</span><span class="goal-ico">🔄</span><div class="goal-title">تبادل التجارب</div><div class="goal-desc">تشجيع تبادل التجارب التربوية وتقاسم الموارد بين الأندية</div></div>
+        <div class="ch-sec-title">🎯 الأهداف العامة</div>
+        <div class="goals-grid" style="margin-bottom:1.8rem">
+          <div class="goal-card"><span class="goal-num">01</span><span class="goal-ico">🌟</span><div class="goal-title">تعزيز قيم التميز</div><div class="goal-desc">تعزيز قيم التميز، الإبداع، الريادة، والعمل المشترك</div></div>
+          <div class="goal-card"><span class="goal-num">02</span><span class="goal-ico">💡</span><div class="goal-title">إبراز المبادرات</div><div class="goal-desc">المساهمة في إبراز المبادرات التربوية الناجحة داخل الجهة</div></div>
+          <div class="goal-card"><span class="goal-num">03</span><span class="goal-ico">📝</span><div class="goal-title">دعم الترشح</div><div class="goal-desc">دعم الأساتذة في إعداد ملفات الترشح للجائزة</div></div>
+          <div class="goal-card"><span class="goal-num">04</span><span class="goal-ico">🎓</span><div class="goal-title">أنشطة تكوينية</div><div class="goal-desc">تنظيم أنشطة تكوينية جهوية ووطنية</div></div>
+          <div class="goal-card"><span class="goal-num">05</span><span class="goal-ico">🔗</span><div class="goal-title">جسور التنسيق</div><div class="goal-desc">خلق جسور تنسيق بين مختلف أندية الجهات</div></div>
+          <div class="goal-card"><span class="goal-num">06</span><span class="goal-ico">🔄</span><div class="goal-title">تبادل التجارب</div><div class="goal-desc">تشجيع تبادل التجارب التربوية وتقاسم الموارد</div></div>
         </div>
-
-        <!-- مجالات التخصص -->
-        <div class="ch-title" style="font-size:1rem;margin-bottom:1rem">🧩 مجالات التخصص داخل النادي</div>
-        <div class="domains-wrap" style="margin-bottom:2rem">
-          <div class="domain-chip"><span class="dico">🤖</span>الذكاء الاصطناعي في التعليم</div>
-          <div class="domain-chip"><span class="dico">📱</span>التكنولوجيا التربوية والابتكار</div>
+        <div class="ch-sec-title">🧩 مجالات التخصص</div>
+        <div class="domains-wrap" style="margin-bottom:1.8rem">
+          <div class="domain-chip"><span class="dico">🤖</span>الذكاء الاصطناعي</div>
+          <div class="domain-chip"><span class="dico">📱</span>التكنولوجيا التربوية</div>
           <div class="domain-chip"><span class="dico">🎭</span>المسرح التربوي</div>
           <div class="domain-chip"><span class="dico">💻</span>التحول الرقمي</div>
           <div class="domain-chip"><span class="dico">📚</span>البيداغوجيات الجديدة</div>
-          <div class="domain-chip"><span class="dico">🔬</span>المختبرات العلمية والروبوتيك</div>
+          <div class="domain-chip"><span class="dico">🔬</span>المختبرات والروبوتيك</div>
           <div class="domain-chip"><span class="dico">⚽</span>الرياضة المدرسية</div>
           <div class="domain-chip"><span class="dico">📖</span>القراءة والإبداع اللغوي</div>
           <div class="domain-chip"><span class="dico">📡</span>الإعلام والتواصل</div>
-          <div class="domain-chip"><span class="dico">🧠</span>الدعم النفسي والتربوي</div>
+          <div class="domain-chip"><span class="dico">🧠</span>الدعم النفسي</div>
           <div class="domain-chip"><span class="dico">♿</span>التربية الدامجة</div>
-          <div class="domain-chip"><span class="dico">🌱</span>التربية البيئية والتنمية المستدامة</div>
-          <div class="domain-chip"><span class="dico">🎯</span>تطوير المهارات الحياتية</div>
+          <div class="domain-chip"><span class="dico">🌱</span>التربية البيئية</div>
+          <div class="domain-chip"><span class="dico">🎯</span>المهارات الحياتية</div>
           <div class="domain-chip"><span class="dico">🔧</span>التكوين المستمر</div>
-          <div class="domain-chip"><span class="dico">➕</span>مجالات أخرى حسب كل ناد</div>
         </div>
-
-        <!-- مجالات التدخل -->
-        <div class="ch-title" style="font-size:1rem;margin-bottom:1rem">📌 مجالات التدخل الأساسية</div>
-        <div class="intervention-list" style="margin-bottom:2rem">
+        <div class="ch-sec-title">📌 مجالات التدخل</div>
+        <div class="intervention-list" style="margin-bottom:1.8rem">
           <div class="interv-item"><div class="interv-num">01</div><p><strong>التعريف بالجائزة</strong>التعريف بالجائزة ومعاييرها ومراحلها على المستوى الجهوي</p></div>
-          <div class="interv-item"><div class="interv-num">02</div><p><strong>مواكبة ملفات الترشح</strong>مواكبة ملفات الترشح على المستوى الجهوي والمحلي ودعم المترشحين</p></div>
-          <div class="interv-item"><div class="interv-num">03</div><p><strong>رفع التقارير</strong>رفع تقارير للجنة القيادة بخصوص تساؤلات المترشحين والمشاكل التي تعيقهم</p></div>
-          <div class="interv-item"><div class="interv-num">04</div><p><strong>ورشات تكوينية</strong>تنظيم لقاءات وورشات تكوينية جهوية ومحلية حول الممارسة الصفية</p></div>
-          <div class="interv-item"><div class="interv-num">05</div><p><strong>توثيق الممارسات</strong>توثيق الممارسات الصفية المبتكرة وتقاسمها بين الأندية</p></div>
-          <div class="interv-item"><div class="interv-num">06</div><p><strong>ملتقيات وطنية</strong>تنظيم ورشات وملتقيات وطنية مشتركة بين الأندية والجامعات ومراكز التكوين</p></div>
-          <div class="interv-item"><div class="interv-num">07</div><p><strong>المنصات الرقمية</strong>استثمار المنصات الرقمية ومساحات العمل المشتركة لتقاسم الموارد</p></div>
+          <div class="interv-item"><div class="interv-num">02</div><p><strong>مواكبة ملفات الترشح</strong>مواكبة ملفات الترشح على المستوى الجهوي والمحلي</p></div>
+          <div class="interv-item"><div class="interv-num">03</div><p><strong>رفع التقارير</strong>رفع تقارير للجنة القيادة بخصوص تساؤلات المترشحين</p></div>
+          <div class="interv-item"><div class="interv-num">04</div><p><strong>ورشات تكوينية</strong>تنظيم لقاءات وورشات تكوينية جهوية ومحلية</p></div>
+          <div class="interv-item"><div class="interv-num">05</div><p><strong>توثيق الممارسات</strong>توثيق الممارسات الصفية المبتكرة وتقاسمها</p></div>
+          <div class="interv-item"><div class="interv-num">06</div><p><strong>ملتقيات وطنية</strong>تنظيم ورشات وملتقيات وطنية مشتركة بين الأندية</p></div>
+          <div class="interv-item"><div class="interv-num">07</div><p><strong>المنصات الرقمية</strong>استثمار المنصات الرقمية لتقاسم الموارد والخبرات</p></div>
         </div>
-
-        <!-- الهيكلة التنظيمية -->
-        <div class="ch-title" style="font-size:1rem;margin-bottom:1rem">🏗️ الهيكلة التنظيمية للنادي</div>
-        <div class="org-tree" style="margin-bottom:2rem">
-          <div class="org-top-node">👑 المنسق/ة الجهوي/ة للنادي<small style="font-size:0.68rem;opacity:0.8;font-weight:500"> — الإشراف العام، التنسيق، التواصل مع لجنة القيادة</small></div>
+        <div class="ch-sec-title">🏗️ الهيكلة التنظيمية</div>
+        <div class="org-tree" style="margin-bottom:1.8rem">
+          <div class="org-top-node">👑 المنسق/ة الجهوي/ة للنادي</div>
           <div class="org-vline"></div>
           <div class="org-hline-wrap"><div class="org-hline"></div></div>
           <div class="org-leaves">
-            <div class="org-leaf"><span class="leaf-ico">📚</span><strong>اللجنة البيداغوجية</strong><span>إعداد التكوينات، التحكيم، التأطير العلمي</span></div>
-            <div class="org-leaf"><span class="leaf-ico">📡</span><strong>لجنة التواصل والوسائط</strong><span>التغطية الإعلامية، المحتوى الرقمي، التقارير</span></div>
-            <div class="org-leaf"><span class="leaf-ico">📋</span><strong>لجنة التنظيم واللوجستيك</strong><span>ترتيب اللقاءات والتنسيق مع المؤسسات</span></div>
-            <div class="org-leaf"><span class="leaf-ico">🤝</span><strong>لجنة الشراكات والتعاون</strong><span>تدبير العلاقات مع الجامعات والمراكز</span></div>
+            <div class="org-leaf"><span class="leaf-ico">📚</span><strong>اللجنة البيداغوجية</strong><span>إعداد التكوينات والتأطير العلمي</span></div>
+            <div class="org-leaf"><span class="leaf-ico">📡</span><strong>لجنة التواصل</strong><span>التغطية الإعلامية والتقارير</span></div>
+            <div class="org-leaf"><span class="leaf-ico">📋</span><strong>لجنة التنظيم</strong><span>ترتيب اللقاءات والتنسيق</span></div>
+            <div class="org-leaf"><span class="leaf-ico">🤝</span><strong>لجنة الشراكات</strong><span>تدبير العلاقات مع الجامعات</span></div>
           </div>
         </div>
-
-        <!-- الشراكات -->
-        <div class="ch-title" style="font-size:1rem;margin-bottom:1rem">🤝 الشراكات والدعم المؤسساتي</div>
-        <div class="partners-wrap" style="margin-bottom:2rem">
+        <div class="ch-sec-title">🤝 الشراكات المؤسساتية</div>
+        <div class="partners-wrap" style="margin-bottom:1.8rem">
           <div class="partner-chip"><span class="pico">🎓</span><p>الجامعات ومختبرات البحث التربوي</p></div>
           <div class="partner-chip"><span class="pico">🏫</span><p>المدارس العليا للأساتذة</p></div>
-          <div class="partner-chip"><span class="pico">🏛️</span><p>المراكز الجهوية لمهن التربية والتكوين</p></div>
+          <div class="partner-chip"><span class="pico">🏛️</span><p>المراكز الجهوية لمهن التربية</p></div>
           <div class="partner-chip"><span class="pico">👑</span><p>مؤسسة محمد السادس للأعمال الاجتماعية</p></div>
           <div class="partner-chip"><span class="pico">🏢</span><p>الجماعات المحلية والمجتمع المدني</p></div>
           <div class="partner-chip"><span class="pico">🌍</span><p>مؤسسات دولية مهتمة بالتجديد التربوي</p></div>
         </div>
-
-        <!-- مؤشرات التتبع -->
-        <div class="ch-title" style="font-size:1rem;margin-bottom:1rem">📊 آليات التتبع والتقويم</div>
-        <div class="kpi-row" style="margin-bottom:2rem">
-          <div class="kpi-card"><span class="kpi-ico">👥</span><div class="kpi-label">عدد الأعضاء</div><div class="kpi-desc">تتبع نمو عدد المنخرطين في النادي الجهوي</div></div>
-          <div class="kpi-card"><span class="kpi-ico">🎪</span><div class="kpi-label">الورشات المنجزة</div><div class="kpi-desc">عدد الأنشطة التكوينية الحضورية وعن بعد سنوياً</div></div>
-          <div class="kpi-card"><span class="kpi-ico">⭐</span><div class="kpi-label">مجالات التخصص</div><div class="kpi-desc">تنوع التخصصات المُمثَّلة في النادي الجهوي</div></div>
-          <div class="kpi-card"><span class="kpi-ico">📄</span><div class="kpi-label">تقرير سنوي</div><div class="kpi-desc">تقرير يُرفع للجنة القيادة يلخص المنجزات والتوصيات</div></div>
+        <div class="ch-sec-title">📊 آليات التتبع والتقويم</div>
+        <div class="kpi-row" style="margin-bottom:1.8rem">
+          <div class="kpi-card"><span class="kpi-ico">👥</span><div class="kpi-label">عدد الأعضاء</div><div class="kpi-desc">تتبع نمو المنخرطين</div></div>
+          <div class="kpi-card"><span class="kpi-ico">🎪</span><div class="kpi-label">الورشات المنجزة</div><div class="kpi-desc">الأنشطة سنوياً</div></div>
+          <div class="kpi-card"><span class="kpi-ico">⭐</span><div class="kpi-label">مجالات التخصص</div><div class="kpi-desc">تنوع التخصصات</div></div>
+          <div class="kpi-card"><span class="kpi-ico">📄</span><div class="kpi-label">تقرير سنوي</div><للجنة القيادة<div class="kpi-desc">يُرفع للجنة القيادة</div></div>
         </div>
-
         <div class="dl-center">
           <a href="https://drive.google.com/file/d/1bkU8W84ScB6EX0JzReosWN_pHCj2l1vs/view?usp=drive_link" target="_blank" class="dl-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 16l-4-4h3V4h2v8h3l-4 4z"/><path d="M4 18h16v2H4z"/></svg>
-            تحميل البطاقة التقنية كاملة PDF
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 16l-4-4h3V4h2v8h3l-4 4z"/><path d="M4 18h16v2H4z"/></svg>
+            تحميل البطاقة التقنية PDF
           </a>
         </div>
       </div>
-
-      <!-- فاصل -->
       <div class="big-divider">
         <div class="bd-icon">📜</div>
-        <div><h3>الميثاق التنظيمي للأندية الجهوية</h3><p>الإطار القانوني والتنظيمي الذي يُنظّم عمل الأندية الجهوية ويُحدد مرجعياتها وقيمها وأهدافها وآليات اشتغالها عبر جهات المملكة المغربية.</p></div>
+        <div><h3>الميثاق التنظيمي للأندية الجهوية</h3><p>الإطار القانوني والتنظيمي الذي يُنظّم عمل الأندية الجهوية ويُحدد مرجعياتها وقيمها وأهدافها.</p></div>
       </div>
-
-      <!-- ══ قسم 2: الميثاق التنظيمي ══ -->
       <div class="ch-block">
-        <div class="ch-title">ملخص الميثاق التنظيمي — إنفوغرافيك</div>
+        <div class="ch-title">ملخص الميثاق التنظيمي</div>
         <p class="ch-sub">أبرز مضامين الميثاق التنظيمي للأندية الجهوية لجائزة أستاذ(ة) السنة</p>
         <div class="ch-divider"></div>
-
-        <!-- ديباجة -->
-        <div class="identity-card" style="margin-bottom:2rem">
+        <div class="identity-card" style="margin-bottom:1.8rem">
           <div class="identity-logo">📜</div>
           <div class="identity-text">
             <h2>الديباجة</h2>
-            <p>انطلاقاً من القناعة الراسخة بأن مهنة التدريس ركيزة أساسية في بناء الإنسان والمجتمع، يُحدث هذا الميثاق إطاراً مرجعياً منظِّماً لعمل الأندية الجهوية، باعتبارها فضاءات تربوية تطوعية تُعنى بدعم أهداف الجائزة ونشر ثقافة الإبداع والتميز المهني.</p>
+            <p>انطلاقاً من القناعة الراسخة بأن مهنة التدريس ركيزة أساسية في بناء الإنسان والمجتمع، يُحدث هذا الميثاق إطاراً مرجعياً منظِّماً لعمل الأندية الجهوية باعتبارها فضاءات تربوية تطوعية.</p>
           </div>
         </div>
-
-        <!-- القيم -->
-        <div class="ch-title" style="font-size:1rem;margin-bottom:1rem">💎 القيم المؤسسة</div>
-        <div class="values-grid" style="margin-bottom:2rem">
-          <div class="value-card"><span class="value-ico">💎</span><div class="value-name">التثمين</div><div class="value-desc">الاعتراف بالممارسات التربوية المتميزة وتقدير مجهودات الفاعلين التربويين</div></div>
-          <div class="value-card"><span class="value-ico">🚀</span><div class="value-name">التحفيز</div><div class="value-desc">تشجيع روح المبادرة والابتكار لدى الأستاذات والأساتذة</div></div>
-          <div class="value-card"><span class="value-ico">🏅</span><div class="value-name">التكريم</div><div class="value-desc">الاعتزاز بمهنة التدريس وأدوارها النبيلة في تنمية الفرد والمجتمع</div></div>
-          <div class="value-card"><span class="value-ico">🔄</span><div class="value-name">التشارك</div><div class="value-desc">تبادل الخبرات وتقاسم الممارسات الجيدة داخل الجهة وبين الجهات</div></div>
-          <div class="value-card"><span class="value-ico">⚖️</span><div class="value-name">الإنصاف</div><div class="value-desc">ضمان تكافؤ الفرص بين جميع المشاركات والمشاركين في الجائزة</div></div>
-          <div class="value-card"><span class="value-ico">🌍</span><div class="value-name">الانفتاح</div><div class="value-desc">تعزيز جسور التعاون مع الفاعلين والمؤسسات الشريكة</div></div>
-          <div class="value-card"><span class="value-ico">🎯</span><div class="value-name">المسؤولية</div><div class="value-desc">الالتزام بأخلاقيات المهنة والشفافية في اتخاذ القرارات</div></div>
-          <div class="value-card"><span class="value-ico">🔓</span><div class="value-name">الانفتاح</div><div class="value-desc">النادي مفتوح لجميع الأساتذة العاملين في الجهة بصرف النظر عن سلكهم</div></div>
+        <div class="ch-sec-title">💎 القيم المؤسسة</div>
+        <div class="values-grid" style="margin-bottom:1.8rem">
+          <div class="value-card"><span class="value-ico">💎</span><div class="value-name">التثمين</div><div class="value-desc">الاعتراف بالممارسات التربوية المتميزة</div></div>
+          <div class="value-card"><span class="value-ico">🚀</span><div class="value-name">التحفيز</div><div class="value-desc">تشجيع روح المبادرة والابتكار</div></div>
+          <div class="value-card"><span class="value-ico">🏅</span><div class="value-name">التكريم</div><div class="value-desc">الاعتزاز بمهنة التدريس</div></div>
+          <div class="value-card"><span class="value-ico">🔄</span><div class="value-name">التشارك</div><div class="value-desc">تبادل الخبرات وتقاسم الممارسات</div></div>
+          <div class="value-card"><span class="value-ico">⚖️</span><div class="value-name">الإنصاف</div><div class="value-desc">ضمان تكافؤ الفرص بين المشاركين</div></div>
+          <div class="value-card"><span class="value-ico">🌍</span><div class="value-name">الانفتاح</div><div class="value-desc">تعزيز جسور التعاون المؤسساتي</div></div>
+          <div class="value-card"><span class="value-ico">🎯</span><div class="value-name">المسؤولية</div><div class="value-desc">الالتزام بأخلاقيات المهنة</div></div>
+          <div class="value-card"><span class="value-ico">🔓</span><div class="value-name">الانفتاح</div><div class="value-desc">النادي مفتوح لجميع أساتذة الجهة</div></div>
         </div>
-
-        <!-- أبواب الميثاق -->
-        <div class="ch-title" style="font-size:1rem;margin-bottom:1rem">📂 أبواب الميثاق</div>
-        <div class="chapters-list" style="margin-bottom:2rem">
-          <div class="chapter-item">
-            <div class="chapter-header"><div class="chapter-num">1</div><div class="chapter-name">الباب الأول — التعريف بالأندية الجهوية</div></div>
-            <div class="chapter-body"><ul>
-              <li>الأندية أطر تربوية تطوعية تُعنى بالتعريف بالجائزة ومواكبة محطاتها الجهوية</li>
-              <li>يمتد اختصاص كل ناد على تراب الجهة مع التنسيق مع المديريات الإقليمية والشركاء</li>
-              <li>تشتغل في احترام تام للحياد وتكافؤ الفرص والنزاهة وجودة الأداء التربوي</li>
-            </ul></div>
-          </div>
-          <div class="chapter-item">
-            <div class="chapter-header"><div class="chapter-num">2</div><div class="chapter-name">الباب الثاني — المرجعيات والقيم</div></div>
-            <div class="chapter-body"><ul>
-              <li>التوجهات الاستراتيجية لوزارة التربية الوطنية والتعليم الأولي والرياضة</li>
-              <li>النصوص المنظمة لجائزة أستاذ(ة) السنة وأهدافها العامة</li>
-              <li>القيم والمبادئ المؤطِّرة للمدرسة المغربية والاتفاقيات ذات الصلة</li>
-            </ul></div>
-          </div>
-          <div class="chapter-item">
-            <div class="chapter-header"><div class="chapter-num">3</div><div class="chapter-name">الباب الثالث — الأهداف</div></div>
-            <div class="chapter-body"><ul>
-              <li>تقاسم التجارب الناجحة بين الفاعلين التربويين داخل الجهة</li>
-              <li>دعم المشاركة الجهوية مع مراعاة الخصوصيات المجالية (حضرية/قروية)</li>
-              <li>الإسهام في الارتقاء بجودة التعلمات وتثمين الممارسات الصفية المبتكرة</li>
-              <li>تشجيع الأساتذة على البحث التربوي والابتكار داخل الفصول الدراسية</li>
-            </ul></div>
-          </div>
-          <div class="chapter-item">
-            <div class="chapter-header"><div class="chapter-num">4</div><div class="chapter-name">الباب الرابع — مجالات الاشتغال والأنشطة</div></div>
-            <div class="chapter-body"><ul>
-              <li>تنظيم لقاءات تربوية وورشات تكوينية حول الممارسات الصفية المبتكرة</li>
-              <li>توثيق ونشر التجارب البيداغوجية المتميزة بتنسيق مع لجنة القيادة</li>
-              <li>استثمار الوسائط الرقمية لتقاسم الموارد والخبرات بين الأندية</li>
-            </ul></div>
-          </div>
-          <div class="chapter-item">
-            <div class="chapter-header"><div class="chapter-num">5</div><div class="chapter-name">الباب الخامس — العضوية</div></div>
-            <div class="chapter-body"><ul>
-              <li>المتوجون بالجائزة والمترشحون لها والأساتذة العاملون في نفوذ الجهة</li>
-              <li>العضوية مبنية على الالتزام بمبادئ الميثاق والمشاركة في الأنشطة</li>
-            </ul></div>
-          </div>
-          <div class="chapter-item">
-            <div class="chapter-header"><div class="chapter-num">6</div><div class="chapter-name">الباب السادس — الحكامة والتنظيم</div></div>
-            <div class="chapter-body"><ul>
-              <li>العمل الجماعي والتطوعي كمنطلق، والشفافية في اتخاذ القرار</li>
-              <li>الهيكلة الدنيا: منسق جهوي + لجنة البرمجة + لجنة التواصل + أعضاء</li>
-              <li>إمكانية إحداث لجان موضوعاتية حسب الحاجيات</li>
-            </ul></div>
-          </div>
+        <div class="ch-sec-title">📂 أبواب الميثاق</div>
+        <div class="chapters-list" style="margin-bottom:1.8rem">
+          <div class="chapter-item"><div class="chapter-header"><div class="chapter-num">1</div><div class="chapter-name">التعريف بالأندية الجهوية</div></div><div class="chapter-body"><ul><li>أطر تربوية تطوعية تُعنى بالتعريف بالجائزة ومواكبة محطاتها</li><li>اختصاص كل ناد على تراب الجهة مع التنسيق مع المديريات والشركاء</li><li>الاشتغال في احترام مبادئ الحياد وتكافؤ الفرص والنزاهة</li></ul></div></div>
+          <div class="chapter-item"><div class="chapter-header"><div class="chapter-num">2</div><div class="chapter-name">المرجعيات والقيم</div></div><div class="chapter-body"><ul><li>التوجهات الاستراتيجية لوزارة التربية الوطنية</li><li>النصوص المنظمة لجائزة أستاذ(ة) السنة وأهدافها</li><li>القيم والمبادئ المؤطِّرة للمدرسة المغربية</li></ul></div></div>
+          <div class="chapter-item"><div class="chapter-header"><div class="chapter-num">3</div><div class="chapter-name">الأهداف</div></div><div class="chapter-body"><ul><li>تقاسم التجارب الناجحة بين الفاعلين التربويين داخل الجهة</li><li>دعم المشاركة مع مراعاة الخصوصيات المجالية حضرية/قروية</li><li>الإسهام في الارتقاء بجودة التعلمات وتثمين الممارسات الصفية</li></ul></div></div>
+          <div class="chapter-item"><div class="chapter-header"><div class="chapter-num">4</div><div class="chapter-name">مجالات الاشتغال والأنشطة</div></div><div class="chapter-body"><ul><li>تنظيم لقاءات تربوية وورشات تكوينية حول الممارسات الصفية</li><li>توثيق ونشر التجارب البيداغوجية المتميزة بتنسيق مع لجنة القيادة</li><li>استثمار الوسائط الرقمية لتقاسم الموارد بين الأندية</li></ul></div></div>
+          <div class="chapter-item"><div class="chapter-header"><div class="chapter-num">5</div><div class="chapter-name">العضوية</div></div><div class="chapter-body"><ul><li>المتوجون بالجائزة والمترشحون لها وجميع أساتذة الجهة</li><li>العضوية مبنية على الالتزام بمبادئ الميثاق والمشاركة الإيجابية</li></ul></div></div>
+          <div class="chapter-item"><div class="chapter-header"><div class="chapter-num">6</div><div class="chapter-name">الحكامة والتنظيم</div></div><div class="chapter-body"><ul><li>العمل الجماعي والتطوعي والشفافية في اتخاذ القرار</li><li>الهيكلة الدنيا: منسق جهوي + لجنة البرمجة + لجنة التواصل</li><li>إمكانية إحداث لجان موضوعاتية حسب الحاجيات</li></ul></div></div>
         </div>
-
         <div class="dl-center">
           <a href="https://drive.google.com/file/d/11g2wwfoZVSkEFS-RnlVq2mvfg9T28Z7a/view?usp=sharing" target="_blank" class="dl-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 16l-4-4h3V4h2v8h3l-4 4z"/><path d="M4 18h16v2H4z"/></svg>
-            تحميل الميثاق التنظيمي كاملاً PDF
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 16l-4-4h3V4h2v8h3l-4 4z"/><path d="M4 18h16v2H4z"/></svg>
+            تحميل الميثاق التنظيمي PDF
           </a>
         </div>
       </div>
@@ -648,44 +630,17 @@ footer span{color:var(--gold);font-weight:700}
       <div class="sec-title">الفعاليات والأنشطة</div>
       <p class="sec-sub">برامج العمل، التقارير، واللقاءات الجهوية للأندية</p>
       <div class="sec-divider"></div>
-
-      <!-- فلاتر -->
-      <div class="events-filter" id="eventsFilter" style="display:none">
-        <button class="filter-btn active" onclick="filterEventsPage(this,'all')">الكل</button>
-        <button class="filter-btn" onclick="filterEventsPage(this,'لقاء')">لقاءات</button>
-        <button class="filter-btn" onclick="filterEventsPage(this,'تكوين')">تكوينات</button>
-        <button class="filter-btn" onclick="filterEventsPage(this,'تقرير')">تقارير</button>
-        <button class="filter-btn" onclick="filterEventsPage(this,'ندوة')">ندوات</button>
-        <button class="filter-btn" onclick="filterEventsPage(this,'أخرى')">أخرى</button>
-      </div>
-
-      <!-- حالة التحميل -->
-      <div id="eventsLoading" style="text-align:center;padding:3rem;color:var(--text-mid)">
-        <div style="font-size:2rem;margin-bottom:0.6rem">⏳</div>
-        <p style="font-size:0.88rem">جارٍ تحميل الفعاليات...</p>
-      </div>
-
-      <!-- لا توجد فعاليات -->
-      <div id="eventsEmpty" style="display:none;text-align:center;padding:4rem 2rem;background:white;border-radius:20px;border:2px dashed var(--card-border)">
-        <div style="font-size:3rem;margin-bottom:1rem">📭</div>
-        <h3 style="font-family:'Tajawal',sans-serif;color:var(--green);margin-bottom:0.5rem">لا توجد فعاليات بعد</h3>
-        <p style="font-size:0.85rem;color:var(--text-mid)">سيتم نشر الفعاليات قريباً من طرف منسقي الأندية الجهوية</p>
-      </div>
-
-      <!-- شبكة الفعاليات -->
+      <div class="events-filter" id="eventsFilter" style="display:none"></div>
+      <div id="eventsLoading" style="text-align:center;padding:3rem;color:var(--text-mid)"><div style="font-size:2rem;margin-bottom:0.6rem">⏳</div><p style="font-size:0.85rem">جارٍ تحميل الفعاليات...</p></div>
+      <div id="eventsEmpty" style="display:none;text-align:center;padding:3.5rem 1.5rem;background:white;border-radius:18px;border:2px dashed var(--card-border)"><div style="font-size:2.8rem;margin-bottom:0.8rem">📭</div><h3 style="font-family:'Tajawal',sans-serif;color:var(--green);margin-bottom:0.4rem">لا توجد فعاليات بعد</h3><p style="font-size:0.82rem;color:var(--text-mid)">سيتم نشر الفعاليات قريباً من طرف منسقي الأندية</p></div>
       <div class="events-grid" id="eventsGrid" style="display:none"></div>
-
-      <!-- ترقيم الصفحات -->
       <div id="eventsPagination" style="display:none;text-align:center;margin-top:2rem;display:none;gap:0.5rem;flex-wrap:wrap;justify-content:center"></div>
-
     </div>
   </div>
-
-  <!-- Modal تفاصيل الفعالية -->
   <div id="eventModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:3000;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:1rem">
-    <div style="background:white;border-radius:20px;max-width:680px;width:100%;max-height:90vh;overflow-y:auto;border:2px solid var(--gold);position:relative;animation:boxIn 0.28s ease">
-      <button onclick="closeEventModal()" style="position:sticky;top:0.8rem;float:left;margin-left:0.8rem;width:32px;height:32px;background:var(--card-bg);border:1.5px solid var(--card-border);border-radius:50%;cursor:pointer;font-size:1rem;color:var(--text-dark);transition:all 0.2s;z-index:1;display:flex;align-items:center;justify-content:center" onmouseover="this.style.background='var(--gold)';this.style.color='white'" onmouseout="this.style.background='var(--card-bg)';this.style.color='var(--text-dark)'">✕</button>
-      <div id="eventModalContent" style="padding:1.8rem"></div>
+    <div style="background:white;border-radius:18px;max-width:660px;width:100%;max-height:90vh;overflow-y:auto;border:2px solid var(--gold);position:relative;animation:boxIn 0.28s ease">
+      <button onclick="closeEventModal()" style="position:sticky;top:0.7rem;float:left;margin-left:0.7rem;width:30px;height:30px;background:var(--card-bg);border:1.5px solid var(--card-border);border-radius:50%;cursor:pointer;font-size:0.88rem;color:var(--text-dark);transition:all 0.2s;z-index:1;display:flex;align-items:center;justify-content:center" onmouseover="this.style.background='var(--gold)';this.style.color='white'" onmouseout="this.style.background='var(--card-bg)';this.style.color='var(--text-dark)'">✕</button>
+      <div id="eventModalContent" style="padding:1.5rem"></div>
     </div>
   </div>
 </div>
@@ -759,8 +714,8 @@ footer span{color:var(--gold);font-weight:700}
         <div class="success-msg" id="successMsg">
           <span class="ico">🎉</span>
           <h3>تم إرسال طلبك بنجاح!</h3>
-          <p>سيتم التواصل معك قريباً من طرف منسق النادي الجهوي. شكراً على انضمامك.</p>
-          <button onclick="showPage('about')" style="margin-top:1.2rem;background:var(--green-dark);color:white;border:none;padding:0.65rem 1.8rem;border-radius:10px;font-family:'Cairo',sans-serif;font-size:0.85rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='var(--green-dark)'">🏠 العودة إلى الصفحة الرئيسية</button>
+          <p>سيتم التواصل معك قريباً من طرف منسق النادي الجهوي.</p>
+          <button onclick="showPage('about')" style="margin-top:1rem;background:var(--gold);color:var(--green);border:none;padding:0.6rem 1.6rem;border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.82rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem" onmouseover="this.style.background='var(--green)';this.style.color='var(--gold)'" onmouseout="this.style.background='var(--gold)';this.style.color='var(--green)'">🏠 العودة للصفحة الرئيسية</button>
         </div>
       </div>
     </div>
@@ -772,7 +727,7 @@ footer span{color:var(--gold);font-weight:700}
   <div class="page-hero">
     <div class="page-hero-inner">
       <h1>الشركاء الاستراتيجيون</h1>
-      <p>بفضل دعم شركائنا الاستراتيجيين، نعمل معاً للنهوض بالمنظومة التربوية وتعزيز التميز المهني</p>
+      <p>بفضل دعم شركائنا الاستراتيجيين، نعمل معاً للنهوض بالمنظومة التربوية</p>
     </div>
   </div>
   <div class="hero-divider"></div>
@@ -799,7 +754,7 @@ footer span{color:var(--gold);font-weight:700}
     <a onclick="showPage('partners')">الشركاء</a>
   </div>
   <p>© 2026 &nbsp;—&nbsp; <span>جائزة أستاذ(ة) السنة</span> &nbsp;—&nbsp; منصة الأندية الجهوية &nbsp;—&nbsp; جميع الحقوق محفوظة</p>
-  <p style="margin-top:0.45rem;font-size:0.78rem;color:rgba(255,255,255,0.45);">تصميم : <span style="color:var(--gold);font-weight:700;">ذ. إقبال أوعيسى</span></p>
+  <p style="margin-top:0.4rem;font-size:0.75rem;color:rgba(255,255,255,0.4)">تصميم : <span style="color:var(--gold);font-weight:700">ذ. إقبال أوعيسى</span></p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -809,6 +764,22 @@ const REGION_NAMES={1:"طنجة–تطوان–الحسيمة",2:"الشرق",3:
 const LABELS={1:"الجهة الأولى",2:"الجهة الثانية",3:"الجهة الثالثة",4:"الجهة الرابعة",5:"الجهة الخامسة",6:"الجهة السادسة",7:"الجهة السابعة",8:"الجهة الثامنة",9:"الجهة التاسعة",10:"الجهة العاشرة",11:"الجهة الحادية عشرة",12:"الجهة الثانية عشرة"};
 const LOGOS={1:{sq:"https://i.postimg.cc/TpGqN2JY/jht-tnjt-ttwan-alhsymt.png"},2:{sq:"https://i.postimg.cc/2VmF9j7V/jht-alshrq.png"},3:{sq:"https://i.postimg.cc/hfgbZ41J/jht-fas-mknas.png"},4:{sq:"https://i.postimg.cc/jLKQ3q4D/jht-alrbat-sla-alqnytrt.png"},5:{sq:"https://i.postimg.cc/gndqtcHX/jht-bny-mlal-khnyfrt.png"},6:{sq:"https://i.postimg.cc/nCZYSVGq/jht-aldar-albydaʾ-stat.png"},7:{sq:"https://i.postimg.cc/Xp3c1Nkc/jht-mraksh-asfy.png"},8:{sq:"https://i.postimg.cc/QHskYNJm/jht-drʿt-tafylalt.png"},9:{sq:"https://i.postimg.cc/Whj6Ypwm/jht-sws-mast.png"},10:{sq:"https://i.postimg.cc/1fH0kxvH/jht-klmym-wad-nwn.png"},11:{sq:"https://i.postimg.cc/RN9QpCLs/jht-alʿywn-alsaqyt-alhmraʾ.png"},12:{sq:"https://i.postimg.cc/tYytvRNr/jht-aldakhlt-wad-aldhhb.png"}};
 
+// ── hamburger ──
+function toggleMenu(){
+  const nav=document.getElementById('navMenu');
+  const btn=document.getElementById('hamburgerBtn');
+  const open=nav.classList.toggle('open');
+  btn.textContent=open?'✕':'☰';
+}
+document.querySelectorAll('.navbar-nav a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.getElementById('navMenu').classList.remove('open');
+    document.getElementById('hamburgerBtn').textContent='☰';
+  });
+});
+
+// ── Page nav ──
+let mapReady=false;
 function showPage(id,pushState=true){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
@@ -817,21 +788,31 @@ function showPage(id,pushState=true){
   document.getElementById('pdfBtn').classList.toggle('visible',id==='about');
   window.scrollTo({top:0,behavior:'smooth'});
   if(pushState)history.pushState({page:id},'','#'+id);
-  if(id==='clubs')setTimeout(()=>{map.invalidateSize();updateArrows();buildArrows();},150);
-  if(id==='events' && !allEventsData.length) loadEventsFromFirebase();
+  if(id==='clubs'){
+    setTimeout(()=>{
+      map.invalidateSize();
+      if(!mapReady) loadMap();
+      updateArrows();
+      buildArrows();
+    },100);
+  }
+  if(id==='events'&&!allEventsData.length) loadEventsFromFirebase();
 }
+
 window.addEventListener('popstate',e=>{
   const id=(e.state&&e.state.page)||(location.hash.replace('#',''))||'about';
   showPage(id,false);
-  if(id==='clubs')setTimeout(()=>{map.invalidateSize();updateArrows();buildArrows();},150);
 });
 (function(){
   const hash=location.hash.replace('#','');
   const valid=['about','clubs','charter','events','join','partners'];
-  showPage(valid.includes(hash)?hash:'about',true);
+  const start=valid.includes(hash)?hash:'about';
+  showPage(start,true);
+  // تحميل الخريطة مبكراً في الخلفية
+  setTimeout(loadMap,500);
 })();
 
-// MAP
+// ── Map ──
 const S0={fillColor:'#fdf8ec',fillOpacity:0.82,color:'#c9a030',weight:1.8,opacity:1};
 const SH={fillColor:'#c9a030',fillOpacity:0.38,color:'#c9a030',weight:3,opacity:1};
 const rLayers={},dMarkers={},arrowPaths={p:{}};
@@ -847,6 +828,7 @@ function showArrow(n){const p=arrowPaths.p[n];if(p)p.classList.add('active');}
 function hideArrow(n){const p=arrowPaths.p[n];if(p)p.classList.remove('active');}
 
 async function loadMap(){
+  if(mapReady)return;
   try{
     const res=await fetch('https://raw.githubusercontent.com/ikbalrtx-cmd/prix-professeur-annee/refs/heads/main/ma.json');
     if(!res.ok)throw new Error();
@@ -862,18 +844,19 @@ async function loadMap(){
       }});
       layer.addTo(map);rLayers[num]=layer;
       const bounds=L.geoJSON(f).getBounds(),center=bounds.getCenter();
-      const icon=L.divIcon({className:'region-label-icon',html:`<div class="region-num-dot" id="dot${num}">${num}</div>`,iconSize:[28,28],iconAnchor:[14,14]});
+      const icon=L.divIcon({className:'region-label-icon',html:`<div class="region-num-dot" id="dot${num}">${num}</div>`,iconSize:[26,26],iconAnchor:[13,13]});
       const marker=L.marker([center.lat,center.lng],{icon,zIndexOffset:1000}).addTo(map);
-      marker.bindPopup(`<div class="popup-inner"><div class="popup-num">${num}</div><div class="popup-region">${LABELS[num]}</div><div class="popup-club">جهة ${REGION_NAMES[num]}</div><img class="popup-logo" src="${LOGOS[num].sq}"></div>`,{maxWidth:240});
+      marker.bindPopup(`<div class="popup-inner"><div class="popup-num">${num}</div><div class="popup-region">${LABELS[num]}</div><div class="popup-club">جهة ${REGION_NAMES[num]}</div><img class="popup-logo" src="${LOGOS[num].sq}"></div>`,{maxWidth:230});
       marker.on('mouseover',()=>{document.getElementById('b'+num)?.classList.add('highlighted');if(rLayers[num])rLayers[num].setStyle(SH);showArrow(num);updateArrows();});
       marker.on('mouseout',()=>{document.getElementById('b'+num)?.classList.remove('highlighted');if(rLayers[num])rLayers[num].setStyle(S0);hideArrow(num);});
       dMarkers[num]=marker;
     });
     try{map.fitBounds(L.geoJSON(data).getBounds(),{padding:[20,20]});}catch(e){}
-    setTimeout(buildArrows,700);
+    mapReady=true;
+    setTimeout(buildArrows,500);
   }catch(err){console.error('خطأ:',err);}
 }
-loadMap();
+
 map.on('zoom move zoomend moveend',updateArrows);
 window.addEventListener('resize',()=>{clearTimeout(window._rt);window._rt=setTimeout(buildArrows,160);});
 window.addEventListener('scroll',updateArrows,{passive:true});
@@ -883,84 +866,56 @@ document.querySelectorAll('.region-card').forEach(card=>{
   card.addEventListener('mouseleave',()=>{if(rLayers[n])rLayers[n].setStyle(S0);hideArrow(n);});
 });
 
-// ── EVENTS FROM FIREBASE ──
-const EVENTS_PER_PAGE = 20;
-let allEventsData = [], filteredEventsData = [], currentEvPage = 1, activeEvFilter = 'all';
+// ── Events from Firebase ──
+const EVENTS_PER_PAGE=20;
+let allEventsData=[],filteredEventsData=[],currentEvPage=1;
 
 function formatDateAr(dateStr){
-  if(!dateStr) return '—';
-  try{
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('ar-MA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  }catch(e){return dateStr;}
+  if(!dateStr)return'—';
+  try{return new Date(dateStr).toLocaleDateString('ar-MA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});}
+  catch(e){return dateStr;}
 }
-
-function getTypeClass(type){
-  const map={'لقاء':'لقاء','تكوين':'تكوين','تقرير':'تقرير','ندوة':'ندوة'};
-  return map[type]||'أخرى';
-}
+function getTypeClass(t){return['لقاء','تكوين','تقرير','ندوة'].includes(t)?t:'أخرى';}
 
 async function loadEventsFromFirebase(){
-  const grid    = document.getElementById('eventsGrid');
-  const loading = document.getElementById('eventsLoading');
-  const empty   = document.getElementById('eventsEmpty');
-  const filter  = document.getElementById('eventsFilter');
-  const pagin   = document.getElementById('eventsPagination');
-
-  loading.style.display='block'; grid.style.display='none';
-  empty.style.display='none';    filter.style.display='none';
-  pagin.style.display='none';
-
+  const grid=document.getElementById('eventsGrid');
+  const loading=document.getElementById('eventsLoading');
+  const empty=document.getElementById('eventsEmpty');
+  const filter=document.getElementById('eventsFilter');
+  const pagin=document.getElementById('eventsPagination');
+  loading.style.display='block';grid.style.display='none';empty.style.display='none';filter.style.display='none';pagin.style.display='none';
   try{
-    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const { getFirestore, collection, getDocs, orderBy, query } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-
-    const fbConfig={
-      apiKey:"AIzaSyBvrWZJoHi3sz8S-TrEgiTECRoeqgZs77E",
-      authDomain:"oustad-sana-clubs-65e67.firebaseapp.com",
-      projectId:"oustad-sana-clubs-65e67",
-      storageBucket:"oustad-sana-clubs-65e67.firebasestorage.app",
-      messagingSenderId:"1013295596241",
-      appId:"1:1013295596241:web:194a336dc18ea37d2f3bf0"
-    };
-
-    const fbApp = getApps().length ? getApps()[0] : initializeApp(fbConfig);
-    const db    = getFirestore(fbApp);
-    const q     = query(collection(db,'events'), orderBy('createdAt','desc'));
-    const snap  = await getDocs(q);
-
-    allEventsData = snap.docs.map(d=>({id:d.id,...d.data()}));
+    const{initializeApp,getApps}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+    const{getFirestore,collection,getDocs,orderBy,query}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const fbConfig={apiKey:"AIzaSyBvrWZJoHi3sz8S-TrEgiTECRoeqgZs77E",authDomain:"oustad-sana-clubs-65e67.firebaseapp.com",projectId:"oustad-sana-clubs-65e67",storageBucket:"oustad-sana-clubs-65e67.firebasestorage.app",messagingSenderId:"1013295596241",appId:"1:1013295596241:web:194a336dc18ea37d2f3bf0"};
+    const fbApp=getApps().length?getApps()[0]:initializeApp(fbConfig);
+    const db=getFirestore(fbApp);
+    const q=query(collection(db,'events'),orderBy('createdAt','desc'));
+    const snap=await getDocs(q);
+    allEventsData=snap.docs.map(d=>({id:d.id,...d.data()}));
     loading.style.display='none';
-
-    if(!allEventsData.length){
-      empty.style.display='block'; return;
-    }
-
+    if(!allEventsData.length){empty.style.display='block';return;}
+    // build filters
     filter.style.display='flex';
-    filteredEventsData = [...allEventsData];
-    currentEvPage = 1;
-    renderEventsPage();
-
-  }catch(err){
-    console.error(err);
-    loading.innerHTML='<div style="text-align:center;padding:2rem;color:var(--text-mid)">⚠️ تعذّر تحميل الفعاليات — تحقق من الاتصال</div>';
-  }
+    filter.innerHTML='';
+    const types=['all','لقاء','تكوين','تقرير','ندوة','أخرى'];
+    const labels=['الكل','لقاءات','تكوينات','تقارير','ندوات','أخرى'];
+    types.forEach((t,i)=>{const b=document.createElement('button');b.className='filter-btn'+(t==='all'?' active':'');b.textContent=labels[i];b.onclick=()=>filterEventsPage(b,t);filter.appendChild(b);});
+    filteredEventsData=[...allEventsData];currentEvPage=1;renderEventsPage();
+  }catch(err){console.error(err);document.getElementById('eventsLoading').innerHTML='<p style="color:var(--text-mid);font-size:0.85rem">⚠️ تعذّر تحميل الفعاليات</p>';}
 }
 
 function renderEventsPage(){
-  const grid  = document.getElementById('eventsGrid');
-  const pagin = document.getElementById('eventsPagination');
-  const total = filteredEventsData.length;
-  const pages = Math.ceil(total / EVENTS_PER_PAGE);
-  const start = (currentEvPage-1)*EVENTS_PER_PAGE;
-  const slice = filteredEventsData.slice(start, start+EVENTS_PER_PAGE);
-
-  grid.style.display = 'grid';
-  grid.innerHTML = slice.map(ev=>`
+  const grid=document.getElementById('eventsGrid');
+  const pagin=document.getElementById('eventsPagination');
+  const total=filteredEventsData.length;
+  const pages=Math.ceil(total/EVENTS_PER_PAGE);
+  const start=(currentEvPage-1)*EVENTS_PER_PAGE;
+  const slice=filteredEventsData.slice(start,start+EVENTS_PER_PAGE);
+  grid.style.display='grid';
+  grid.innerHTML=slice.map(ev=>`
     <div class="ev-card">
-      ${ev.imgUrl
-        ? `<img class="ev-img" src="${ev.imgUrl}" alt="${ev.title}" loading="lazy">`
-        : `<div class="ev-img-placeholder">📅</div>`}
+      ${ev.imgUrl?`<img class="ev-img" src="${ev.imgUrl}" alt="${ev.title}" loading="lazy">`:`<div class="ev-img-placeholder">📅</div>`}
       <div class="ev-body">
         <div class="ev-meta-row">
           <span class="ev-type ev-type-${getTypeClass(ev.type)}">${ev.type||'فعالية'}</span>
@@ -974,175 +929,110 @@ function renderEventsPage(){
         <button class="ev-btn-read" onclick="openEventModal('${ev.id}')">قراءة التفاصيل</button>
         ${ev.pdfUrl?`<a class="ev-btn-pdf" href="${ev.pdfUrl}" target="_blank">📎 PDF</a>`:''}
       </div>
-    </div>
-  `).join('');
-
-  // ترقيم الصفحات
-  if(pages > 1){
-    pagin.style.display='flex';
-    pagin.innerHTML = '';
-    if(currentEvPage>1){
-      const prev=document.createElement('button');
-      prev.className='pg-btn'; prev.textContent='→ السابقة';
-      prev.onclick=()=>{currentEvPage--;renderEventsPage();document.getElementById('page-events').scrollIntoView({behavior:'smooth'});};
-      pagin.appendChild(prev);
-    }
-    for(let i=1;i<=pages;i++){
-      const b=document.createElement('button');
-      b.className='pg-btn'+(i===currentEvPage?' active':'');
-      b.textContent=i;
-      b.onclick=(()=>{const p=i;return()=>{currentEvPage=p;renderEventsPage();document.getElementById('page-events').scrollIntoView({behavior:'smooth'});}})();
-      pagin.appendChild(b);
-    }
-    if(currentEvPage<pages){
-      const next=document.createElement('button');
-      next.className='pg-btn'; next.textContent='← التالية';
-      next.onclick=()=>{currentEvPage++;renderEventsPage();document.getElementById('page-events').scrollIntoView({behavior:'smooth'});};
-      pagin.appendChild(next);
-    }
-  } else { pagin.style.display='none'; }
+    </div>`).join('');
+  if(pages>1){
+    pagin.style.display='flex';pagin.innerHTML='';
+    if(currentEvPage>1){const b=document.createElement('button');b.className='pg-btn';b.textContent='→ السابقة';b.onclick=()=>{currentEvPage--;renderEventsPage();document.getElementById('page-events').scrollIntoView({behavior:'smooth'});};pagin.appendChild(b);}
+    for(let i=1;i<=pages;i++){const b=document.createElement('button');b.className='pg-btn'+(i===currentEvPage?' active':'');b.textContent=i;const p=i;b.onclick=()=>{currentEvPage=p;renderEventsPage();document.getElementById('page-events').scrollIntoView({behavior:'smooth'});};pagin.appendChild(b);}
+    if(currentEvPage<pages){const b=document.createElement('button');b.className='pg-btn';b.textContent='← التالية';b.onclick=()=>{currentEvPage++;renderEventsPage();document.getElementById('page-events').scrollIntoView({behavior:'smooth'});};pagin.appendChild(b);}
+  }else{pagin.style.display='none';}
 }
 
-window.filterEventsPage = (btn,type)=>{
+window.filterEventsPage=(btn,type)=>{
   document.querySelectorAll('#eventsFilter .filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  activeEvFilter=type;
-  filteredEventsData = type==='all' ? [...allEventsData] : allEventsData.filter(e=>e.type===type);
-  currentEvPage=1;
-  renderEventsPage();
+  filteredEventsData=type==='all'?[...allEventsData]:allEventsData.filter(e=>e.type===type||(type==='أخرى'&&!['لقاء','تكوين','تقرير','ندوة'].includes(e.type)));
+  currentEvPage=1;renderEventsPage();
 };
 
-window.openEventModal = id=>{
-  const ev = allEventsData.find(e=>e.id===id);
-  if(!ev) return;
-  const modal   = document.getElementById('eventModal');
-  const content = document.getElementById('eventModalContent');
-  content.innerHTML=`
-    ${ev.imgUrl?`<img src="${ev.imgUrl}" style="width:100%;border-radius:12px;margin-bottom:1.2rem;max-height:320px;object-fit:cover" alt="${ev.title}">` :''}
-    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.8rem">
+window.openEventModal=id=>{
+  const ev=allEventsData.find(e=>e.id===id);if(!ev)return;
+  const modal=document.getElementById('eventModal');
+  document.getElementById('eventModalContent').innerHTML=`
+    ${ev.imgUrl?`<img src="${ev.imgUrl}" style="width:100%;border-radius:12px;margin-bottom:1.1rem;max-height:300px;object-fit:cover" alt="">`:''}
+    <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;margin-bottom:0.75rem">
       <span class="ev-type ev-type-${getTypeClass(ev.type)}">${ev.type||'فعالية'}</span>
-      <span style="font-size:0.78rem;color:var(--text-mid)">📅 ${formatDateAr(ev.date)}</span>
+      <span style="font-size:0.75rem;color:var(--text-mid)">📅 ${formatDateAr(ev.date)}</span>
     </div>
-    <h2 style="font-family:'Tajawal',sans-serif;font-size:1.15rem;font-weight:900;color:var(--green-dark);margin-bottom:0.6rem;line-height:1.5">${ev.title}</h2>
-    <p style="font-size:0.82rem;color:var(--text-mid);margin-bottom:1rem;display:flex;align-items:center;gap:0.4rem">📍 ${ev.region||'—'}${ev.city?' — '+ev.city:''}</p>
-    <div style="background:var(--gold-pale);border-right:3px solid var(--gold);border-radius:0 10px 10px 0;padding:1rem 1.2rem;font-size:0.85rem;color:var(--text-body);line-height:1.8;margin-bottom:1.2rem;white-space:pre-wrap">${ev.desc||''}</div>
-    ${ev.pdfUrl?`<a href="${ev.pdfUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--green-dark);color:white;padding:0.65rem 1.6rem;border-radius:10px;font-family:'Cairo',sans-serif;font-size:0.85rem;font-weight:800;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='var(--green-dark)'">📎 تحميل الوثيقة PDF</a>`:''}
-  `;
-  modal.style.display='flex';
-  document.body.style.overflow='hidden';
+    <h2 style="font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:var(--green);margin-bottom:0.55rem;line-height:1.5">${ev.title}</h2>
+    <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:0.9rem">📍 ${ev.region||'—'}${ev.city?' — '+ev.city:''}</p>
+    <div style="background:var(--gold-pale);border-right:3px solid var(--gold);border-radius:0 10px 10px 0;padding:0.9rem 1.1rem;font-size:0.82rem;color:var(--text-body);line-height:1.8;margin-bottom:1.1rem;white-space:pre-wrap">${ev.desc||''}</div>
+    ${ev.pdfUrl?`<a href="${ev.pdfUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:0.45rem;background:var(--green);color:white;padding:0.6rem 1.5rem;border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.82rem;font-weight:800;text-decoration:none" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='var(--green)'">📎 تحميل الوثيقة PDF</a>`:''}`;
+  modal.style.display='flex';document.body.style.overflow='hidden';
 };
+window.closeEventModal=()=>{document.getElementById('eventModal').style.display='none';document.body.style.overflow='';};
+document.getElementById('eventModal').addEventListener('click',e=>{if(e.target===document.getElementById('eventModal'))window.closeEventModal();});
 
-window.closeEventModal=()=>{
-  document.getElementById('eventModal').style.display='none';
-  document.body.style.overflow='';
-};
-document.getElementById('eventModal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('eventModal')) window.closeEventModal();
-});
-
-function filterEvents(){}// legacy stub
-
-// FORM
+// ── Form ──
+const SHEET_URL="https://script.google.com/macros/s/AKfycbyHohhuyv6vnvj2CmHlvOsL0UPGnPqxVaidOivIErumgLLb-FmXgxScBhtxd36VFiuWMQ/exec";
 function sanitizeName(input){input.addEventListener('input',()=>{input.value=input.value.replace(/[0-9!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?`~]/g,'');});}
 function sanitizePhone(input){input.addEventListener('input',()=>{input.value=input.value.replace(/[^0-9+\s\-]/g,'');});}
-function showFieldError(input,msg){let err=input.parentNode.querySelector('.field-error');if(!err){err=document.createElement('span');err.className='field-error';err.style.cssText='color:#e53e3e;font-size:0.72rem;font-weight:700;margin-top:0.25rem;display:block';input.parentNode.appendChild(err);}err.textContent=msg;input.style.borderColor='#e53e3e';}
+function showFieldError(input,msg){let err=input.parentNode.querySelector('.field-error');if(!err){err=document.createElement('span');err.className='field-error';err.style.cssText='color:#e53e3e;font-size:0.7rem;font-weight:700;margin-top:0.2rem;display:block';input.parentNode.appendChild(err);}err.textContent=msg;input.style.borderColor='#e53e3e';}
 function clearFieldError(input){const err=input.parentNode.querySelector('.field-error');if(err)err.textContent='';input.style.borderColor='';}
-function isValidEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);}
-function isValidPhone(v){return /^[0-9+\s\-]{8,15}$/.test(v.trim());}
+function isValidEmail(v){return/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);}
+function isValidPhone(v){return/^[0-9+\s\-]{8,15}$/.test(v.trim());}
 function isValidName(v){return v.trim().length>=2&&!/[0-9!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?`~]/.test(v);}
 
 document.addEventListener('DOMContentLoaded',()=>{
-  const firstName=document.querySelector('input[placeholder="الاسم الشخصي"]');
-  const lastName=document.querySelector('input[placeholder="اسم العائلة"]');
-  const phone=document.querySelector('input[type="tel"]');
-  const email=document.querySelector('input[type="email"]');
-  const directorate=document.querySelector('input[placeholder="مثال: مديرية وجدة"]');
-  const school=document.querySelector('input[placeholder="اسم المؤسسة"]');
-  if(firstName){sanitizeName(firstName);firstName.addEventListener('blur',()=>{if(!isValidName(firstName.value))showFieldError(firstName,'الاسم يجب أن يحتوي على أحرف فقط');else clearFieldError(firstName);});}
-  if(lastName){sanitizeName(lastName);lastName.addEventListener('blur',()=>{if(!isValidName(lastName.value))showFieldError(lastName,'النسب يجب أن يحتوي على أحرف فقط');else clearFieldError(lastName);});}
-  if(directorate){sanitizeName(directorate);directorate.addEventListener('blur',()=>{if(directorate.value&&!isValidName(directorate.value))showFieldError(directorate,'المديرية يجب أن تحتوي على أحرف فقط');else clearFieldError(directorate);});}
-  if(school){sanitizeName(school);school.addEventListener('blur',()=>{if(school.value&&!isValidName(school.value))showFieldError(school,'اسم المؤسسة يجب أن يحتوي على أحرف فقط');else clearFieldError(school);});}
-  if(phone){sanitizePhone(phone);phone.addEventListener('blur',()=>{if(phone.value&&!isValidPhone(phone.value))showFieldError(phone,'رقم الهاتف يجب أن يحتوي على أرقام فقط');else clearFieldError(phone);});}
-  if(email){email.addEventListener('blur',()=>{if(email.value&&!isValidEmail(email.value))showFieldError(email,'يرجى إدخال عنوان بريد إلكتروني صحيح');else clearFieldError(email);});}
+  const fn=document.querySelector('input[placeholder="الاسم الشخصي"]');
+  const ln=document.querySelector('input[placeholder="اسم العائلة"]');
+  const ph=document.querySelector('input[type="tel"]');
+  const em=document.querySelector('input[type="email"]');
+  const di=document.querySelector('input[placeholder="مثال: مديرية وجدة"]');
+  const sc=document.querySelector('input[placeholder="اسم المؤسسة"]');
+  if(fn){sanitizeName(fn);fn.addEventListener('blur',()=>{if(!isValidName(fn.value))showFieldError(fn,'الاسم يجب أن يحتوي على أحرف فقط');else clearFieldError(fn);});}
+  if(ln){sanitizeName(ln);ln.addEventListener('blur',()=>{if(!isValidName(ln.value))showFieldError(ln,'النسب يجب أن يحتوي على أحرف فقط');else clearFieldError(ln);});}
+  if(di){sanitizeName(di);di.addEventListener('blur',()=>{if(di.value&&!isValidName(di.value))showFieldError(di,'المديرية يجب أن تحتوي على أحرف فقط');else clearFieldError(di);});}
+  if(sc){sanitizeName(sc);sc.addEventListener('blur',()=>{if(sc.value&&!isValidName(sc.value))showFieldError(sc,'اسم المؤسسة يجب أن يحتوي على أحرف فقط');else clearFieldError(sc);});}
+  if(ph){sanitizePhone(ph);ph.addEventListener('blur',()=>{if(ph.value&&!isValidPhone(ph.value))showFieldError(ph,'رقم الهاتف يجب أن يحتوي على أرقام فقط');else clearFieldError(ph);});}
+  if(em){em.addEventListener('blur',()=>{if(em.value&&!isValidEmail(em.value))showFieldError(em,'يرجى إدخال عنوان بريد إلكتروني صحيح');else clearFieldError(em);});}
 });
-
-// ← ضع رابط Web App بعد النشر من Apps Script
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbyHohhuyv6vnvj2CmHlvOsL0UPGnPqxVaidOivIErumgLLb-FmXgxScBhtxd36VFiuWMQ/exec"; // ← نفس الـ Token في Apps Script
 
 function selectRole(el){document.querySelectorAll('.radio-item').forEach(r=>r.classList.remove('selected'));el.classList.add('selected');}
 
 async function submitForm(){
-  const firstName=document.querySelector('input[placeholder="الاسم الشخصي"]');
-  const lastName=document.querySelector('input[placeholder="اسم العائلة"]');
-  const phone=document.querySelector('input[type="tel"]');
-  const email=document.querySelector('input[type="email"]');
-  const clubSel=document.querySelector('.form-select');
-  const agree=document.getElementById('agreeCheck');
-  const directorate=document.querySelector('input[placeholder="مثال: مديرية وجدة"]');
-  const school=document.querySelector('input[placeholder="اسم المؤسسة"]');
-  const roleEl=document.querySelector('.radio-item.selected');
+  const fn=document.querySelector('input[placeholder="الاسم الشخصي"]');
+  const ln=document.querySelector('input[placeholder="اسم العائلة"]');
+  const ph=document.querySelector('input[type="tel"]');
+  const em=document.querySelector('input[type="email"]');
+  const cl=document.querySelector('.form-select');
+  const di=document.querySelector('input[placeholder="مثال: مديرية وجدة"]');
+  const sc=document.querySelector('input[placeholder="اسم المؤسسة"]');
+  const ag=document.getElementById('agreeCheck');
+  const rl=document.querySelector('.radio-item.selected');
   let valid=true;
-  if(!isValidName(firstName.value)){showFieldError(firstName,'الاسم مطلوب ويجب أن يحتوي على أحرف فقط');valid=false;}else clearFieldError(firstName);
-  if(!isValidName(lastName.value)){showFieldError(lastName,'النسب مطلوب ويجب أن يحتوي على أحرف فقط');valid=false;}else clearFieldError(lastName);
-  if(!clubSel.value){showFieldError(clubSel,'يرجى اختيار النادي');valid=false;}else clearFieldError(clubSel);
-  if(!directorate||!isValidName(directorate.value)){showFieldError(directorate,'المديرية الإقليمية مطلوبة ولا تحتوي على رموز');valid=false;}else clearFieldError(directorate);
-  if(!school||!isValidName(school.value)){showFieldError(school,'اسم المؤسسة مطلوب ولا يحتوي على رموز');valid=false;}else clearFieldError(school);
-  if(!phone.value||!isValidPhone(phone.value)){showFieldError(phone,'يرجى إدخال رقم هاتف صحيح');valid=false;}else clearFieldError(phone);
-  if(!email.value||!isValidEmail(email.value)){showFieldError(email,'يرجى إدخال عنوان بريد إلكتروني صحيح');valid=false;}else clearFieldError(email);
-  if(!roleEl){alert('يرجى اختيار الصفة المهنية');valid=false;}
-  if(!agree.checked){agree.closest('.checkbox-row').style.borderColor='red';setTimeout(()=>agree.closest('.checkbox-row').style.borderColor='var(--gold)',2000);valid=false;}
+  if(!isValidName(fn.value)){showFieldError(fn,'الاسم مطلوب');valid=false;}else clearFieldError(fn);
+  if(!isValidName(ln.value)){showFieldError(ln,'النسب مطلوب');valid=false;}else clearFieldError(ln);
+  if(!cl.value){showFieldError(cl,'يرجى اختيار النادي');valid=false;}else clearFieldError(cl);
+  if(!di||!isValidName(di.value)){showFieldError(di,'المديرية مطلوبة');valid=false;}else clearFieldError(di);
+  if(!sc||!isValidName(sc.value)){showFieldError(sc,'المؤسسة مطلوبة');valid=false;}else clearFieldError(sc);
+  if(!ph.value||!isValidPhone(ph.value)){showFieldError(ph,'رقم الهاتف مطلوب');valid=false;}else clearFieldError(ph);
+  if(!em.value||!isValidEmail(em.value)){showFieldError(em,'البريد الإلكتروني مطلوب');valid=false;}else clearFieldError(em);
+  if(!rl){alert('يرجى اختيار الصفة المهنية');valid=false;}
+  if(!ag.checked){ag.closest('.checkbox-row').style.borderColor='red';setTimeout(()=>ag.closest('.checkbox-row').style.borderColor='var(--gold)',2000);valid=false;}
   if(!valid)return;
-
-  // إظهار حالة الإرسال
   const btn=document.querySelector('.submit-btn');
-  btn.disabled=true;
-  btn.innerHTML='<span>⏳</span> جارٍ الإرسال...';
-  btn.style.opacity='0.75';
-
-  const payload={
-    firstName:firstName.value.trim(),
-    lastName:lastName.value.trim(),
-    role:roleEl?roleEl.textContent.trim():'',
-    club:clubSel.value,
-    directorate:directorate.value.trim(),
-    school:school.value.trim(),
-    phone:phone.value.trim(),
-    email:email.value.trim()
-  };
-
-  // إرسال للـ Google Sheets
+  btn.disabled=true;btn.innerHTML='<span>⏳</span> جارٍ الإرسال...';btn.style.opacity='0.7';
+  const payload={firstName:fn.value.trim(),lastName:ln.value.trim(),role:rl.textContent.trim(),club:cl.value,directorate:di.value.trim(),school:sc.value.trim(),phone:ph.value.trim(),email:em.value.trim()};
   try{
-    if(SHEET_URL && SHEET_URL !== 'ضع_رابط_Web_App_هنا'){
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode:   'no-cors',
-        headers:{'Content-Type':'application/json'},
-        body:   JSON.stringify(payload)
-      });
+    if(SHEET_URL&&SHEET_URL!=='ضع_رابط_Web_App_هنا'){
+      await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     }
-  }catch(err){ console.warn('تعذّر الإرسال للـ Sheet:',err); }
-
-  // عرض رسالة التأكيد
+  }catch(err){console.warn(err);}
   const nm=`${payload.firstName} ${payload.lastName}`;
   document.getElementById('joinForm').style.display='none';
   const sm=document.getElementById('successMsg');
   sm.style.display='block';
   sm.innerHTML=`
-    <div style="background:linear-gradient(135deg,#1f3a2c,#2d5440);border-radius:16px;padding:2rem 1.8rem;border:2px solid var(--gold);text-align:center;direction:rtl">
-      <div style="font-size:3rem;margin-bottom:0.8rem">🎉</div>
-      <h2 style="font-family:'Tajawal',sans-serif;color:var(--gold);font-size:1.25rem;font-weight:900;margin-bottom:0.5rem">تم استلام طلبك بنجاح!</h2>
-      <p style="color:rgba(255,255,255,0.9);font-size:0.88rem;margin-bottom:1.4rem;line-height:1.7">مرحباً <strong style="color:var(--gold)">${nm}</strong>، تم تسجيل طلب انضمامك لـ <strong style="color:var(--gold-light)">${payload.club}</strong> بنجاح.</p>
-      <div style="background:rgba(201,160,48,0.12);border:1px solid rgba(201,160,48,0.3);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.4rem;text-align:right">
-        <p style="color:rgba(255,255,255,0.75);font-size:0.78rem;line-height:1.8">
-          👤 ${payload.firstName} ${payload.lastName}<br>
-          🎓 ${payload.role}<br>
-          🏅 ${payload.club}<br>
-          🏫 ${payload.school} — ${payload.directorate}<br>
-          📱 ${payload.phone} &nbsp;|&nbsp; ✉️ ${payload.email}
-        </p>
+    <div style="background:linear-gradient(135deg,var(--green),var(--green-mid));border-radius:14px;padding:1.8rem 1.5rem;border:2px solid var(--gold);text-align:center">
+      <div style="font-size:2.8rem;margin-bottom:0.7rem">🎉</div>
+      <h2 style="font-family:'Tajawal',sans-serif;color:var(--gold);font-size:1.15rem;font-weight:900;margin-bottom:0.45rem">تم استلام طلبك بنجاح!</h2>
+      <p style="color:rgba(255,255,255,0.88);font-size:0.84rem;margin-bottom:1.2rem;line-height:1.7">مرحباً <strong style="color:var(--gold)">${nm}</strong>، تم تسجيل طلبك في <strong style="color:var(--gold-light)">${payload.club}</strong>.</p>
+      <div style="background:rgba(201,160,48,0.12);border:1px solid rgba(201,160,48,0.3);border-radius:10px;padding:0.9rem 1.1rem;margin-bottom:1.2rem;text-align:right">
+        <p style="color:rgba(255,255,255,0.75);font-size:0.76rem;line-height:1.9">👤 ${payload.firstName} ${payload.lastName}<br>🎓 ${payload.role}<br>🏅 ${payload.club}<br>🏫 ${payload.school} — ${payload.directorate}<br>📱 ${payload.phone} &nbsp;|&nbsp; ✉️ ${payload.email}</p>
       </div>
-      <p style="color:rgba(255,255,255,0.6);font-size:0.78rem;margin-bottom:1.4rem">سيتواصل معك منسق النادي الجهوي في أقرب وقت على بريدك الإلكتروني أو هاتفك.</p>
-      <button onclick="showPage('about')" style="background:var(--gold);color:var(--green-dark);border:none;padding:0.65rem 1.8rem;border-radius:10px;font-family:'Cairo',sans-serif;font-size:0.85rem;font-weight:800;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem" onmouseover="this.style.background='white'" onmouseout="this.style.background='var(--gold)'">🏠 العودة إلى الصفحة الرئيسية</button>
+      <p style="color:rgba(255,255,255,0.55);font-size:0.75rem;margin-bottom:1.2rem">سيتواصل معك منسق النادي قريباً.</p>
+      <button onclick="showPage('about')" style="background:var(--gold);color:var(--green);border:none;padding:0.6rem 1.6rem;border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.82rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem" onmouseover="this.style.background='white'" onmouseout="this.style.background='var(--gold)'">🏠 العودة للصفحة الرئيسية</button>
     </div>`;
 }
 </script>
