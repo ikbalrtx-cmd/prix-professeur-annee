@@ -224,11 +224,7 @@ body{font-family:'Cairo',sans-serif;background:var(--page-bg);color:var(--text-b
 .ev-body{padding:0.85rem 0.9rem;flex:1;display:flex;flex-direction:column;gap:0.45rem}
 .ev-meta-row{display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap}
 .ev-type{display:inline-flex;align-items:center;gap:0.25rem;padding:0.18rem 0.6rem;border-radius:20px;font-size:0.65rem;font-weight:800}
-.ev-type-لقاء{background:#e3f2fd;color:#1565c0}
-.ev-type-تكوين{background:#f3e5f5;color:#6a1b9a}
-.ev-type-تقرير{background:#e8f5e9;color:#2e7d32}
-.ev-type-ندوة{background:#fff3e0;color:#e65100}
-.ev-type-أخرى{background:var(--gold-pale);color:var(--green)}
+.ev-type{display:inline-block;padding:0.18rem 0.65rem;border-radius:20px;font-size:0.65rem;font-weight:800}
 .ev-date{font-size:0.68rem;color:var(--text-mid)}
 .ev-title{font-family:'Tajawal',sans-serif;font-size:0.9rem;font-weight:800;color:var(--green);line-height:1.45;margin-bottom:0.1rem}
 .ev-region{display:inline-flex;align-items:center;gap:0.28rem;background:var(--green);color:white;padding:0.18rem 0.55rem 0.18rem 0.28rem;border-radius:20px;font-size:0.67rem;font-weight:600;width:fit-content}
@@ -884,7 +880,22 @@ function formatDateAr(dateStr){
   try{return new Date(dateStr).toLocaleDateString('ar-MA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});}
   catch(e){return dateStr;}
 }
-function getTypeClass(t){return['لقاء','تكوين','تقرير','ندوة'].includes(t)?t:'أخرى';}
+function getTypeStyle(t){
+  const M={
+    'ملتقى':       {bg:'#e3f2fd',cl:'#1565c0'},
+    'ندوة':        {bg:'#f3e5f5',cl:'#6a1b9a'},
+    'ورشة تقاسم':  {bg:'#e8f5e9',cl:'#2e7d32'},
+    'تكوين عن بعد':{bg:'#fff3e0',cl:'#e65100'},
+    'تكوين حضوري': {bg:'#fff3e0',cl:'#bf360c'},
+    'اجتماع':      {bg:'#fce4ec',cl:'#880e4f'},
+    'جمع عام':     {bg:'#e8eaf6',cl:'#283593'},
+    'تأسيس':       {bg:'#e0f2f1',cl:'#004d40'},
+    'تهنئة':       {bg:'#fff8e1',cl:'#f57f17'},
+    'آخر':         {bg:'#fdf8ec',cl:'#1f3a2c'},
+  };
+  return M[t]||M['آخر'];
+}
+function getTypeClass(t){return t||'آخر';}
 
 async function loadEventsFromFirebase(){
   const grid=document.getElementById('eventsGrid');
@@ -911,8 +922,8 @@ async function loadEventsFromFirebase(){
     if(!allEventsData.length){empty.style.display='block';return;}
     filter.style.display='flex';
     filter.innerHTML='';
-    const types=['all','لقاء','تكوين','تقرير','ندوة','أخرى'];
-    const labels=['الكل','لقاءات','تكوينات','تقارير','ندوات','أخرى'];
+    const types=['all','ملتقى','ندوة','ورشة تقاسم','تكوين عن بعد','تكوين حضوري','اجتماع','جمع عام','تأسيس','تهنئة','آخر'];
+    const labels=['الكل','ملتقيات','ندوات','ورش تقاسم','تكوين عن بعد','تكوين حضوري','اجتماعات','جمع عام','تأسيس','تهنئة','أخرى'];
     types.forEach((t,i)=>{const b=document.createElement('button');b.className='filter-btn'+(t==='all'?' active':'');b.textContent=labels[i];b.onclick=()=>filterEventsPage(b,t);filter.appendChild(b);});
     filteredEventsData=[...allEventsData];currentEvPage=1;renderEventsPage();
   }catch(err){
@@ -937,7 +948,7 @@ function renderEventsPage(){
       <div class="ev-body">
         <div class="ev-meta-row">
           ${ev.scope!=='regional'?'<span style="display:inline-block;padding:0.16rem 0.55rem;border-radius:20px;font-size:0.63rem;font-weight:800;background:var(--gold-pale);color:var(--green);border:1px solid rgba(201,160,48,0.5)">🏛️ وطنية</span>':""}
-          <span class="ev-type ev-type-${getTypeClass(ev.type)}">${ev.type||'فعالية'}</span>
+          <span style="display:inline-block;padding:0.18rem 0.65rem;border-radius:20px;font-size:0.65rem;font-weight:800;background:${getTypeStyle(ev.type).bg};color:${getTypeStyle(ev.type).cl}">${ev.type||'آخر'}</span>
           <span class="ev-date">📅 ${formatDateAr(ev.date)}</span>
         </div>
         <div class="ev-title">${ev.title||'—'}</div>
@@ -964,7 +975,7 @@ function renderEventsPage(){
 window.filterEventsPage=(btn,type)=>{
   document.querySelectorAll('#eventsFilter .filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  filteredEventsData=type==='all'?[...allEventsData]:allEventsData.filter(e=>e.type===type||(type==='أخرى'&&!['لقاء','تكوين','تقرير','ندوة'].includes(e.type)));
+  filteredEventsData=type==='all'?[...allEventsData]:allEventsData.filter(e=>e.type===type||(type==='آخر'&&!['ملتقى','ندوة','ورشة تقاسم','تكوين عن بعد','تكوين حضوري','اجتماع','جمع عام','تأسيس','تهنئة'].includes(e.type)));
   currentEvPage=1;renderEventsPage();
 };
 
@@ -974,7 +985,7 @@ window.openEventModal=id=>{
   document.getElementById('eventModalContent').innerHTML=`
     ${ev.imgUrl?`<img src="${ev.imgUrl}" style="width:100%;border-radius:12px;margin-bottom:1.1rem;max-height:300px;object-fit:cover" alt="">`:''}
     <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;margin-bottom:0.75rem">
-      <span class="ev-type ev-type-${getTypeClass(ev.type)}">${ev.type||'فعالية'}</span>
+      <span style="display:inline-block;padding:0.2rem 0.7rem;border-radius:20px;font-size:0.7rem;font-weight:800;background:${getTypeStyle(ev.type).bg};color:${getTypeStyle(ev.type).cl}">${ev.type||'آخر'}</span>
       <span style="font-size:0.75rem;color:var(--text-mid)">📅 ${formatDateAr(ev.date)}</span>
     </div>
     <h2 style="font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:var(--green);margin-bottom:0.55rem;line-height:1.5">${ev.title}</h2>
