@@ -1067,8 +1067,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ← ضع رابط Web App بعد النشر من Apps Script
-const SHEET_URL    = "https://script.google.com/macros/s/AKfycbxcQ7V7X1WNW5nWWBN88oQhJo-1tASPaLukYgRSVnYRtWO2Sy1qurVdThsFwBX1tZTo1g/exec";
-const SECRET_TOKEN = "OUSTAD2026-SECRET"; // ← نفس الـ Token في Apps Script
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyHohhuyv6vnvj2CmHlvOsL0UPGnPqxVaidOivIErumgLLb-FmXgxScBhtxd36VFiuWMQ/exec"; // ← نفس الـ Token في Apps Script
 
 function selectRole(el){document.querySelectorAll('.radio-item').forEach(r=>r.classList.remove('selected'));el.classList.add('selected');}
 
@@ -1101,7 +1100,6 @@ async function submitForm(){
   btn.style.opacity='0.75';
 
   const payload={
-    token:       SECRET_TOKEN,
     firstName:firstName.value.trim(),
     lastName:lastName.value.trim(),
     role:roleEl?roleEl.textContent.trim():'',
