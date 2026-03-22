@@ -805,7 +805,7 @@ function showPage(id,pushState=true){
       buildArrows();
     },100);
   }
-  if(id==='events'&&!allEventsData.length) loadEventsFromFirebase();
+  if(id==='events') loadEventsFromFirebase();
 }
 
 window.addEventListener('popstate',e=>{
@@ -936,6 +936,7 @@ function renderEventsPage(){
         :`<div class="ev-img-placeholder">📅</div>`}
       <div class="ev-body">
         <div class="ev-meta-row">
+          ${ev.scope!=='regional'?'<span style="display:inline-block;padding:0.16rem 0.55rem;border-radius:20px;font-size:0.63rem;font-weight:800;background:var(--gold-pale);color:var(--green);border:1px solid rgba(201,160,48,0.5)">🏛️ وطنية</span>':""}
           <span class="ev-type ev-type-${getTypeClass(ev.type)}">${ev.type||'فعالية'}</span>
           <span class="ev-date">📅 ${formatDateAr(ev.date)}</span>
         </div>
