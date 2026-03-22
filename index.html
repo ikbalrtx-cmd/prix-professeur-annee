@@ -796,7 +796,7 @@ function showPage(id,pushState=true){
       buildArrows();
     },100);
   }
-  if(id==='events'&&!allEventsData.length) loadEventsFromFirebase();
+  if(id==='events') loadEventsFromFirebase(); // دائماً أعِد التحميل
 }
 
 window.addEventListener('popstate',e=>{
@@ -886,20 +886,26 @@ async function loadEventsFromFirebase(){
   loading.style.display='block';grid.style.display='none';empty.style.display='none';filter.style.display='none';pagin.style.display='none';
   try{
     const{initializeApp,getApps}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const{getFirestore,collection,getDocs,orderBy,query}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const{getFirestore,collection,getDocs}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     const fbConfig={apiKey:"AIzaSyBvrWZJoHi3sz8S-TrEgiTECRoeqgZs77E",authDomain:"oustad-sana-clubs-65e67.firebaseapp.com",projectId:"oustad-sana-clubs-65e67",storageBucket:"oustad-sana-clubs-65e67.firebasestorage.app",messagingSenderId:"1013295596241",appId:"1:1013295596241:web:194a336dc18ea37d2f3bf0"};
     const fbApp=getApps().length?getApps()[0]:initializeApp(fbConfig);
     const db=getFirestore(fbApp);
-    const q=query(collection(db,'events'),orderBy('createdAt','desc'));
-    const snap=await getDocs(q);
-    allEventsData=snap.docs.map(d=>({id:d.id,...d.data()}));
+    // بدون orderBy لتجنب مشكلة الـ index — نرتب يدوياً
+    const snap=await getDocs(collection(db,'events'));
+    allEventsData=snap.docs.map(d=>({id:d.id,...d.data()}))
+      .sort((a,b)=>{
+        const ta=a.createdAt?.seconds??0;
+        const tb=b.createdAt?.seconds??0;
+        return tb-ta;
+      });
     loading.style.display='none';
     if(!allEventsData.length){empty.style.display='block';return;}
     // build filters
     filter.style.display='flex';
     filter.innerHTML='';
-    const types=['all','لقاء','تكوين','تقرير','ندوة','أخرى'];
-    const labels=['الكل','لقاءات','تكوينات','تقارير','ندوات','أخرى'];
+    const allTypes=[...new Set(allEventsData.map(e=>e.type).filter(Boolean))];
+    const types=['all',...allTypes];
+    const labels=['الكل',...allTypes];
     types.forEach((t,i)=>{const b=document.createElement('button');b.className='filter-btn'+(t==='all'?' active':'');b.textContent=labels[i];b.onclick=()=>filterEventsPage(b,t);filter.appendChild(b);});
     filteredEventsData=[...allEventsData];currentEvPage=1;renderEventsPage();
   }catch(err){console.error(err);document.getElementById('eventsLoading').innerHTML='<p style="color:var(--text-mid);font-size:0.85rem">⚠️ تعذّر تحميل الفعاليات</p>';}
