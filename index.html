@@ -891,6 +891,7 @@ function getTypeStyle(t){
     'جمع عام':     {bg:'#e8eaf6',cl:'#283593'},
     'تأسيس':       {bg:'#e0f2f1',cl:'#004d40'},
     'تهنئة':       {bg:'#fff8e1',cl:'#f57f17'},
+    'إعلان':       {bg:'#fce4ec',cl:'#c62828'},
     'آخر':         {bg:'#fdf8ec',cl:'#1f3a2c'},
   };
   return M[t]||M['آخر'];
@@ -922,8 +923,8 @@ async function loadEventsFromFirebase(){
     if(!allEventsData.length){empty.style.display='block';return;}
     filter.style.display='flex';
     filter.innerHTML='';
-    const types=['all','ملتقى','ندوة','ورشة تقاسم','تكوين عن بعد','تكوين حضوري','اجتماع','جمع عام','تأسيس','تهنئة','آخر'];
-    const labels=['الكل','ملتقيات','ندوات','ورش تقاسم','تكوين عن بعد','تكوين حضوري','اجتماعات','جمع عام','تأسيس','تهنئة','أخرى'];
+    const types=['all','ملتقى','ندوة','ورشة تقاسم','تكوين عن بعد','تكوين حضوري','اجتماع','جمع عام','تأسيس','تهنئة','إعلان','آخر'];
+    const labels=['الكل','ملتقيات','ندوات','ورش تقاسم','تكوين عن بعد','تكوين حضوري','اجتماعات','جمع عام','تأسيس','تهنئة','إعلانات','أخرى'];
     types.forEach((t,i)=>{const b=document.createElement('button');b.className='filter-btn'+(t==='all'?' active':'');b.textContent=labels[i];b.onclick=()=>filterEventsPage(b,t);filter.appendChild(b);});
     filteredEventsData=[...allEventsData];currentEvPage=1;renderEventsPage();
   }catch(err){
@@ -975,7 +976,7 @@ function renderEventsPage(){
 window.filterEventsPage=(btn,type)=>{
   document.querySelectorAll('#eventsFilter .filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  filteredEventsData=type==='all'?[...allEventsData]:allEventsData.filter(e=>e.type===type||(type==='آخر'&&!['ملتقى','ندوة','ورشة تقاسم','تكوين عن بعد','تكوين حضوري','اجتماع','جمع عام','تأسيس','تهنئة'].includes(e.type)));
+  filteredEventsData=type==='all'?[...allEventsData]:allEventsData.filter(e=>e.type===type||(type==='آخر'&&!['ملتقى','ندوة','ورشة تقاسم','تكوين عن بعد','تكوين حضوري','اجتماع','جمع عام','تأسيس','تهنئة','إعلان'].includes(e.type)));
   currentEvPage=1;renderEventsPage();
 };
 
