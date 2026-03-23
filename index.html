@@ -931,18 +931,10 @@ function renderEventsPage(){
         </div>
         <div class="ev-title">${ev.title||'—'}</div>
         <div class="ev-region">
-          ${(()=>{
-            if(ev.scope!=='national'){
-              const name=ev.clubName?ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ',''):ev.region||'المشرف العام';
-              return `📍 ${name}${ev.city?' — '+ev.city:''}`;
-            }
-            // وطنية: نحاول كل المصادر بالترتيب
-            let label='';
-            if(ev.clubName) label=ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ','');
-            else if(ev.category) label='النادي الوطني لـ '+ev.category;
-            else label='المشرف العام';
-            return `🏛️ ${label}${ev.city?' — '+ev.city:''}`;
-          })()}
+          ${ev.scope==='national'
+            ? `🏛️ ${ev.clubName||( ev.category ? 'النادي الوطني لـ '+ev.category : 'وطني')}${ev.city?' — '+ev.city:''}`
+            : `📍 ${ev.clubName?ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ',''):ev.region||'—'}${ev.city?' — '+ev.city:''}`
+          }
         </div>
         ${ev.scope==='national'?`<div style="display:inline-block;margin-bottom:6px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;background:#fdf8ec;color:#1f3a2c;border:1px solid #c9a030">🏛️ وطنية</div>`:''}
         <div class="ev-desc">${ev.desc||''}</div>
@@ -979,17 +971,7 @@ window.openEventModal=id=>{
     <h2 style="font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:var(--green);margin-bottom:0.55rem;line-height:1.5">${ev.title}</h2>
     <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:0.9rem">
       ${ev.scope==='national'
-        ${(()=>{
-          if(ev.scope!=='national'){
-            const name=ev.clubName?ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ',''):ev.region||'المشرف العام';
-            return `📍 ${name}${ev.city?' — '+ev.city:''}`;
-          }
-          let label='';
-          if(ev.clubName) label=ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ','');
-          else if(ev.category) label='النادي الوطني لـ '+ev.category;
-          else label='المشرف العام';
-          return `🏛️ ${label}${ev.city?' — '+ev.city:''}`;
-        })()}
+        ? `🏛️ ${ev.clubName||(ev.category?'النادي الوطني لـ '+ev.category:'وطني')}${ev.city?' — '+ev.city:''}`
         : `📍 ${ev.clubName?ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ',''):ev.region||'—'}${ev.city?' — '+ev.city:''}`
       }
     </p>
