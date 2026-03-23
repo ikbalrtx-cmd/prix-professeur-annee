@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>منصة الأندية الجهوية – جائزة أستاذ(ة) السنة</title>
+<link rel="icon" type="image/png" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
@@ -796,7 +798,7 @@ function showPage(id,pushState=true){
       buildArrows();
     },100);
   }
-  if(id==='events'&&!allEventsData.length) loadEventsFromFirebase();
+  if(id==='events') loadEventsFromFirebase(); // دائماً أعِد التحميل
 }
 
 window.addEventListener('popstate',e=>{
@@ -886,20 +888,26 @@ async function loadEventsFromFirebase(){
   loading.style.display='block';grid.style.display='none';empty.style.display='none';filter.style.display='none';pagin.style.display='none';
   try{
     const{initializeApp,getApps}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const{getFirestore,collection,getDocs,orderBy,query}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const{getFirestore,collection,getDocs}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     const fbConfig={apiKey:"AIzaSyBvrWZJoHi3sz8S-TrEgiTECRoeqgZs77E",authDomain:"oustad-sana-clubs-65e67.firebaseapp.com",projectId:"oustad-sana-clubs-65e67",storageBucket:"oustad-sana-clubs-65e67.firebasestorage.app",messagingSenderId:"1013295596241",appId:"1:1013295596241:web:194a336dc18ea37d2f3bf0"};
     const fbApp=getApps().length?getApps()[0]:initializeApp(fbConfig);
     const db=getFirestore(fbApp);
-    const q=query(collection(db,'events'),orderBy('createdAt','desc'));
-    const snap=await getDocs(q);
-    allEventsData=snap.docs.map(d=>({id:d.id,...d.data()}));
+    // بدون orderBy لتجنب مشكلة الـ index — نرتب يدوياً
+    const snap=await getDocs(collection(db,'events'));
+    allEventsData=snap.docs.map(d=>({id:d.id,...d.data()}))
+      .sort((a,b)=>{
+        const ta=a.createdAt?.seconds??0;
+        const tb=b.createdAt?.seconds??0;
+        return tb-ta;
+      });
     loading.style.display='none';
     if(!allEventsData.length){empty.style.display='block';return;}
     // build filters
     filter.style.display='flex';
     filter.innerHTML='';
-    const types=['all','لقاء','تكوين','تقرير','ندوة','أخرى'];
-    const labels=['الكل','لقاءات','تكوينات','تقارير','ندوات','أخرى'];
+    const allTypes=[...new Set(allEventsData.map(e=>e.type).filter(Boolean))];
+    const types=['all',...allTypes];
+    const labels=['الكل',...allTypes];
     types.forEach((t,i)=>{const b=document.createElement('button');b.className='filter-btn'+(t==='all'?' active':'');b.textContent=labels[i];b.onclick=()=>filterEventsPage(b,t);filter.appendChild(b);});
     filteredEventsData=[...allEventsData];currentEvPage=1;renderEventsPage();
   }catch(err){console.error(err);document.getElementById('eventsLoading').innerHTML='<p style="color:var(--text-mid);font-size:0.85rem">⚠️ تعذّر تحميل الفعاليات</p>';}
@@ -922,7 +930,13 @@ function renderEventsPage(){
           <span class="ev-date">📅 ${formatDateAr(ev.date)}</span>
         </div>
         <div class="ev-title">${ev.title||'—'}</div>
-        <div class="ev-region">📍 ${ev.region||'—'}${ev.city?' — '+ev.city:''}</div>
+        <div class="ev-region">
+          ${ev.scope==='national'
+            ? `🏛️ ${ev.clubName||( ev.category ? 'النادي الوطني لـ '+ev.category : 'وطني')}${ev.city?' — '+ev.city:''}`
+            : `📍 ${ev.clubName?ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ',''):ev.region||'—'}${ev.city?' — '+ev.city:''}`
+          }
+        </div>
+        ${ev.scope==='national'?`<div style="display:inline-block;margin-bottom:6px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;background:#fdf8ec;color:#1f3a2c;border:1px solid #c9a030">🏛️ وطنية</div>`:''}
         <div class="ev-desc">${ev.desc||''}</div>
       </div>
       <div class="ev-footer">
@@ -955,7 +969,12 @@ window.openEventModal=id=>{
       <span style="font-size:0.75rem;color:var(--text-mid)">📅 ${formatDateAr(ev.date)}</span>
     </div>
     <h2 style="font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:var(--green);margin-bottom:0.55rem;line-height:1.5">${ev.title}</h2>
-    <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:0.9rem">📍 ${ev.region||'—'}${ev.city?' — '+ev.city:''}</p>
+    <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:0.9rem">
+      ${ev.scope==='national'
+        ? `🏛️ ${ev.clubName||(ev.category?'النادي الوطني لـ '+ev.category:'وطني')}${ev.city?' — '+ev.city:''}`
+        : `📍 ${ev.clubName?ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ',''):ev.region||'—'}${ev.city?' — '+ev.city:''}`
+      }
+    </p>
     <div style="background:var(--gold-pale);border-right:3px solid var(--gold);border-radius:0 10px 10px 0;padding:0.9rem 1.1rem;font-size:0.82rem;color:var(--text-body);line-height:1.8;margin-bottom:1.1rem;white-space:pre-wrap">${ev.desc||''}</div>
     ${ev.pdfUrl?`<a href="${ev.pdfUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:0.45rem;background:var(--green);color:white;padding:0.6rem 1.5rem;border-radius:9px;font-family:'Cairo',sans-serif;font-size:0.82rem;font-weight:800;text-decoration:none" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='var(--green)'">📎 تحميل الوثيقة PDF</a>`:''}`;
   modal.style.display='flex';document.body.style.overflow='hidden';
