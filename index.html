@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>منصة الأندية الجهوية – جائزة أستاذ(ة) السنة</title>
+<link rel="icon" type="image/png" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
@@ -930,7 +932,7 @@ function renderEventsPage(){
         <div class="ev-title">${ev.title||'—'}</div>
         <div class="ev-region">
           ${ev.scope==='national'
-            ? `🏛️ ${ev.clubName||ev.category||'وطني'}${ev.city?' — '+ev.city:''}`
+            ? `🏛️ ${ev.clubName||( ev.category ? 'النادي الوطني لـ '+ev.category : 'وطني')}${ev.city?' — '+ev.city:''}`
             : `📍 ${ev.clubName?ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ',''):ev.region||'—'}${ev.city?' — '+ev.city:''}`
           }
         </div>
@@ -969,7 +971,7 @@ window.openEventModal=id=>{
     <h2 style="font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:var(--green);margin-bottom:0.55rem;line-height:1.5">${ev.title}</h2>
     <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:0.9rem">
       ${ev.scope==='national'
-        ? `🏛️ ${ev.clubName||ev.category||'وطني'}${ev.city?' — '+ev.city:''}`
+        ? `🏛️ ${ev.clubName||(ev.category?'النادي الوطني لـ '+ev.category:'وطني')}${ev.city?' — '+ev.city:''}`
         : `📍 ${ev.clubName?ev.clubName.replace('نادي جائزة أستاذ(ة) السنة — ',''):ev.region||'—'}${ev.city?' — '+ev.city:''}`
       }
     </p>
